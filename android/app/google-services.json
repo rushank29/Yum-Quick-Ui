@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "116181058680",
+    "firebase_url": "https://yum-quick-food-ui-default-rtdb.firebaseio.com",
+    "project_id": "yum-quick-food-ui",
+    "storage_bucket": "yum-quick-food-ui.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116181058680:android:d1288b27070eceef0ed98d",
+        "android_client_info": {
+          "package_name": "com.yumquick.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116181058680-tk6hmn6s4qm04qfd5dlb1s5phl3hog23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yumquick.com",
+            "certificate_hash": "870fb9d194d48e96c5ea7576a4c07d9b85bece97"
+          }
+        },
+        {
+          "client_id": "116181058680-nf9be2f27ro7o70uoo20j282qgaeic7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6yBGsyYUhDsUqL-xXwP5die0wT5HkQ5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116181058680-nf9be2f27ro7o70uoo20j282qgaeic7n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "116181058680-7df2gqnifkukp6hp6v2qanmeaamrjrqt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yumquick.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,72 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:food_ui/constant/constant.dart';
+import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
+import 'package:food_ui/utils/utils.dart';
+import 'package:rxdart/rxdart.dart';
+
+import '../signUpScreen/sign_up_dl.dart';
+
+class LoginBloc {
+  BuildContext context;
+  final subjectStatus = BehaviorSubject<Status>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  LoginBloc(this.context);
+
+  void userLogin() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      openSimpleSnackBar('Please enter both email and password.');
+      return;
+    }
+    if (formKey.currentState!.validate()) {
+      subjectStatus.sink.add(Status.loading);
+      try {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailController.text.trim(), password: passwordController.text.trim())
+            .then((value) async {
+          User? currentUser = FirebaseAuth.instance.currentUser;
+          if (currentUser != null) {
+            //  If successfully logged in (credentials are correct)
+            DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
+            final snapshot = await dbRef.get();
+            if(!context.mounted) return;
+            if (snapshot.exists) {
+              SignUpPojo userMap = SignUpPojo.fromJson(snapshot.value as Map);
+              setUserDataInPref(currentUser, signUpPojo: userMap);
+              subjectStatus.sink.add(Status.completed);
+              openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
+            } else {
+              subjectStatus.sink.add(Status.error);
+              openSimpleSnackBar('No user found for the $email.');
+            }
+          } else {
+            userLogin();
+          }
+        });
+      } on FirebaseAuthException catch (error) {
+        subjectStatus.sink.add(Status.error);
+        if (context.mounted) {
+          if (error.code == 'user-not-found') {
+            openSimpleSnackBar('No user found for $email.');
+          } else if (error.code == 'wrong-password') {
+            openSimpleSnackBar("Wrong password provided by the user.");
+          } else {
+            debugPrint("errorCode =====> ${error.code}");
+          }
+        }
+      }
+    }
+  }
+
+  void dispose() {
+    subjectStatus.close();
+  }
+}

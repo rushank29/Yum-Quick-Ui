@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+
+Color colorPrimary = const Color(0xffE95322);
+Color colorPrimaryLight = const Color(0xffFFDECF);
+Color colorCommonBackground = const Color(0xffF5CB58);
+Color colorTextCommon = const Color(0xffF8F8F8);
+Color colorPeach = const Color(0xffF3E9B5);
+Color colorWhite = const Color(0xffFFFFFF);
+Color colorCommonBrown = const Color(0xff391713);
+Color colorMainBackground = const Color(0xffF8F8F8);
+Color colorHomeBackground = const Color(0xffF5F5F5);
+Color colorBlack = const Color(0xff000000);
+Color colorDarkGrey = const Color(0xff252525);
+Color colorHintGrey = const Color(0xff676767);
+Color colorFormFieldBg = const Color(0xffF3E9B5);
+Color colorRed = const Color(0xfff50411);
+Color colorLightOrange = const Color(0xffFFDECF);
+Color colorDividerOrange = const Color(0xffFFD8C7);
+Color colorRatingStar = const Color(0xffF4BA1B);
+Color colorShimmerBase = Colors.grey.shade300;
+Color colorShimmerHighlight = Colors.grey.shade100;

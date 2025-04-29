@@ -1,0 +1,188 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:food_ui/constant/constant.dart';
+import 'package:food_ui/customWidget/common_bg_screen.dart';
+import 'package:food_ui/customWidget/custom_rounded_button.dart';
+import 'package:food_ui/customWidget/custom_text_form_field.dart';
+import 'package:food_ui/constant/colors.dart';
+import 'package:food_ui/constant/dimensions.dart';
+import 'package:food_ui/screens/loginScreen/login_screen.dart';
+import 'package:food_ui/screens/signUpScreen/sign_up_bloc.dart';
+import 'package:food_ui/utils/text_style.dart';
+import 'package:food_ui/utils/utils.dart';
+import 'package:food_ui/utils/validator_util.dart';
+
+import '../../utils/social_login_util.dart';
+
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  SignUpBloc? _bloc;
+
+  @override
+  void didChangeDependencies() {
+    _bloc ??= SignUpBloc(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: colorMainBackground,
+      body: CommonBackgroundWidget(
+        pageTitle: "New Account",
+        bodyWidget: Form(
+          key: _bloc?.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextFormField(
+                formFieldLabel: "Full name",
+                controller: _bloc?.fullNameController,
+                keyboardType: TextInputType.name,
+                validator: (value) {
+                  return validateEmptyField(value, "Please enter your name.");
+                },
+              ),
+              SizedBox(height: commonPadding10px * 1.5),
+              CustomTextFormField(
+                formFieldLabel: "Password",
+                controller: _bloc?.passwordController,
+                setPassword: true,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  return validatePassword(value);
+                },
+              ),
+              SizedBox(height: commonPadding10px * 1.5),
+              CustomTextFormField(
+                formFieldLabel: "Email",
+                controller: _bloc?.emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  return validateEmail(value);
+                },
+              ),
+              SizedBox(height: commonPadding10px * 1.5),
+              CustomTextFormField(
+                formFieldLabel: "Mobile Number",
+                controller: _bloc?.mobileNumberController,
+                keyboardType: TextInputType.phone,
+                prefix: CountryCodePicker(
+                  showFlagMain: false,
+                  initialSelection: "+91",
+                  onInit: (value) {
+                    _bloc?.selectedCountrySubject.sink.add(value);
+                  },
+                  onChanged: (value) {
+                    _bloc?.selectedCountrySubject.sink.add(value);
+                  },
+                ),
+                validator: (value) {
+                  return validateEmptyField(value, "Please enter your mobile number!");
+                },
+              ),
+              SizedBox(height: commonPadding10px * 1.5),
+              CustomTextFormField(
+                formFieldLabel: "Date of birth",
+                controller: _bloc?.birthDateController,
+                readOnly: true,
+                onTap: () {
+                  _bloc?.showTimePicker();
+                },
+                keyboardType: TextInputType.datetime,
+                validator: (value) {
+                  return validateEmptyField(value, "Please select your birth date!");
+                },
+              ),
+              SizedBox(height: commonPadding20px),
+              Align(
+                alignment: AlignmentDirectional.center,
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: "By continuing, you agree to\n",
+                    style: bodyText(
+                      fontWeight: FontWeight.w300,
+                      fontSize: textSize12px,
+                      textColor: colorDarkGrey,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Terms of Use ",
+                        style: TextStyle(
+                          color: colorPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const TextSpan(text: "and "),
+                      TextSpan(
+                        text: "Privacy Policy.",
+                        style: TextStyle(
+                          color: colorPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: commonPadding10px * 0.5),
+              Align(
+                alignment: AlignmentDirectional.center,
+                child: StreamBuilder<Status>(
+                  stream: _bloc?.subjectStatus,
+                  builder: (context, snapStatus) {
+                    return CustomRoundedButton(
+                      buttonText: "Sign Up",
+                      fontSize: textSize24px,
+                      setProgress: snapStatus.data == Status.loading,
+                      onPressed: () {
+                        _bloc?.userSignUp();
+                      },
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: commonPadding32px),
+              const Align(
+                alignment: AlignmentDirectional.center,
+                child: SocialLoginUtil(),
+              ),
+              SizedBox(height: commonPadding10px),
+              Align(
+                alignment: AlignmentDirectional.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Already have an account?  ",
+                      style: bodyText(fontWeight: FontWeight.w500, textColor: colorDarkGrey),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        openScreenWithReplacePrevious(
+                          context: context,
+                          screen: const LoginScreen(),
+                        );
+                      },
+                      child: Text(
+                        "Login",
+                        style: bodyText(fontWeight: FontWeight.w500, textColor: colorPrimary),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
