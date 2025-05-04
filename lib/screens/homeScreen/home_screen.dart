@@ -8,8 +8,11 @@ import 'package:food_ui/customWidget/custom_image.dart';
 import 'package:food_ui/customWidget/custom_text_form_field.dart';
 import 'package:food_ui/screens/homeScreen/home_bloc.dart';
 import 'package:food_ui/screens/homeScreen/home_dl.dart';
+import 'package:food_ui/screens/homeScreen/home_shimmer.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,30 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorCommonBackground,
-      body: StreamBuilder<Status>(
-        stream: _bloc?.subjectStatus,
-        builder: (context, snapStatus) {
-          return StreamBuilder<HomePojo>(
-            stream: _bloc?.subject,
-            builder: (context, snapHomeData) {
-              HomePojo? data = snapHomeData.data;
-              switch (snapStatus.data ?? Status.loading) {
-                case Status.loading:
-                  return Container(
-                    color: colorMainBackground,
-                    alignment: AlignmentDirectional.center,
-                    child: const CircularProgressIndicator(),
-                  );
-                case Status.completed:
-                  return _homeBody(data);
-                case Status.error:
-                  return _homeBody(data);
-              }
-            },
-          );
+      body: StreamBuilder<ResponseUtil<HomePojo>>(
+        stream: _bloc?.subject,
+        builder: (context, snapHomeData) {
+          HomePojo? data = snapHomeData.data?.data;
+          return _homeBody(data);
         },
       ),
     );
@@ -66,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: commonPadding300px * 0.2),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -100,48 +94,90 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(width: commonPadding32px),
                     ],
                   ),
-                  Container(
-                    alignment: AlignmentDirectional.topStart,
-                    margin: EdgeInsetsDirectional.only(top: commonPadding16px, bottom: commonPadding16px),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          data?.greetingMessageMain ?? "",
-                          style: bodyText(fontWeight: FontWeight.w700, fontSize: textSize30px),
-                        ),
-                        Text(
-                          data?.greetingMessageSub ?? "",
-                          style: bodyText(
-                              fontWeight: FontWeight.w500, fontSize: textSize13px, textColor: colorPrimary),
-                        ),
-                      ],
-                    ),
+                  StreamBuilder<ResponseUtil<HomePojo>>(
+                    stream: _bloc?.subject,
+                    builder: (context, snapStatus) {
+                      if (snapStatus.data?.status == Status.loading) {
+                        return Shimmer.fromColors(
+                          baseColor: colorShimmerBase,
+                          highlightColor: colorShimmerHighlight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsetsDirectional.only(top: commonPadding16px),
+                                width: deviceWidth * 0.5,
+                                height: deviceAvgScreenSize * 0.04,
+                                color: colorBlack,
+                              ),
+                              SizedBox(height: deviceAvgScreenSize * 0.01),
+                              Container(
+                                margin: EdgeInsetsDirectional.only(bottom: commonPadding16px),
+                                width: deviceWidth * 0.35,
+                                height: deviceAvgScreenSize * 0.025,
+                                color: colorBlack,
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          alignment: AlignmentDirectional.topStart,
+                          margin:
+                              EdgeInsetsDirectional.only(top: commonPadding16px, bottom: commonPadding16px),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data?.greetingMessageMain ?? "",
+                                style: bodyText(fontWeight: FontWeight.w700, fontSize: textSize30px),
+                              ),
+                              Text(
+                                data?.greetingMessageSub ?? "",
+                                style: bodyText(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: textSize13px,
+                                  textColor: colorPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
             ),
-            Container(
-              constraints: BoxConstraints(minHeight: deviceHeight),
-              padding: EdgeInsetsDirectional.symmetric(horizontal: commonPadding35px),
-              decoration: BoxDecoration(
-                color: colorHomeBackground,
-                borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(borderRadius30px),
-                  topEnd: Radius.circular(borderRadius30px),
-                ),
-              ),
-              child: Column(
-                children: [
-                  _foodCategorySection(data),
-                  Divider(color: colorDividerOrange),
-                  _bestSellerSection(data),
-                  _sliderSection(data),
-                  _recommendedSection(data),
-                ],
-              ),
-            ),
+            StreamBuilder<ResponseUtil<HomePojo>>(
+                stream: _bloc?.subject,
+                builder: (context, snapStatus) {
+                  if ((snapStatus.data?.status ?? Status.loading) == Status.loading) {
+                    return const HomeShimmer();
+                  } else {
+                    return Container(
+                      constraints: BoxConstraints(minHeight: deviceHeight),
+                      padding: EdgeInsetsDirectional.symmetric(horizontal: commonPadding35px),
+                      decoration: BoxDecoration(
+                        color: colorHomeBackground,
+                        borderRadius: BorderRadiusDirectional.only(
+                          topStart: Radius.circular(borderRadius30px),
+                          topEnd: Radius.circular(borderRadius30px),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          _foodCategorySection(data),
+                          Divider(color: colorDividerOrange),
+                          _bestSellerSection(data),
+                          _sliderSection(data),
+                          _recommendedSection(data),
+                        ],
+                      ),
+                    );
+                  }
+                }),
           ],
         ),
       ),
@@ -175,7 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: data?.foodCategories.length,
         itemBuilder: (context, index) {
           return Container(
-            margin: EdgeInsetsDirectional.only(end: index < 4 ? commonPadding20px : 0),
+            margin: EdgeInsetsDirectional.only(
+                end: index < (data?.foodCategories.length ?? 0) - 1 ? commonPadding20px : 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -444,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               bottom: commonPadding10px * 0.2,
                             ),
                             child: SvgPicture.asset(
-                              "assets/svg/rating_star.svg",
+                              "assets/svg/rating_star_filled.svg",
                               colorFilter: ColorFilter.mode(colorRatingStar, BlendMode.srcIn),
                             ),
                           ),

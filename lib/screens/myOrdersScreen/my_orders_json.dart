@@ -27,7 +27,7 @@ Map<String, dynamic> myOrdersJson(int orderStatus) {
           },
           {
             "item_image": "assets/images/coffee_latte.png",
-            "item_name": "Bean and Vegetable Burger",
+            "item_name": "Coffee Latte",
             "order_amount": 8.00,
             "order_date_time": "10-11-2024, 08:30",
             "order_item_count": 1

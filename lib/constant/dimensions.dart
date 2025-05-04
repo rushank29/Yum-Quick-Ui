@@ -11,6 +11,7 @@ double textSize17px = deviceAvgScreenSize * 0.03042;  //  17
 double textSize18px = deviceAvgScreenSize * 0.0322;  //  18
 double textSize20px = deviceAvgScreenSize * 0.03579;  //  20
 double textSize24px = deviceAvgScreenSize * 0.04294;  //  24
+double textSize25px = deviceAvgScreenSize * 0.044723;  //  25
 double textSize28px = deviceAvgScreenSize * 0.05009;  //  28
 double textSize30px = deviceAvgScreenSize * 0.05367;  //  30
 double textSize32px = deviceAvgScreenSize * 0.05724;  //  32

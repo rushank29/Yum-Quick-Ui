@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,4 +40,24 @@ Future<void> remove(String key) async {
 Future<void> clearPrefWithSomeRemainingData() async {
   await prefs?.clear();
   prefs?.setBool(prefIsOnBoardingVisited, true);
+}
+
+Future<void> setJsonString(String key, dynamic data) async {
+  String jsonString = json.encode(data.toJson());
+  await prefs?.setString(key, jsonString);
+}
+
+Future<T?> getObjectFromPrefs<T>(
+  String key,
+  T Function(Map<String, dynamic>) fromJson,
+) async {
+  final prefs = await SharedPreferences.getInstance();
+  final jsonString = prefs.getString(key);
+
+  if (jsonString != null) {
+    final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    return fromJson(jsonMap);
+  }
+
+  return null;
 }

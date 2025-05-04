@@ -37,6 +37,7 @@ class ItemCancellationReasonList {
   ItemCancellationReasonList({
     int? reasonId,
     String? reasonMessage,
+    int? showTextField,
     bool isReasonSelected = false,
   }) {
     _reasonId = reasonId;
@@ -46,19 +47,24 @@ class ItemCancellationReasonList {
   ItemCancellationReasonList.fromJson(dynamic json) {
     _reasonId = json['reason_id'];
     _reasonMessage = json['reason_message'];
+    _showTextField = json['show_text_field'];
   }
 
   int? _reasonId;
   String? _reasonMessage;
+  int? _showTextField;
 
   int get reasonId => _reasonId ?? 0;
 
   String get reasonMessage => _reasonMessage ?? "";
 
+  int get showTextField => _showTextField ?? 0;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['reason_id'] = _reasonId;
     map['reason_message'] = _reasonMessage;
+    map['show_text_field'] = _showTextField;
     return map;
   }
 }

@@ -8,6 +8,7 @@ import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/screens/loginScreen/login_screen.dart';
 import 'package:food_ui/screens/signUpScreen/sign_up_bloc.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'package:food_ui/utils/validator_util.dart';
@@ -28,6 +29,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void didChangeDependencies() {
     _bloc ??= SignUpBloc(context);
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 controller: _bloc?.birthDateController,
                 readOnly: true,
                 onTap: () {
-                  _bloc?.showTimePicker();
+                  showDateSelector(context: context, controller: _bloc!.birthDateController);
                 },
                 keyboardType: TextInputType.datetime,
                 validator: (value) {
@@ -135,13 +142,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: commonPadding10px * 0.5),
               Align(
                 alignment: AlignmentDirectional.center,
-                child: StreamBuilder<Status>(
+                child: StreamBuilder<ResponseUtil>(
                   stream: _bloc?.subjectStatus,
                   builder: (context, snapStatus) {
                     return CustomRoundedButton(
                       buttonText: "Sign Up",
                       fontSize: textSize24px,
-                      setProgress: snapStatus.data == Status.loading,
+                      setProgress: snapStatus.data?.status == Status.loading,
                       onPressed: () {
                         _bloc?.userSignUp();
                       },

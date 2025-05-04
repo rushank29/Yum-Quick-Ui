@@ -7,6 +7,7 @@ import 'package:food_ui/customWidget/no_record_found.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancel_order_bloc.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancel_order_shimmer.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancellation_reason_list_dl.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 
 import '../../constant/constant.dart';
@@ -29,6 +30,12 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
   }
 
   @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
       pageTitle: "Cancel Order",
@@ -43,25 +50,20 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor.",
             style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300, fontSize: textSize14px),
           ),
-          StreamBuilder<Status>(
-            stream: _bloc?.subjectStatus,
-            builder: (context, snapStatus) {
-              return StreamBuilder<CancellationReasonListPojo>(
-                stream: _bloc?.subject,
-                builder: (context, snapCancelReason) {
-                  CancellationReasonListPojo? data = snapCancelReason.data;
-                  switch (snapStatus.data ?? Status.loading) {
-                    case Status.loading:
-                      return const CancelOrderShimmer();
-                    case Status.completed:
-                      return ((data?.cancellationReasonList ?? []).isNotEmpty)
-                          ? _cancelReasonBody(data)
-                          : const NoRecordFound();
-                    case Status.error:
-                      return const NoRecordFound();
-                  }
-                },
-              );
+          StreamBuilder<ResponseUtil<CancellationReasonListPojo>>(
+            stream: _bloc?.subject,
+            builder: (context, snapCancelReason) {
+              CancellationReasonListPojo? data = snapCancelReason.data?.data;
+              switch (snapCancelReason.data?.status ?? Status.loading) {
+                case Status.loading:
+                  return const CancelOrderShimmer();
+                case Status.completed:
+                  return ((data?.cancellationReasonList ?? []).isNotEmpty)
+                      ? _cancelReasonBody(data)
+                      : const NoRecordFound();
+                case Status.error:
+                  return const NoRecordFound();
+              }
             },
           ),
         ],
@@ -92,7 +94,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   builder: (context, snapSelectedReason) {
                     return GestureDetector(
                       onTap: () {
-                        if (index != reasonList.length - 1) {
+                        if (itemReason.showTextField != 1) {
                           _bloc?.selectedReasonSubject.sink.add(itemReason);
                         } else {
                           _bloc?.selectedReasonSubject.sink.add(null);
@@ -104,7 +106,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                margin: (index == reasonList.length - 1)
+                                margin: (itemReason.showTextField == 1)
                                     ? EdgeInsetsDirectional.symmetric(vertical: commonPadding10px)
                                     : null,
                                 child: Text(
@@ -116,7 +118,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                                   ),
                                 ),
                               ),
-                              if (index != reasonList.length - 1) ...[
+                              if (itemReason.showTextField != 1) ...[
                                 Radio<ItemCancellationReasonList>(
                                   value: itemReason,
                                   groupValue: snapSelectedReason.data,
@@ -127,11 +129,15 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                               ],
                             ],
                           ),
-                          (index == reasonList.length - 1)
+                          (itemReason.showTextField == 1)
                               ? CustomTextFormField(
                                   controller: _bloc?.otherReasonController,
                                   maxLines: 3,
                                   hintText: "Others reason...",
+                                  margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
+                                  onChanged: (value) {
+                                    _bloc?.selectedReasonSubject.sink.add(null);
+                                  },
                                 )
                               : const SizedBox.shrink(),
                         ],
@@ -149,8 +155,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
             _bloc?.onSubmitCancelledReason();
           },
           fontWeight: FontWeight.w600,
-          margin: EdgeInsetsDirectional.only(top: commonPadding32px),
-
+          margin: EdgeInsetsDirectional.only(top: commonPadding20px),
         )
       ],
     );

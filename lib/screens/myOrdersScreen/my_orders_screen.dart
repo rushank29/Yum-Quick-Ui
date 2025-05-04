@@ -8,12 +8,14 @@ import 'package:food_ui/customWidget/no_record_found.dart';
 import 'package:food_ui/screens/myOrdersScreen/my_orders_bloc.dart';
 import 'package:food_ui/screens/myOrdersScreen/my_orders_dl.dart';
 import 'package:food_ui/screens/myOrdersScreen/my_orders_shimmer.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../cancelOrderScreen/cancel_order_screen.dart';
+import '../leaveReviewScreen/leave_a_review_screen.dart';
 
 class MyOrdersScreen extends StatefulWidget {
   const MyOrdersScreen({super.key});
@@ -29,6 +31,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAlive
   void didChangeDependencies() {
     _bloc ??= MyOrdersBloc(context);
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,25 +87,20 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAlive
                   ),
                 ],
               ),
-              StreamBuilder<Status>(
-                stream: _bloc?.subjectStatus,
-                builder: (context, snapStatus) {
-                  return StreamBuilder<MyOrdersPojo>(
-                    stream: _bloc?.subject,
-                    builder: (context, snapMyOrders) {
-                      MyOrdersPojo? data = snapMyOrders.data;
-                      switch (snapStatus.data ?? Status.loading) {
-                        case Status.loading:
-                          return const MyOrdersShimmer();
-                        case Status.completed:
-                          return ((data?.itemOrderHistory ?? []).isNotEmpty)
-                              ? _myOrdersList(selectedTab, data)
-                              : _emptyOrderHistory();
-                        case Status.error:
-                          return _emptyOrderHistory();
-                      }
-                    },
-                  );
+              StreamBuilder<ResponseUtil<MyOrdersPojo>>(
+                stream: _bloc?.subject,
+                builder: (context, snapMyOrders) {
+                  MyOrdersPojo? data = snapMyOrders.data?.data;
+                  switch (snapMyOrders.data?.status ?? Status.loading) {
+                    case Status.loading:
+                      return const MyOrdersShimmer();
+                    case Status.completed:
+                      return ((data?.itemOrderHistory ?? []).isNotEmpty)
+                          ? _myOrdersList(selectedTab, data)
+                          : _emptyOrderHistory();
+                    case Status.error:
+                      return _emptyOrderHistory();
+                  }
                 },
               ),
             ],
@@ -215,6 +218,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAlive
                                 onPressed: () {
                                   if (selectedTab == 0) {
                                     openScreen(context: context, screen: const CancelOrderScreen());
+                                  } else if (selectedTab == 1) {
+                                    openScreen(
+                                      context: context,
+                                      screen: LeaveReviewScreen(
+                                        orderItemImage: itemOrderHistory?.itemImage ?? "",
+                                        orderItemName: itemOrderHistory?.itemName ?? "",
+                                      ),
+                                    );
                                   }
                                 },
                                 fontSize: textSize15px,

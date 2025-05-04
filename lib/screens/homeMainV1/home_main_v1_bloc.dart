@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/customWidget/custom_rounded_button.dart';
+import 'package:food_ui/screens/deliveryAddressScreen/delivery_address_screen.dart';
 import 'package:food_ui/screens/myOrdersScreen/my_orders_screen.dart';
+import 'package:food_ui/screens/myProfileScreen/my_profile_screen.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
@@ -85,7 +87,7 @@ class HomeMainV1Bloc {
           title: "My Profile",
           iconPath: "assets/svg/person.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const MyProfileScreen());
           },
         );
       case DrawerItem.deliveryAddress:
@@ -93,7 +95,7 @@ class HomeMainV1Bloc {
           title: "Delivery Address",
           iconPath: "assets/svg/delivery_address_icon.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const DeliveryAddressScreen());
           },
         );
       case DrawerItem.paymentMethods:

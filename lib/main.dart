@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
@@ -12,6 +13,19 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initPreferences();
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Choose your desired color
+      statusBarIconBrightness: Brightness.light, // Or Brightness.dark for dark icons
+      // Optionally, set navigation bar color as well
+      systemNavigationBarColor: colorWhite,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

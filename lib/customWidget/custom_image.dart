@@ -56,7 +56,7 @@ class CustomImage extends StatelessWidget {
     return showDefaultImage
         ? CustomImage(
             imagePath: "assets/images/avatar.png",
-            borderRadius: BorderRadius.all(
+            borderRadius: borderRadius ?? BorderRadius.all(
               Radius.circular(deviceAvgScreenSize),
             ),
               width: width,

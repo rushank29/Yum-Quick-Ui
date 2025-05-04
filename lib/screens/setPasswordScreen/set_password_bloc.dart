@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../constant/constant.dart';
 import '../../utils/utils.dart';
 
 class SetPasswordBloc {
   BuildContext context;
-  final subjectStatus = BehaviorSubject<Status>();
+  final subjectStatus = BehaviorSubject<ResponseUtil>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -18,16 +18,14 @@ class SetPasswordBloc {
     final email = emailController.text.trim();
 
     if (formKey.currentState!.validate()) {
-      subjectStatus.sink.add(Status.loading);
+      subjectStatus.sink.add(ResponseUtil.loading());
       try {
-        await FirebaseAuth.instance
-            .sendPasswordResetEmail(
-            email: email)
-            .then((value) async {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) async {
+          subjectStatus.sink.add(ResponseUtil.completed());
           Navigator.pop(context, true);
         });
       } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(Status.error);
+        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'auth/invalid-email') {
             openSimpleSnackBar('No user found for $email.');

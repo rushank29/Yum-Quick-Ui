@@ -5,18 +5,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/screens/biometricLoginScreen/biometric_login_screen.dart';
 import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../constant/constant.dart';
 import '../constant/dimensions.dart';
 import '../screens/signUpScreen/sign_up_dl.dart';
 import 'utils.dart';
 
 class SocialLoginUtil extends StatefulWidget {
   final bool isFromLogin;
-  final BehaviorSubject<Status>? subjectStatus;
+  final BehaviorSubject<ResponseUtil>? subjectStatus;
 
   const SocialLoginUtil({super.key, this.isFromLogin = false, this.subjectStatus});
 
@@ -98,7 +98,7 @@ class _SocialLoginUtilState extends State<SocialLoginUtil> {
           //  If successfully logged in (credentials are correct)
           User? currentUser = value.user;
           if (currentUser != null) {
-            setUserDataInPref(currentUser);
+            setUserDataInPref(1, currentUser);
             //  If successfully logged in (credentials are correct)
             DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
             final snapshot = await dbRef.get();
@@ -106,22 +106,23 @@ class _SocialLoginUtilState extends State<SocialLoginUtil> {
               if (!widget.isFromLogin) {
                 if (snapshot.exists) {
                   dbRef.set(userMap(currentUser));
-                  setUserDataInPref(currentUser, signUpPojo: SignUpPojo.fromJson(userMap(currentUser)));
-                  widget.subjectStatus?.sink.add(Status.completed);
+                  setUserDataInPref(1, currentUser, signUpPojo: SignUpPojo.fromJson(userMap(currentUser)));
+                  widget.subjectStatus?.sink.add(ResponseUtil.completed());
                 } else {
                   snapshot.ref.set(userMap(currentUser));
-                  setUserDataInPref(currentUser, signUpPojo: SignUpPojo.fromJson(userMap(currentUser)));
-                  widget.subjectStatus?.sink.add(Status.completed);
+                  setUserDataInPref(1, currentUser, signUpPojo: SignUpPojo.fromJson(userMap(currentUser)));
+                  widget.subjectStatus?.sink.add(ResponseUtil.completed());
                 }
                 openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
               } else {
                 if (snapshot.exists) {
                   SignUpPojo userMap = SignUpPojo.fromJson(snapshot.value as Map);
-                  setUserDataInPref(currentUser, signUpPojo: userMap);
-                  widget.subjectStatus?.sink.add(Status.completed);
+                  setUserDataInPref(1, currentUser, signUpPojo: userMap);
+                  widget.subjectStatus?.sink.add(ResponseUtil.completed());
                   openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
                 } else {
-                  widget.subjectStatus?.sink.add(Status.error);
+                  widget.subjectStatus?.sink
+                      .add(ResponseUtil.error('No user found for the ${currentUser.email}.'));
                   openSimpleSnackBar('No user found for the ${currentUser.email}.');
                 }
               }
@@ -141,6 +142,9 @@ class _SocialLoginUtilState extends State<SocialLoginUtil> {
       userId: currentUser.uid,
       userName: currentUser.displayName,
       userEmail: currentUser.email,
+      userProfilePic: currentUser.photoURL,
+      userMobile: currentUser.phoneNumber,
+      userLoginType: 1,
     );
     return userData.toJson();
   }

@@ -2,31 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancellation_reason_list_dl.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancellation_reason_json.dart';
 import 'package:food_ui/screens/cancelOrderScreen/cancelled_order_screen.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../constant/constant.dart';
 import '../../utils/utils.dart';
 
 class CancelOrderBloc {
   final BuildContext context;
-  final subjectStatus = BehaviorSubject<Status>();
-  final subject = BehaviorSubject<CancellationReasonListPojo>();
+  final subject = BehaviorSubject<ResponseUtil<CancellationReasonListPojo>>();
   final selectedReasonSubject = BehaviorSubject<ItemCancellationReasonList?>();
   final otherReasonController = TextEditingController();
 
   CancelOrderBloc(this.context) {
-    getMyOrders();
+    getOrderCancellationList();
   }
 
-  void getMyOrders() async {
+  void getOrderCancellationList() async {
     try {
-      subjectStatus.sink.add(Status.loading);
-      await Future.delayed(const Duration(seconds: 2));
+      subject.sink.add(ResponseUtil.loading());
+      await Future.delayed(const Duration(seconds: 1));
       var response = CancellationReasonListPojo.fromJson(cancellationReasonJson);
-      subject.sink.add(response);
-      subjectStatus.sink.add(Status.completed);
+      subject.sink.add(ResponseUtil.completed(response));
     } catch (error) {
-      subjectStatus.sink.add(Status.error);
+      subject.sink.add(ResponseUtil.error(error.toString()));
       openSimpleSnackBar(error.toString());
     }
   }
@@ -44,7 +42,8 @@ class CancelOrderBloc {
   }
 
   void dispose() {
-    subjectStatus.close();
     subject.close();
+    selectedReasonSubject.close();
+    otherReasonController.dispose();
   }
 }

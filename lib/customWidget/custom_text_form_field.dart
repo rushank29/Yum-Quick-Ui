@@ -15,7 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final Widget? suffix;
   final bool setPassword;
   final String? Function(String? value)? validator;
-  final void Function(String)? onChanged;
+  final void Function(String value)? onChanged;
   final bool readOnly;
   final void Function()? onTap;
   final String? initialValue;
@@ -146,7 +146,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 initialValue: widget.controller == null ? widget.initialValue : null,
                 onEditingComplete: widget.onEditingComplete,
                 keyboardType: widget.keyboardType,
-                maxLines: widget.maxLines,
+                maxLines: widget.maxLines ?? 1,
               ),
             );
           },

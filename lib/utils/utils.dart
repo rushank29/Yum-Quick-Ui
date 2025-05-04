@@ -22,8 +22,8 @@ void openScreen({required BuildContext context, required Widget screen}) {
   );
 }
 
-Future<void> openScreenWithResult({required BuildContext context, required Widget screen}) async {
-  Navigator.of(context, rootNavigator: true).push(
+Future<dynamic> openScreenWithResult({required BuildContext context, required Widget screen}) async {
+  return await Navigator.of(context, rootNavigator: true).push(
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => screen,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -97,14 +97,16 @@ void openSimpleSnackBar(String message) {
   ));
 }
 
-void setUserDataInPref(User currentUser, {SignUpPojo? signUpPojo}) {
+void setUserDataInPref(int loginType, User currentUser, {SignUpPojo? signUpPojo}) {
   prefs?.setBool(prefIsUserLoggedIn, true);
   prefs?.setString(prefCurrentUserId, currentUser.uid);
   prefs?.setString(prefUserEmail, currentUser.email ?? signUpPojo?.userEmail ?? "dummy@gmail.com");
   prefs?.setString(prefUserName, signUpPojo?.userName ?? currentUser.displayName ?? "");
+  prefs?.setString(prefUserProfilePic, signUpPojo?.userProfilePic ?? currentUser.photoURL ?? "");
   prefs?.setString(prefUserMobileNo, signUpPojo?.userMobile ?? "");
   prefs?.setString(prefUserMobileNo, signUpPojo?.userBirthDate ?? "");
   prefs?.setString(prefUserCountryCode, signUpPojo?.userCountryCode ?? "");
+  prefs?.setInt(prefUserLoginType, loginType);
 }
 
 String getAmountWithCurrency(dynamic amount) {
@@ -126,4 +128,32 @@ String getFormattedDateTime({
   final outputFormat = DateFormat(returnFormat);
   DateTime dateTime = inputFormat.parse(inputDateTime);
   return outputFormat.format(dateTime);
+}
+
+void showDateSelector({
+  required BuildContext context,
+  required TextEditingController controller,
+  String format = 'dd-MM-yyyy',
+  DateTime? initialDate,
+  DateTime? firstDate,
+  DateTime? lastDate,
+}) async {
+  DateFormat formatter = DateFormat(format);
+  DateTime now = DateTime.now();
+
+  DateTime? selectedDateTime =
+      controller.text.isNotEmpty ? formatter.parse(controller.text) : (initialDate ?? DateTime(2000));
+
+  DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: selectedDateTime,
+    firstDate: firstDate ?? DateTime(1900),
+    lastDate: lastDate ?? now,
+  );
+
+  if (pickedDate != null) {
+    controller.text = formatter.format(pickedDate);
+  } else {
+    debugPrint("Date is not selected");
+  }
 }

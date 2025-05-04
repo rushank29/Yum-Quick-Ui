@@ -1,10 +1,10 @@
 Map<String, dynamic> cancellationReasonJson = {
   "cancellation_reason_list": [
-    {"reason_id": 1, "reason_message": "Lorem ipsum dolor sit amet"},
-    {"reason_id": 2, "reason_message": "Lorem ipsum dolor sit amet"},
-    {"reason_id": 3, "reason_message": "Lorem ipsum dolor sit amet"},
-    {"reason_id": 4, "reason_message": "Lorem ipsum dolor sit amet"},
-    {"reason_id": 5, "reason_message": "Lorem ipsum dolor sit amet"},
-    {"reason_id": 6, "reason_message": "Others"}
+    {"reason_id": 1, "reason_message": "Lorem ipsum dolor sit amet", "show_text_field": 0},
+    {"reason_id": 2, "reason_message": "Lorem ipsum dolor sit amet", "show_text_field": 0},
+    {"reason_id": 3, "reason_message": "Lorem ipsum dolor sit amet", "show_text_field": 0},
+    {"reason_id": 4, "reason_message": "Lorem ipsum dolor sit amet", "show_text_field": 0},
+    {"reason_id": 5, "reason_message": "Lorem ipsum dolor sit amet", "show_text_field": 0},
+    {"reason_id": 6, "reason_message": "Others", "show_text_field": 1}
   ]
 };

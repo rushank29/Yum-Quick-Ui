@@ -72,7 +72,7 @@ class CommonBackgroundWidget extends StatelessWidget {
                   /// Scrollable Body with Rounded Corners
                   Container(
                     constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight * 0.8, minWidth: deviceWidth),
+                        BoxConstraints(minHeight: constraints.maxHeight * 0.775, minWidth: deviceWidth),
                     padding: bodyPadding ??
                         EdgeInsetsDirectional.symmetric(
                           horizontal: commonPadding24px,

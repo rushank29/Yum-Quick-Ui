@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/constant.dart';
 import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,7 +10,7 @@ import '../signUpScreen/sign_up_dl.dart';
 
 class LoginBloc {
   BuildContext context;
-  final subjectStatus = BehaviorSubject<Status>();
+  final subjectStatus = BehaviorSubject<ResponseUtil>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -26,7 +26,7 @@ class LoginBloc {
       return;
     }
     if (formKey.currentState!.validate()) {
-      subjectStatus.sink.add(Status.loading);
+      subjectStatus.sink.add(ResponseUtil.loading());
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(
@@ -40,11 +40,11 @@ class LoginBloc {
             if(!context.mounted) return;
             if (snapshot.exists) {
               SignUpPojo userMap = SignUpPojo.fromJson(snapshot.value as Map);
-              setUserDataInPref(currentUser, signUpPojo: userMap);
-              subjectStatus.sink.add(Status.completed);
+              setUserDataInPref(0, currentUser, signUpPojo: userMap);
+              subjectStatus.sink.add(ResponseUtil.completed());
               openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
             } else {
-              subjectStatus.sink.add(Status.error);
+              subjectStatus.sink.add(ResponseUtil.error("No user found for the $email."));
               openSimpleSnackBar('No user found for the $email.');
             }
           } else {
@@ -52,7 +52,7 @@ class LoginBloc {
           }
         });
       } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(Status.error);
+        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'user-not-found') {
             openSimpleSnackBar('No user found for $email.');

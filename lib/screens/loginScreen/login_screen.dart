@@ -7,6 +7,7 @@ import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/screens/setPasswordScreen/set_password_screen.dart';
 import 'package:food_ui/screens/signUpScreen/sign_up_screen.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'package:food_ui/utils/validator_util.dart';
@@ -28,6 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void didChangeDependencies() {
     _bloc ??= LoginBloc(context);
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,13 +102,13 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: commonPadding20px * 3),
               Align(
                 alignment: AlignmentDirectional.center,
-                child: StreamBuilder<Status>(
+                child: StreamBuilder<ResponseUtil>(
                   stream: _bloc?.subjectStatus,
                   builder: (context, snapStatus) {
                     return CustomRoundedButton(
                       buttonText: "Log In",
                       fontSize: textSize24px,
-                      setProgress: snapStatus.data == Status.loading,
+                      setProgress: snapStatus.data?.status == Status.loading,
                       onPressed: () {
                         _bloc?.userLogin();
                       },

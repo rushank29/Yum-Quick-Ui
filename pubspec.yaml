@@ -47,6 +47,11 @@ dependencies:
   intl: any
   google_sign_in: any
   shimmer: any
+  flutter_rating_bar: any
+  custom_rating_bar: any
+  image_picker: any
+  permission_handler: any
+  firebase_storage: any
 
 dev_dependencies:
   flutter_test:

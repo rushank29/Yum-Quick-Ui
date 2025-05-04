@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
 import 'package:food_ui/screens/setPasswordScreen/set_password_bloc.dart';
+import 'package:food_ui/utils/response_util.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
@@ -24,6 +25,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   void didChangeDependencies() {
     _bloc ??= SetPasswordBloc(context);
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _bloc?.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,13 +59,13 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
             SizedBox(height: commonPadding32px),
             Align(
               alignment: AlignmentDirectional.center,
-              child: StreamBuilder<Status>(
+              child: StreamBuilder<ResponseUtil>(
                 stream: _bloc?.subjectStatus,
                 builder: (context, snapStatus) {
                   return CustomRoundedButton(
                     buttonText: "Create New Password",
                     fontSize: textSize17px,
-                    setProgress: snapStatus.data == Status.loading,
+                    setProgress: snapStatus.data?.status == Status.loading,
                     onPressed: () {
                       _bloc?.setNewPassword();
                     },

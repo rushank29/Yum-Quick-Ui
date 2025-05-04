@@ -46,7 +46,7 @@ class _RotatingCircleAnimationState extends State<RotatingCircleAnimation>
   Widget build(BuildContext context) {
     double outerRadius = deviceAvgScreenSize * 0.12523;
     double dotRadius = circleSize6px;
-    double padding = commonPadding20px;
+    double padding = commonPadding24px;
     double pathRadius = outerRadius - padding;
 
     return Center(
