@@ -12,6 +12,7 @@ Color colorHomeBackground = const Color(0xffF5F5F5);
 Color colorBlack = const Color(0xff000000);
 Color colorDarkGrey = const Color(0xff252525);
 Color colorHintGrey = const Color(0xff676767);
+Color colorOffGrey = const Color(0xffcbcbcb);
 Color colorFormFieldBg = const Color(0xffF3E9B5);
 Color colorRed = const Color(0xfff50411);
 Color colorLightOrange = const Color(0xffFFDECF);

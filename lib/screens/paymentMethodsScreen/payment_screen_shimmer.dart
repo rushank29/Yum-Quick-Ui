@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/constant/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 
-class DeliveryAddressShimmer extends StatelessWidget {
-  const DeliveryAddressShimmer({super.key});
+class PaymentScreenShimmer extends StatelessWidget {
+  const PaymentScreenShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,10 @@ class DeliveryAddressShimmer extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            height: commonSize45px,
+                            height: commonSize45px * 0.65,
                             width: commonSize45px,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadiusDirectional.circular(borderRadius20px),
+                              borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
                               color: colorBlack,
                             ),
                           ),
@@ -45,11 +45,6 @@ class DeliveryAddressShimmer extends StatelessWidget {
                                 height: commonSize45px * 0.5,
                                 width: deviceWidth * 0.3,
                                 margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px * 0.75),
-                                color: colorBlack,
-                              ),
-                              Container(
-                                height: commonSize45px * 0.35,
-                                width: deviceWidth * 0.5,
                                 color: colorBlack,
                               ),
                             ],

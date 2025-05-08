@@ -12,3 +12,5 @@ enum DrawerItem {
   settings,
   logOut
 }
+
+enum SettingItem { notificationSetting, passwordSetting, deleteAccount }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/addNewAddressScreen/add_new_address_screen.dart';
 import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:food_ui/utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
+import 'addNewAddressScreen/add_new_address_screen.dart';
 import 'delivery_address_dl.dart';
 import 'delivery_address_json.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/utils/text_style.dart';
@@ -28,6 +29,8 @@ class CustomTextFormField extends StatefulWidget {
   final double? formFieldWidth;
   final String? hintText;
   final int? maxLines;
+  final int? maxLength;
+  final BorderRadius? borderRadius;
 
   const CustomTextFormField({
     super.key,
@@ -52,7 +55,7 @@ class CustomTextFormField extends StatefulWidget {
     this.backgroundColor,
     this.margin,
     this.formFieldHeight,
-    this.formFieldWidth, this.hintText, this.suffixPadding, this.maxLines,
+    this.formFieldWidth, this.hintText, this.suffixPadding, this.maxLines, this.maxLength, this.borderRadius,
   });
 
   @override
@@ -104,11 +107,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   ),
                   fillColor: widget.backgroundColor ?? colorFormFieldBg,
                   filled: true,
-                  border: formFieldBorder,
-                  focusedBorder: formFieldBorder,
-                  enabledBorder: formFieldBorder,
-                  errorBorder: formFieldBorder,
-                  focusedErrorBorder: formFieldBorder,
+                  border: formFieldBorder(),
+                  focusedBorder: formFieldBorder(),
+                  enabledBorder: formFieldBorder(),
+                  errorBorder: formFieldBorder(),
+                  focusedErrorBorder: formFieldBorder(),
                   prefixIcon: widget.prefix,
                   suffixIcon: _buildSuffixIcon(snapVisible.data ?? false),
                   errorStyle: widget.setError
@@ -147,6 +150,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 onEditingComplete: widget.onEditingComplete,
                 keyboardType: widget.keyboardType,
                 maxLines: widget.maxLines ?? 1,
+                inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
               ),
             );
           },
@@ -172,7 +176,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
       );
     }
-    if (widget.setError) {
+    if (widget.setError && errorMessageSubject.valueOrNull!=null) {
       icons.add(
         StreamBuilder<String?>(
           stream: errorMessageSubject,
@@ -208,10 +212,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         : const SizedBox.shrink();
   }
 
-  OutlineInputBorder formFieldBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(borderRadius13px),
-    borderSide: BorderSide(color: colorFormFieldBg),
-  );
+  OutlineInputBorder formFieldBorder() {
+    return OutlineInputBorder(
+      borderRadius: widget.borderRadius ?? BorderRadius.circular(borderRadius13px),
+      borderSide: BorderSide(color: widget.backgroundColor ?? colorFormFieldBg),
+    );
+  }
 
   void _showTooltip() {
     final dynamic tooltip = _tooltipKey.currentState;

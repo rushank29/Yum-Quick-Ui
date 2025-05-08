@@ -9,7 +9,9 @@ TextStyle bodyText({double? fontSize, FontWeight? fontWeight, Color? textColor})
     fontWeight: fontWeight ?? FontWeight.normal,
     color: textColor ?? colorTextCommon,
   );
-}TextStyle headerText({double? fontSize, FontWeight? fontWeight, Color? textColor}) {
+}
+
+TextStyle headerText({double? fontSize, FontWeight? fontWeight, Color? textColor}) {
   return GoogleFonts.inter(
     fontSize: fontSize ?? textSize24px,
     fontWeight: fontWeight ?? FontWeight.w900,

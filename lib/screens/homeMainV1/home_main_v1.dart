@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
-import 'package:food_ui/utils/text_style.dart';
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/custom_image.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
+import '../../utils/text_style.dart';
 import '../../customWidget/customBottomNavBar/custom_bottom_nav_bar.dart';
 import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
 import 'home_main_v1_bloc.dart';
@@ -41,10 +41,10 @@ class _HomeMainV1State extends State<HomeMainV1> {
       stream: _bloc?.currentNavBarIndexSubject,
       builder: (context, snapCurrentIndex) {
         List<ItemBottomNavBar> bottomNavBarList = _bloc?.getBottomNavBarList(
-          onSelected: (index) {
-            _bloc?.currentNavBarIndexSubject.sink.add(index);
-          },
-        ) ??
+              onSelected: (index) {
+                _bloc?.currentNavBarIndexSubject.sink.add(index);
+              },
+            ) ??
             [];
         List<ItemDrawer> drawerList = _bloc?.getDrawerList() ?? [];
         int currentNavBarIndex = snapCurrentIndex.data ?? 0;
@@ -86,105 +86,102 @@ class _HomeMainV1State extends State<HomeMainV1> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                            Flexible(
-                            child: Text(
-                            userDisplayName,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: bodyText(
-                              fontSize: textSize32px,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            currentUser?.email ?? prefs!.getString(prefUserEmail)!,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: bodyText(
-                                fontSize: textSize16px,
-                                fontWeight: FontWeight.w500,
-                                textColor: colorFormFieldBg),
+                              Flexible(
+                                child: Text(
+                                  userDisplayName,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: bodyText(
+                                    fontSize: textSize32px,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  currentUser?.email ?? prefs!.getString(prefUserEmail)!,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: bodyText(
+                                      fontSize: textSize16px,
+                                      fontWeight: FontWeight.w500,
+                                      textColor: colorFormFieldBg),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  Column(
+                    children: drawerList.asMap().entries.map((entry) {
+                      int drawerIndex = entry.key;
+                      ItemDrawer item = entry.value;
+                      return Container(
+                        color: Colors.transparent,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: commonPadding16px,
+                        ),
+                        child: GestureDetector(
+                          onTap: item.onTap,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(commonPadding10px),
+                                    decoration: BoxDecoration(
+                                      color: colorMainBackground,
+                                      borderRadius: BorderRadius.circular(borderRadius30px * 0.5),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      item.iconPath,
+                                      height: commonSize45px * 0.5,
+                                      width: commonSize45px * 0.5,
+                                    ),
+                                  ),
+                                  SizedBox(width: commonPadding16px),
+                                  Text(
+                                    item.title,
+                                    style: bodyText(
+                                      fontSize: textSize24px,
+                                      fontWeight: FontWeight.w500,
+                                      textColor: colorFormFieldBg,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  vertical: commonPadding10px,
+                                ),
+                                child: (drawerIndex != drawerList.length - 1)
+                                    ? Divider(color: colorDividerOrange)
+                                    : const SizedBox.shrink(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ],
               ),
             ),
-            Column(
-              children: drawerList
-                  .asMap()
-                  .entries
-                  .map((entry) {
-                int drawerIndex = entry.key;
-                ItemDrawer item = entry.value;
-                return Container(
-                  color: Colors.transparent,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: commonPadding16px,
-                  ),
-                  child: GestureDetector(
-                    onTap: item.onTap,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(commonPadding10px),
-                              decoration: BoxDecoration(
-                                color: colorMainBackground,
-                                borderRadius: BorderRadius.circular(borderRadius30px * 0.5),
-                              ),
-                              child: SvgPicture.asset(
-                                item.iconPath,
-                                height: commonSize45px * 0.5,
-                                width: commonSize45px * 0.5,
-                              ),
-                            ),
-                            SizedBox(width: commonPadding16px),
-                            Text(
-                              item.title,
-                              style: bodyText(
-                                fontSize: textSize24px,
-                                fontWeight: FontWeight.w500,
-                                textColor: colorFormFieldBg,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            vertical: commonPadding10px,
-                          ),
-                          child: (drawerIndex != drawerList.length - 1)
-                              ? Divider(color: colorDividerOrange)
-                              : const SizedBox.shrink(),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            ],
           ),
-        ),
-        ),
-        body: <Widget>[
-        const HomeScreen(),
-        Container(),
-        Container(),
-        Container(),
-        Container(),
-        ][currentNavBarIndex],
-        bottomNavigationBar: CustomBottomNavBar(
-        bottomNavBarList: bottomNavBarList,
-        currentIndex: currentNavBarIndex,
-        ),
+          body: <Widget>[
+            const HomeScreen(),
+            Container(),
+            Container(),
+            Container(),
+            Container(),
+          ][currentNavBarIndex],
+          bottomNavigationBar: CustomBottomNavBar(
+            bottomNavBarList: bottomNavBarList,
+            currentIndex: currentNavBarIndex,
+          ),
         );
       },
     );

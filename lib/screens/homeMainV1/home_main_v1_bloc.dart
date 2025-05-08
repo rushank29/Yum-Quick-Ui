@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/customWidget/custom_rounded_button.dart';
+import 'package:food_ui/screens/contactUsScreen/contact_us_screen.dart';
 import 'package:food_ui/screens/deliveryAddressScreen/delivery_address_screen.dart';
 import 'package:food_ui/screens/myOrdersScreen/my_orders_screen.dart';
 import 'package:food_ui/screens/myProfileScreen/my_profile_screen.dart';
+import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_screen.dart';
+import 'package:food_ui/screens/settingsScreen/settings_screen.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
@@ -103,7 +106,7 @@ class HomeMainV1Bloc {
           title: "Payment Methods",
           iconPath: "assets/svg/card_icon.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const PaymentMethodsScreen());
           },
         );
       case DrawerItem.contactUs:
@@ -111,7 +114,7 @@ class HomeMainV1Bloc {
           title: "Contact Us",
           iconPath: "assets/svg/contact_us.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const ContactUsScreen(selectedMainTab: 1));
           },
         );
       case DrawerItem.helpAndFAQs:
@@ -119,7 +122,7 @@ class HomeMainV1Bloc {
           title: "Help and FAQs",
           iconPath: "assets/svg/help_and_faq_icon.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const ContactUsScreen(selectedMainTab: 0));
           },
         );
       case DrawerItem.settings:
@@ -127,7 +130,7 @@ class HomeMainV1Bloc {
           title: "Settings",
           iconPath: "assets/svg/settings_icon.svg",
           onTap: () {
-            // openScreen(context: context, screen: OrderHistoryScreen());
+            openScreen(context: context, screen: const SettingsScreen());
           },
         );
       case DrawerItem.logOut:

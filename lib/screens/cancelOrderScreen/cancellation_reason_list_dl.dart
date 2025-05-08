@@ -42,6 +42,7 @@ class ItemCancellationReasonList {
   }) {
     _reasonId = reasonId;
     _reasonMessage = reasonMessage;
+    _showTextField = showTextField;
   }
 
   ItemCancellationReasonList.fromJson(dynamic json) {

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/main.dart';
@@ -9,6 +10,7 @@ import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:intl/intl.dart';
 
+import '../customWidget/custom_rounded_button.dart';
 import '../shared_pref_util/shared_pref_util.dart';
 
 void openScreen({required BuildContext context, required Widget screen}) {
@@ -137,6 +139,7 @@ void showDateSelector({
   DateTime? initialDate,
   DateTime? firstDate,
   DateTime? lastDate,
+  Function(String value)? onDateSelected,
 }) async {
   DateFormat formatter = DateFormat(format);
   DateTime now = DateTime.now();
@@ -153,7 +156,87 @@ void showDateSelector({
 
   if (pickedDate != null) {
     controller.text = formatter.format(pickedDate);
+    onDateSelected?.call(formatter.format(pickedDate));
   } else {
     debugPrint("Date is not selected");
   }
+}
+
+String getPaymentMethodName(int paymentType, {String cardNumber = ""}) {
+  switch (paymentType) {
+    case 1:
+      return getArrangedCardNumber(cardNumber);
+    case 2:
+      return "Apple Pay";
+    case 3:
+      return "Paypal";
+    case 4:
+      return "Google Play";
+    default:
+      return "Google Play";
+  }
+}
+
+String getArrangedCardNumber(String cardNumber, {bool mask = true}) {
+  if (cardNumber.isEmpty) return cardNumber;
+
+  String processed = cardNumber;
+
+  if (mask && cardNumber.length > 2) {
+    int visibleDigits = 2;
+    int totalLength = cardNumber.length;
+    int hiddenLength = totalLength - visibleDigits;
+
+    // Mask all digits except the last two
+    processed = List.filled(hiddenLength, "*").join() + cardNumber.substring(totalLength - visibleDigits);
+  }
+
+  // Group into chunks of 3 for both masked and unmasked
+  List<String> grouped = [];
+  for (int i = 0; i < processed.length; i = i + 3) {
+    grouped.add(
+      processed.substring(i, i + 3 > processed.length ? processed.length : i + 3),
+    );
+  }
+
+  return grouped.join(" ");
+}
+
+SvgPicture getPaymentMethodIcon(int paymentType) {
+  String paymentTypeIcon;
+  switch (paymentType) {
+    case 1:
+      paymentTypeIcon = "assets/svg/card_icon.svg";
+    case 2:
+      paymentTypeIcon = "assets/svg/apple_pay_icon.svg";
+    case 3:
+      paymentTypeIcon = "assets/svg/paypal_icon.svg";
+    case 4:
+      paymentTypeIcon = "assets/svg/google_play_icon.svg";
+    default:
+      paymentTypeIcon = "assets/svg/google_play_icon.svg";
+  }
+  return SvgPicture.asset(
+    paymentTypeIcon,
+    height: iconSize28px,
+    width: iconSize40px,
+  );
+}
+
+Widget commonTabWidget(
+  bool isTabSelected,
+  String tabTitle, {
+  required void Function()? onPressed,
+  double? fontSize,
+}) {
+  return CustomRoundedButton(
+    buttonText: tabTitle,
+    onPressed: onPressed,
+    fontSize: fontSize,
+    fontWeight: isTabSelected ? FontWeight.w500 : FontWeight.w400,
+    backgroundColor: isTabSelected ? colorPrimary : colorPrimaryLight,
+    textColor: isTabSelected ? colorWhite : colorPrimary,
+    borderColor: isTabSelected ? colorPrimary : colorPrimaryLight,
+    padding: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px * 0.6),
+  );
 }

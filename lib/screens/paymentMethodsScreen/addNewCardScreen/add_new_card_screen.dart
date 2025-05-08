@@ -1,0 +1,230 @@
+import 'package:flutter/material.dart';
+import 'package:food_ui/constant/colors.dart';
+import 'package:food_ui/utils/text_style.dart';
+import 'package:food_ui/utils/utils.dart';
+import 'add_new_card_bloc.dart';
+
+import '../../../constant/dimensions.dart';
+import '../../../customWidget/common_bg_screen.dart';
+import '../../../customWidget/custom_rounded_button.dart';
+import '../../../customWidget/custom_text_form_field.dart';
+import '../../../utils/validator_util.dart';
+
+class AddNewCardScreen extends StatefulWidget {
+  final int paymentTypeListLength;
+
+  const AddNewCardScreen({super.key, required this.paymentTypeListLength});
+
+  @override
+  State<AddNewCardScreen> createState() => _AddNewCardScreenState();
+}
+
+class _AddNewCardScreenState extends State<AddNewCardScreen> {
+  AddNewCardBloc? _bloc;
+
+  @override
+  void didChangeDependencies() {
+    _bloc ??= AddNewCardBloc(context, widget.paymentTypeListLength);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonBackgroundWidget(
+      pageTitle: "Add New Address",
+      bodyWidget: Form(
+        key: _bloc?.formKey,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  margin: EdgeInsetsDirectional.only(top: commonPadding10px * 0.8),
+                  height: deviceHeight * 0.248,
+                  decoration: BoxDecoration(
+                      color: colorCommonBackground,
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/card_bg.png"),
+                        alignment: AlignmentDirectional.center,
+                      ),
+                      borderRadius: BorderRadiusDirectional.circular(borderRadius20px)),
+                ),
+                Positioned(
+                  top: commonPadding10px * 1.8,
+                  right: commonPadding10px * 1.7,
+                  child: Container(
+                    height: commonPadding10px * 1.2,
+                    width: commonSize50px,
+                    decoration:
+                        BoxDecoration(border: Border.all(width: strokeWidth2px, color: colorCommonBrown)),
+                  ),
+                ),
+                Positioned(
+                  bottom: commonPadding28px,
+                  left: commonPadding16px,
+                  right: commonPadding16px,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StreamBuilder<String>(
+                        stream: _bloc?.cardNumberSubject,
+                        builder: (context, snapCardNo) {
+                          return Text(
+                            (snapCardNo.data ?? "").isNotEmpty
+                                ? getArrangedCardNumber(snapCardNo.data ?? "", mask: false)
+                                : "000 000 000 00",
+                            style: bodyText(
+                              fontSize: textSize14px,
+                              fontWeight: FontWeight.w700,
+                              textColor: colorCommonBrown,
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: commonPadding16px),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "Card Holder Name",
+                                style: bodyText(
+                                  fontSize: textSize12px,
+                                  textColor: colorCommonBrown,
+                                ),
+                              ),
+                              StreamBuilder<String>(
+                                  stream: _bloc?.cardHolderNameSubject,
+                                  builder: (context, snapCardHolderName) {
+                                    return Text(
+                                      (snapCardHolderName.data ?? "").isNotEmpty
+                                          ? (snapCardHolderName.data ?? "")
+                                          : "John Smith",
+                                      style: bodyText(
+                                        fontSize: textSize14px,
+                                        fontWeight: FontWeight.w700,
+                                        textColor: colorCommonBrown,
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Expiry Date",
+                                style: bodyText(
+                                  fontSize: textSize12px,
+                                  textColor: colorCommonBrown,
+                                ),
+                              ),
+                              StreamBuilder<String>(
+                                  stream: _bloc?.expiryDateSubject,
+                                  builder: (context, snapExpiryDate) {
+                                    print("snapExpiryDate ==============> ${snapExpiryDate.data}");
+                                    return Text(
+                                      (snapExpiryDate.data ?? "").isNotEmpty
+                                          ? (snapExpiryDate.data ?? "")
+                                          : "04/28",
+                                      style: bodyText(
+                                        fontSize: textSize14px,
+                                        fontWeight: FontWeight.w700,
+                                        textColor: colorCommonBrown,
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+                          Image.asset(
+                            "assets/images/card_chip.png",
+                            height: iconSize28px,
+                            width: iconSize33px * 0.933,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: commonPadding300px * 0.1667),
+            CustomTextFormField(
+              formFieldLabel: "Card Holder Name",
+              controller: _bloc?.cardHolderNameController,
+              validator: (value) {
+                return validateEmptyField(value, "Please enter the card holder name");
+              },
+              onChanged: (value) {
+                _bloc?.cardHolderNameSubject.sink.add(value.trim());
+              },
+            ),
+            SizedBox(height: commonPadding32px),
+            CustomTextFormField(
+              formFieldLabel: "Card Number",
+              validator: (value) {
+                return validateEmptyField(value, "Please enter the card number");
+              },
+              controller: _bloc?.cardNumberController,
+              keyboardType: TextInputType.number,
+              maxLength: 11,
+              onChanged: (value) {
+                _bloc?.cardNumberSubject.sink.add(value.trim());
+              },
+            ),
+            SizedBox(height: commonPadding32px),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextFormField(
+                  formFieldWidth: commonSize120px,
+                  formFieldLabel: "Expiry Date",
+                  validator: (value) {
+                    return validateEmptyField(value, "Please enter the expiry date");
+                  },
+                  readOnly: true,
+                  onTap: () {
+                    showDateSelector(
+                      context: context,
+                      controller: _bloc!.expiryDateController,
+                      initialDate: DateTime.now(),
+                      lastDate: DateTime(2042),
+                      firstDate: DateTime.now(),
+                      format: "MM/yyyy",
+                      onDateSelected: (value) {
+                        _bloc?.expiryDateSubject.sink.add(value.trim());
+                      },
+                    );
+                  },
+                  controller: _bloc?.expiryDateController,
+                ),
+                CustomTextFormField(
+                  formFieldWidth: commonSize120px,
+                  formFieldLabel: "CVV",
+                  validator: (value) {
+                    return validateEmptyField(value, "Please enter the CVV");
+                  },
+                  controller: _bloc?.cvvController,
+                  onChanged: (value) {
+                    _bloc?.cvvSubject.sink.add(value.trim());
+                  },
+                ),
+              ],
+            ),
+            CustomRoundedButton(
+              buttonText: "Apply",
+              onPressed: () {
+                if (_bloc!.formKey.currentState!.validate()) {
+                  _bloc?.addNewCard();
+                }
+              },
+              fontSize: textSize20px,
+              margin: EdgeInsetsDirectional.only(top: commonPadding35px),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

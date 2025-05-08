@@ -20,8 +20,10 @@ double progressSize20px = deviceAvgScreenSize * 0.03579;  //  20
 
 double iconSize20px = deviceAvgScreenSize * 0.03579;  //  20
 double iconSize24px = deviceAvgScreenSize * 0.04294;  //  24
+double iconSize28px = deviceAvgScreenSize * 0.05009;  //  28
 double iconSize33px = deviceAvgScreenSize * 0.059034;  //  33
 double iconSize37px = deviceAvgScreenSize * 0.06619;  //  37
+double iconSize40px = deviceAvgScreenSize * 0.071557;  //  40
 double iconSize48px = deviceAvgScreenSize * 0.08587;  //  48
 
 double commonPadding10px = deviceAvgScreenSize * 0.01789;  //  10
@@ -30,7 +32,7 @@ double commonPadding20px = deviceAvgScreenSize * 0.03579;  //  20
 double commonPadding24px = deviceAvgScreenSize * 0.04294;  //  24
 double commonPadding28px = deviceAvgScreenSize * 0.05009;  //  28
 double commonPadding32px = deviceAvgScreenSize * 0.05724;  //  32
-double commonPadding35px = deviceAvgScreenSize * 0.062612;  //  32
+double commonPadding35px = deviceAvgScreenSize * 0.062612;  //  35
 double commonPadding300px = deviceAvgScreenSize * 0.5869;  //  300
 
 double commonSize45px = deviceAvgScreenSize * 0.0805;  //  45
@@ -48,3 +50,5 @@ double borderRadius30px = deviceAvgScreenSize * 0.05367;  //  30
 
 double circleSize6px = deviceAvgScreenSize * 0.010734;  //  6
 double borderSide7px = deviceAvgScreenSize * 0.012523;  //  7
+
+double strokeWidth2px = deviceAvgScreenSize * 0.003579;  //  2

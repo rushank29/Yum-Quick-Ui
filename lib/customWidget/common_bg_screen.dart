@@ -6,7 +6,7 @@ import '../utils/text_style.dart';
 
 class CommonBackgroundWidget extends StatelessWidget {
   final String? pageTitle;
-  final Widget? pageHeaderWidget;
+  final String? pageSubtitle;
   final EdgeInsetsDirectional? bodyPadding;
   final Widget bodyWidget;
   final Color? bodyBgColor;
@@ -14,7 +14,7 @@ class CommonBackgroundWidget extends StatelessWidget {
   const CommonBackgroundWidget({
     super.key,
     this.pageTitle,
-    this.pageHeaderWidget,
+    this.pageSubtitle,
     this.bodyPadding,
     required this.bodyWidget,
     this.bodyBgColor,
@@ -31,13 +31,14 @@ class CommonBackgroundWidget extends StatelessWidget {
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   // Header
                   Container(
                     width: double.infinity,
                     padding: EdgeInsetsDirectional.only(
                       top: commonPadding300px * 0.25,
-                      bottom: commonPadding300px * 0.175,
+                      bottom: pageSubtitle != null ? 0 : commonPadding300px * 0.175,
                       start: commonPadding24px,
                       end: commonPadding24px,
                     ),
@@ -45,8 +46,7 @@ class CommonBackgroundWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (pageHeaderWidget != null) pageHeaderWidget!,
-                        if (pageTitle != null && pageHeaderWidget == null) ...[
+                        if (pageTitle != null) ...[
                           GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
@@ -54,14 +54,31 @@ class CommonBackgroundWidget extends StatelessWidget {
                             child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
                           ),
                           Expanded(
-                            child: Text(
-                              pageTitle!,
-                              textAlign: TextAlign.center,
-                              style: bodyText(
-                                fontWeight: FontWeight.w700,
-                                fontSize: textSize28px,
-                                textColor: colorWhite,
-                              ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  pageTitle!,
+                                  textAlign: TextAlign.center,
+                                  style: bodyText(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: textSize28px,
+                                    textColor: colorWhite,
+                                  ),
+                                ),
+                                if (pageSubtitle != null) ...[
+                                  SizedBox(height: commonPadding10px * 0.6),
+                                  Text(
+                                    pageSubtitle!,
+                                    textAlign: TextAlign.center,
+                                    style: bodyText(
+                                      fontSize: textSize16px,
+                                      textColor: colorPrimary,
+                                    ),
+                                  ),
+                                  SizedBox(height: commonPadding10px * 0.6),
+                                ]
+                              ],
                             ),
                           ),
                         ],
@@ -71,8 +88,11 @@ class CommonBackgroundWidget extends StatelessWidget {
 
                   /// Scrollable Body with Rounded Corners
                   Container(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight * 0.775, minWidth: deviceWidth),
+                    constraints: BoxConstraints(
+                        minHeight: pageSubtitle != null
+                            ? constraints.maxHeight * 0.8025
+                            : constraints.maxHeight * 0.775,
+                        minWidth: deviceWidth),
                     padding: bodyPadding ??
                         EdgeInsetsDirectional.symmetric(
                           horizontal: commonPadding24px,

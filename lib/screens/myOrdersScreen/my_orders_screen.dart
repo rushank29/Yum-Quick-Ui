@@ -24,7 +24,7 @@ class MyOrdersScreen extends StatefulWidget {
   State<MyOrdersScreen> createState() => _MyOrdersScreenState();
 }
 
-class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAliveClientMixin {
+class _MyOrdersScreenState extends State<MyOrdersScreen> {
   MyOrdersBloc? _bloc;
 
   @override
@@ -41,7 +41,6 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return _myOrdersBody();
   }
 
@@ -284,7 +283,4 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> with AutomaticKeepAlive
       message: message ?? "You don't have any active orders at this time",
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

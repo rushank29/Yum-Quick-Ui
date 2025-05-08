@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/deliveryAddressScreen/delivery_address_dl.dart';
+import '../delivery_address_dl.dart';
 
 class AddNewAddressBloc {
   final BuildContext context;

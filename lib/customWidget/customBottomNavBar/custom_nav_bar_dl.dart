@@ -14,3 +14,11 @@ class ItemDrawer {
 
   ItemDrawer({required this.title, required this.iconPath, required this.onTap});
 }
+
+class ItemSettings {
+  final String title;
+  final String iconPath;
+  final VoidCallback onTap;
+
+  ItemSettings({required this.title, required this.iconPath, required this.onTap});
+}

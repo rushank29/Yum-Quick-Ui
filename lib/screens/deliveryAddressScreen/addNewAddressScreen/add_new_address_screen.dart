@@ -3,11 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
 import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/screens/addNewAddressScreen/add_new_address_bloc.dart';
 import 'package:food_ui/utils/validator_util.dart';
 
-import '../../constant/colors.dart';
-import '../../customWidget/custom_rounded_button.dart';
+import '../../../constant/colors.dart';
+import '../../../customWidget/custom_rounded_button.dart';
+import 'add_new_address_bloc.dart';
 
 class AddNewAddressScreen extends StatefulWidget {
   final int deliveryAddressListLength;
