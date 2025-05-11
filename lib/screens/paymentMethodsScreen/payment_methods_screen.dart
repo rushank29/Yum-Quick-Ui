@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_bloc.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_dl.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_screen_shimmer.dart';
+import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
+import 'payment_methods_bloc.dart';
+import 'payment_methods_dl.dart';
+import 'payment_screen_shimmer.dart';
 import 'package:food_ui/utils/utils.dart';
 
 import '../../constant/colors.dart';
@@ -81,7 +83,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     bool isSelected = snapSelectedPaymentType.data == itemPaymentMethods;
                     return InkWell(
                       onTap: () {
-                        _bloc?.selectedPaymentMethodSubject.sink.add(isSelected ? null : itemPaymentMethods);
+                        _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
+                        setJsonString(prefSelectedPaymentType, itemPaymentMethods);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +112,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                             value: itemPaymentMethods,
                             groupValue: snapSelectedPaymentType.data,
                             onChanged: (value) {
-                              _bloc?.selectedPaymentMethodSubject.sink.add(isSelected ? null : itemPaymentMethods);
+                              _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
+                              setJsonString(prefSelectedPaymentType, itemPaymentMethods);
                             },
                           ),
                         ],

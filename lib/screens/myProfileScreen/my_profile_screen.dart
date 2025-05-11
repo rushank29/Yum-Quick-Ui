@@ -156,7 +156,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             keyboardType: TextInputType.phone,
             prefix: CountryCodePicker(
               showFlagMain: false,
-              initialSelection: prefs?.getString(prefUserCountryCode),
+              initialSelection: (prefs?.getString(prefUserCountryCode) ?? "").isNotEmpty
+                  ? prefs?.getString(prefUserCountryCode)
+                  : "+91",
               onInit: (value) {
                 _bloc?.selectedCountrySubject.sink.add(value);
               },
@@ -170,17 +172,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           ),
           SizedBox(height: commonPadding32px),
           StreamBuilder<ResponseUtil>(
-            stream: _bloc?.subjectSetDataStatus,
-            builder: (context, snapSetStatus) {
-              return CustomRoundedButton(
-                buttonText: "Update Profile",
-                onPressed: () {
-                  _bloc?.updateProfile();
-                },
-                setProgress: snapSetStatus.data?.status == Status.loading,
-              );
-            }
-          )
+              stream: _bloc?.subjectSetDataStatus,
+              builder: (context, snapSetStatus) {
+                return CustomRoundedButton(
+                  buttonText: "Update Profile",
+                  onPressed: () {
+                    _bloc?.updateProfile();
+                  },
+                  setProgress: snapSetStatus.data?.status == Status.loading,
+                );
+              })
         ],
       ),
     );

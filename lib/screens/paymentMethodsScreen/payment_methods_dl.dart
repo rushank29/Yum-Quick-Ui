@@ -68,4 +68,17 @@ class ItemPaymentMethodsList {
     map['card_number'] = _cardNumber;
     return map;
   }
+
+  // Override equality and hashCode for proper comparison
+  //
+  // This ensures two payment methods are considered the same if their `id` matches,
+  // even if they are different instances (useful for list operations, Radio button selection, etc.).
+  // Without this, `Radio` groupValue comparison may fail due to object reference mismatch.
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ItemPaymentMethodsList && runtimeType == other.runtimeType && _id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

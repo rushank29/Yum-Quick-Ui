@@ -176,7 +176,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
       );
     }
-    if (widget.setError && errorMessageSubject.valueOrNull!=null) {
+    if (widget.setError) {
       icons.add(
         StreamBuilder<String?>(
           stream: errorMessageSubject,

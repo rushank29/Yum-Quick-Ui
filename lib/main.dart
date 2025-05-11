@@ -16,10 +16,11 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Choose your desired color
-      statusBarIconBrightness: Brightness.light, // Or Brightness.dark for dark icons
+      statusBarIconBrightness: Brightness.dark, // Or Brightness.dark for dark icons
+      statusBarBrightness: Brightness.light,
       // Optionally, set navigation bar color as well
       systemNavigationBarColor: colorWhite,
-      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
   SystemChrome.setPreferredOrientations([

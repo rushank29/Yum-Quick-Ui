@@ -18,6 +18,7 @@ double textSize32px = deviceAvgScreenSize * 0.05724;  //  32
 
 double progressSize20px = deviceAvgScreenSize * 0.03579;  //  20
 
+double iconSize15px = deviceAvgScreenSize * 0.026834;  //  12
 double iconSize20px = deviceAvgScreenSize * 0.03579;  //  20
 double iconSize24px = deviceAvgScreenSize * 0.04294;  //  24
 double iconSize28px = deviceAvgScreenSize * 0.05009;  //  28
@@ -39,6 +40,7 @@ double commonSize45px = deviceAvgScreenSize * 0.0805;  //  45
 double commonSize50px = deviceAvgScreenSize * 0.08945;  //  50
 double commonSize62px = deviceAvgScreenSize * 0.1109;  //  62
 double commonSize75px = deviceAvgScreenSize * 0.134168;  //  75
+double commonSize80px = deviceAvgScreenSize * 0.143113;  //  80
 double commonSize120px = deviceAvgScreenSize * 0.21467;  //  120
 double commonSize128px = deviceAvgScreenSize * 0.229;  //  128
 

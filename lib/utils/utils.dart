@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ui/constant/colors.dart';
@@ -118,6 +119,15 @@ String getAmountWithCurrency(dynamic amount) {
 void logout(BuildContext context) {
   FirebaseAuth.instance.signOut();
   clearPrefWithSomeRemainingData();
+  openScreenWithClearPrevious(context: context, screen: const SplashScreen());
+}
+
+Future<void> deleteAccount(BuildContext context) async {
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref("${FirebaseAuth.instance.currentUser?.uid}");
+  await dbRef.remove();
+  FirebaseAuth.instance.currentUser?.delete();
+  clearPrefWithSomeRemainingData();
+  if (!context.mounted) return;
   openScreenWithClearPrevious(context: context, screen: const SplashScreen());
 }
 

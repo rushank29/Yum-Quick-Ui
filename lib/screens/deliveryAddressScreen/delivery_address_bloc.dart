@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/utils/response_util.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
 import 'addNewAddressScreen/add_new_address_screen.dart';
 import 'delivery_address_dl.dart';
@@ -15,20 +15,29 @@ class DeliveryAddressBloc {
   final selectedDeliveryAddressSubject = BehaviorSubject<ItemDeliveryAddressList?>();
 
   DeliveryAddressBloc(this.context) {
-    getDeliveryAddressList();
-    loadAddress();
+    getDeliveryAddressList().then((_) => loadAddress());
   }
 
-  void getDeliveryAddressList({ItemDeliveryAddressList? newAddress, bool isAddressToBeAdded = false}) async {
+  Future<void> getDeliveryAddressList({ItemDeliveryAddressList? newAddress, bool isAddressToBeAdded = false}) async {
     try {
       subject.sink.add(ResponseUtil.loading());
       await Future.delayed(const Duration(seconds: 1));
 
       var response = DeliveryAddressPojo.fromJson(deliveryAddressJson);
       subject.sink.add(ResponseUtil.completed(response));
+
       if (newAddress != null && isAddressToBeAdded) {
-        subject.valueOrNull?.data?.deliveryAddressList.add(newAddress);
-        subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        final list = subject.valueOrNull?.data?.deliveryAddressList;
+        final exists = list?.any((addr) => addr.addressId == newAddress.addressId) ?? false;
+
+        if (!exists) {
+          list?.add(newAddress);
+          subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        }
+
+        // Save and set the new address as selected
+        await setJsonString(prefSavedAddress, newAddress);
+        selectedDeliveryAddressSubject.sink.add(newAddress);
       }
     } catch (error) {
       subject.sink.add(ResponseUtil.error(error.toString()));
@@ -54,20 +63,26 @@ class DeliveryAddressBloc {
   }
 
   Future<void> loadAddress() async {
-    await Future.delayed(const Duration(seconds: 1));
-    final ItemDeliveryAddressList? savedAddress = await getObjectFromPrefs<ItemDeliveryAddressList>(
+    final savedAddress = await getObjectFromPrefs<ItemDeliveryAddressList>(
       prefSavedAddress,
-      (json) => ItemDeliveryAddressList.fromJson(json),
+          (json) => ItemDeliveryAddressList.fromJson(json),
     );
 
-    if (savedAddress != null) {
-      print("savedAddress ==============> ${savedAddress.addressName}");
-      if (!(subject.valueOrNull?.data?.deliveryAddressList ?? []).contains(savedAddress)) {
-        subject.valueOrNull?.data?.deliveryAddressList.add(savedAddress);
+    final deliveryList = subject.valueOrNull?.data?.deliveryAddressList;
+
+    if (savedAddress != null && deliveryList != null) {
+      final existingIndex = deliveryList.indexWhere(
+            (item) => item.addressId == savedAddress.addressId,
+      );
+
+      if (existingIndex == -1) {
+        deliveryList.add(savedAddress);
+        subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
       }
+
       selectedDeliveryAddressSubject.sink.add(savedAddress);
     } else {
-      print('No address found');
+      print('No address found in prefs or delivery list not ready.');
     }
   }
 

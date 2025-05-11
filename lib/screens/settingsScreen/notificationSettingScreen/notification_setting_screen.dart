@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
+import 'package:food_ui/screens/settingsScreen/notificationSettingScreen/notification_setting_shimmer.dart';
 import '../../../constant/dimensions.dart';
 import '../../../customWidget/common_bg_screen.dart';
 import 'notification_setting_bloc.dart';
@@ -36,7 +37,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           List<ItemNotificationSettingList> notificationSettingList = data?.notificationSettingList ?? [];
           switch (snapNotificationSetting.data?.status ?? Status.loading) {
             case Status.loading:
-              return Container();
+              return const NotificationSettingShimmer();
             case Status.completed:
               return _notificationSettingBody(notificationSettingList);
             case Status.error:

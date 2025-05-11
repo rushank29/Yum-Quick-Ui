@@ -1,7 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ui/screens/homeMainV1/drawerCart/drawer_cart_screen.dart';
+import 'package:food_ui/screens/homeMainV1/drawerNotification/drawer_notification.dart';
+import 'package:food_ui/screens/homeMainV1/drawerNotification/drawer_notification_dl.dart';
+import 'package:food_ui/utils/response_util.dart';
 import '../../constant/colors.dart';
+import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_image.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
@@ -53,124 +58,13 @@ class _HomeMainV1State extends State<HomeMainV1> {
             ? currentUser.displayName!
             : prefs!.getString(prefUserName)!;
         return Scaffold(
-          endDrawer: Drawer(
-            backgroundColor: colorPrimary,
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusDirectional.only(
-                topStart: Radius.circular(borderRadius30px),
-                bottomStart: Radius.circular(borderRadius30px),
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.only(
-                      top: commonPadding300px * 0.2,
-                      bottom: commonPadding20px * 2,
-                      start: commonPadding32px,
-                      end: commonPadding10px * 1.5,
-                    ),
-                    child: Row(
-                      children: [
-                        CustomImage(
-                          imagePath: currentUser?.photoURL ?? "",
-                          showDefaultImage: true,
-                          width: commonSize50px,
-                          height: commonSize50px,
-                        ),
-                        SizedBox(width: commonPadding10px),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  userDisplayName,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bodyText(
-                                    fontSize: textSize32px,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  currentUser?.email ?? prefs!.getString(prefUserEmail)!,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bodyText(
-                                      fontSize: textSize16px,
-                                      fontWeight: FontWeight.w500,
-                                      textColor: colorFormFieldBg),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: drawerList.asMap().entries.map((entry) {
-                      int drawerIndex = entry.key;
-                      ItemDrawer item = entry.value;
-                      return Container(
-                        color: Colors.transparent,
-                        margin: EdgeInsets.symmetric(
-                          horizontal: commonPadding16px,
-                        ),
-                        child: GestureDetector(
-                          onTap: item.onTap,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(commonPadding10px),
-                                    decoration: BoxDecoration(
-                                      color: colorMainBackground,
-                                      borderRadius: BorderRadius.circular(borderRadius30px * 0.5),
-                                    ),
-                                    child: SvgPicture.asset(
-                                      item.iconPath,
-                                      height: commonSize45px * 0.5,
-                                      width: commonSize45px * 0.5,
-                                    ),
-                                  ),
-                                  SizedBox(width: commonPadding16px),
-                                  Text(
-                                    item.title,
-                                    style: bodyText(
-                                      fontSize: textSize24px,
-                                      fontWeight: FontWeight.w500,
-                                      textColor: colorFormFieldBg,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                  vertical: commonPadding10px,
-                                ),
-                                child: (drawerIndex != drawerList.length - 1)
-                                    ? Divider(color: colorDividerOrange)
-                                    : const SizedBox.shrink(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          endDrawer: StreamBuilder<int>(
+              stream: selectedDrawerIndexSubject,
+              builder: (context, snapDrawerIndex) {
+                int selectedDrawerIndex = snapDrawerIndex.data ?? 1;
+                print("selectedDrawerIndex ================> $selectedDrawerIndex");
+                return _getDrawerData(currentUser, drawerList, userDisplayName, selectedDrawerIndex);
+              }),
           body: <Widget>[
             const HomeScreen(),
             Container(),
@@ -184,6 +78,224 @@ class _HomeMainV1State extends State<HomeMainV1> {
           ),
         );
       },
+    );
+  }
+
+  Widget _getDrawerData(
+      User? currentUser, List<ItemDrawer> drawerList, String userDisplayName, int selectedDrawerIndex) {
+    return Drawer(
+      backgroundColor: colorPrimary,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusDirectional.only(
+          topStart: Radius.circular(borderRadius30px),
+          bottomStart: Radius.circular(borderRadius30px),
+        ),
+      ),
+      child: (selectedDrawerIndex == 1)
+          ? _profileDrawer(currentUser, drawerList, userDisplayName)
+          : (selectedDrawerIndex == 2)
+              ? _notificationDrawer()
+              : _cartDrawer(),
+    );
+  }
+
+  Widget _cartDrawer() {
+    return SingleChildScrollView(
+      padding: EdgeInsetsDirectional.only(start: commonPadding32px, end: commonPadding32px),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+              top: commonPadding300px * 0.2,
+              bottom: commonPadding20px * 2,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsetsDirectional.all(commonPadding10px*0.6),
+                  decoration: BoxDecoration(
+                  color: colorMainBackground,
+                    shape: BoxShape.circle,
+
+                  ),
+                  child: SvgPicture.asset(
+                    "assets/svg/cart.svg",
+                    height: iconSize33px,
+                    width: iconSize24px,
+                    colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
+                  ),
+                ),
+                SizedBox(width: commonPadding10px),
+                Text(
+                  "Cart",
+                  style: bodyText(
+                    fontSize: textSize24px,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(color: colorPeach),
+          DrawerCartScreen(),
+        ],
+      ),
+    );
+  }
+
+  Widget _notificationDrawer() {
+    return SingleChildScrollView(
+        padding: EdgeInsetsDirectional.only(start: commonPadding32px, end: commonPadding32px),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+              top: commonPadding300px * 0.2,
+              bottom: commonPadding20px * 2,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg/bell.svg",
+                  height: iconSize33px,
+                  width: iconSize24px,
+                  colorFilter: ColorFilter.mode(colorTextCommon, BlendMode.srcIn),
+                ),
+                SizedBox(width: commonPadding10px),
+                Text(
+                  "Notifications",
+                  style: bodyText(
+                    fontSize: textSize24px,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(color: colorDividerOrange),
+          StreamBuilder<ResponseUtil<DrawerNotificationPojo>>(
+              stream: _bloc?.subjectDrawerNotification,
+              builder: (context, snapDrawerNotification) {
+                List<ItemDrawerNotificationList> drawerNotificationList =
+                    snapDrawerNotification.data?.data?.drawerNotificationList ?? [];
+                return DrawerNotification(drawerNotificationList: drawerNotificationList);
+              }),
+        ],
+      ),
+    );
+  }
+
+  Widget _profileDrawer(User? currentUser, List<ItemDrawer> drawerList, String userDisplayName) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+              top: commonPadding300px * 0.2,
+              bottom: commonPadding20px * 2,
+              start: commonPadding32px,
+              end: commonPadding10px * 1.5,
+            ),
+            child: Row(
+              children: [
+                CustomImage(
+                  imagePath: currentUser?.photoURL ?? "",
+                  showDefaultImage: true,
+                  width: commonSize50px,
+                  height: commonSize50px,
+                ),
+                SizedBox(width: commonPadding10px),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          userDisplayName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: bodyText(
+                            fontSize: textSize32px,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          currentUser?.email ?? prefs!.getString(prefUserEmail)!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: bodyText(
+                              fontSize: textSize16px,
+                              fontWeight: FontWeight.w500,
+                              textColor: colorFormFieldBg),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            children: drawerList.asMap().entries.map((entry) {
+              int drawerIndex = entry.key;
+              ItemDrawer item = entry.value;
+              return Container(
+                color: Colors.transparent,
+                margin: EdgeInsets.symmetric(
+                  horizontal: commonPadding16px,
+                ),
+                child: GestureDetector(
+                  onTap: item.onTap,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(commonPadding10px),
+                            decoration: BoxDecoration(
+                              color: colorMainBackground,
+                              borderRadius: BorderRadius.circular(borderRadius30px * 0.5),
+                            ),
+                            child: SvgPicture.asset(
+                              item.iconPath,
+                              height: commonSize45px * 0.5,
+                              width: commonSize45px * 0.5,
+                            ),
+                          ),
+                          SizedBox(width: commonPadding16px),
+                          Text(
+                            item.title,
+                            style: bodyText(
+                              fontSize: textSize24px,
+                              fontWeight: FontWeight.w500,
+                              textColor: colorFormFieldBg,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: commonPadding10px,
+                        ),
+                        child: (drawerIndex != drawerList.length - 1)
+                            ? Divider(color: colorDividerOrange)
+                            : const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }

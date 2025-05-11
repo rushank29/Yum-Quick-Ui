@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/screens/contactUsScreen/contact_us_screen.dart';
-import 'package:food_ui/screens/deliveryAddressScreen/delivery_address_screen.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_screen.dart';
-import 'package:food_ui/screens/myProfileScreen/my_profile_screen.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_screen.dart';
-import 'package:food_ui/screens/settingsScreen/settings_screen.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import '../../utils/response_util.dart';
+import '../contactUsScreen/contact_us_screen.dart';
+import '../deliveryAddressScreen/delivery_address_screen.dart';
+import '../myOrdersScreen/my_orders_screen.dart';
+import '../myProfileScreen/my_profile_screen.dart';
+import '../paymentMethodsScreen/payment_methods_screen.dart';
+import '../settingsScreen/settings_screen.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../constant/constant.dart';
 import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
+import 'drawerNotification/drawer_notification_dl.dart';
+import 'drawerNotification/drawer_notification_json.dart';
 
 class HomeMainV1Bloc {
   final BuildContext context;
 
-  HomeMainV1Bloc(this.context);
+  HomeMainV1Bloc(this.context){
+    getDrawerNotificationList();
+  }
 
   final currentNavBarIndexSubject = BehaviorSubject<int>();
+  final subjectDrawerNotification = BehaviorSubject<ResponseUtil<DrawerNotificationPojo>>();
 
   List<ItemBottomNavBar> getBottomNavBarList({required Function(int index) onSelected}) {
     return [
@@ -223,7 +229,19 @@ class HomeMainV1Bloc {
     );
   }
 
+  void getDrawerNotificationList() async {
+    try {
+      subjectDrawerNotification.sink.add(ResponseUtil.loading());
+      var response = DrawerNotificationPojo.fromJson(drawerNotificationJson);
+      subjectDrawerNotification.sink.add(ResponseUtil.completed(response));
+    } catch (error) {
+      subjectDrawerNotification.sink.add(ResponseUtil.error(error.toString()));
+      openSimpleSnackBar(error.toString());
+    }
+  }
+
   void dispose() {
     currentNavBarIndexSubject.close();
+    subjectDrawerNotification.close();
   }
 }

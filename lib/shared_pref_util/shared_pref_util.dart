@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
+import 'shared_pref_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences? prefs;
@@ -43,7 +43,7 @@ Future<void> clearPrefWithSomeRemainingData() async {
 }
 
 Future<void> setJsonString(String key, dynamic data) async {
-  String jsonString = json.encode(data.toJson());
+  String jsonString = jsonEncode(data.toJson());
   await prefs?.setString(key, jsonString);
 }
 
@@ -55,7 +55,7 @@ Future<T?> getObjectFromPrefs<T>(
   final jsonString = prefs.getString(key);
 
   if (jsonString != null) {
-    final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     return fromJson(jsonMap);
   }
 

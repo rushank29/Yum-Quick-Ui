@@ -60,7 +60,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                       ? _deliveryAddressBody(data)
                       : const NoRecordFound();
                 case Status.error:
-                  return const NoRecordFound();
+                  return const NoRecordFound(message: "You don't have any delivery addresses set, currently.");
               }
             },
           ),
@@ -151,7 +151,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                 value: itemDeliveryAddress,
                                 groupValue: snapSelectedDeliveryAddress.data,
                                 onChanged: (value) {
-                                  setJsonString(prefSavedAddress, value!);
+                                  setJsonString(prefSavedAddress, itemDeliveryAddress);
                                   _bloc?.loadAddress();
                                 },
                               ),

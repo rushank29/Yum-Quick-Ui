@@ -1,3 +1,5 @@
+import 'package:rxdart/rxdart.dart';
+
 enum Status { loading, completed, error }
 
 enum BottomNavBarItem { home, dishes, favorite, orderHistory, helpAndSupport }
@@ -14,3 +16,5 @@ enum DrawerItem {
 }
 
 enum SettingItem { notificationSetting, passwordSetting, deleteAccount }
+
+final selectedDrawerIndexSubject = BehaviorSubject<int>.seeded(1);

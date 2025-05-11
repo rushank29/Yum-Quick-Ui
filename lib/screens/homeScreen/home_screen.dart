@@ -1,18 +1,19 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/constant.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/screens/homeScreen/home_bloc.dart';
-import 'package:food_ui/screens/homeScreen/home_dl.dart';
-import 'package:food_ui/screens/homeScreen/home_shimmer.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
+import '../../constant/colors.dart';
+import '../../constant/constant.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/custom_image.dart';
+import '../../customWidget/custom_text_form_field.dart';
+import 'home_bloc.dart';
+import 'home_dl.dart';
+import 'home_shimmer.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,11 +87,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(width: commonPadding32px),
-                      _commonHeaderIcon("assets/svg/cart.svg"),
+                      GestureDetector(
+                        onTap: () {
+                            selectedDrawerIndexSubject.sink.add(3);
+                        },
+                        child: _commonHeaderIcon("assets/svg/cart.svg"),
+                      ),
                       SizedBox(width: commonPadding10px * 0.7),
-                      _commonHeaderIcon("assets/svg/bell.svg"),
+                      GestureDetector(
+                        onTap: () {
+                            selectedDrawerIndexSubject.sink.add(2);
+                        },
+                        child: _commonHeaderIcon("assets/svg/bell.svg"),
+                      ),
                       SizedBox(width: commonPadding10px * 0.7),
-                      _commonHeaderIcon("assets/svg/person.svg"),
+                      GestureDetector(
+                          onTap: () {
+                            selectedDrawerIndexSubject.sink.add(1);
+                          },
+                          child: _commonHeaderIcon("assets/svg/person.svg")),
                       SizedBox(width: commonPadding32px),
                     ],
                   ),
@@ -219,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsetsDirectional.all(commonPadding10px),
                   decoration: BoxDecoration(
-                    color: colorFormFieldBg,
+                    color: colorPeach,
                     borderRadius: BorderRadiusDirectional.all(
                       Radius.circular(borderRadius30px),
                     ),
