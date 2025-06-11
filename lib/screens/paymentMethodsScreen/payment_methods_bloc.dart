@@ -57,7 +57,7 @@ class PaymentMethodsBloc {
 
   Future<void> loadPaymentMethod() async {
     final ItemPaymentMethodsList? savedMethod = await getObjectFromPrefs<ItemPaymentMethodsList>(
-      prefSelectedPaymentType,
+      prefSavedPaymentType,
       (json) => ItemPaymentMethodsList.fromJson(json),
     );
 

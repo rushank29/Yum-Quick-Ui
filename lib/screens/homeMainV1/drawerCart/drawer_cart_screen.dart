@@ -6,6 +6,7 @@ import '../../../customWidget/custom_image.dart';
 import '../../../customWidget/custom_rounded_button.dart';
 import '../../../customWidget/keyValuePair/item_key_value_list.dart';
 import '../../../customWidget/keyValuePair/item_key_value_pair_dl.dart';
+import '../../confirmOrderScreen/confirm_order_screen.dart';
 import 'cart_data_dl.dart';
 import 'drawer_cart_bloc.dart';
 import '../../../utils/response_util.dart';
@@ -216,11 +217,18 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
         ),
         CustomRoundedButton(
           buttonText: "Checkout",
-          onPressed: () {},
+          onPressed: () {
+            openScreen(
+              context: context,
+              screen: ConfirmOrderScreen(
+                subjectCartData: _bloc?.subjectCartData,
+                subjectKeyValueList: _bloc?.subjectKeyValueList,
+              ),
+            );
+          },
           fontSize: textSize24px,
           backgroundColor: colorPeach,
           textColor: colorPrimary,
-          borderColor: colorPrimaryLight,
           margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding35px),
           padding: EdgeInsetsDirectional.only(
             start: commonPadding10px,

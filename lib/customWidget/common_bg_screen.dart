@@ -10,6 +10,7 @@ class CommonBackgroundWidget extends StatelessWidget {
   final EdgeInsetsDirectional? bodyPadding;
   final Widget bodyWidget;
   final Color? bodyBgColor;
+  final void Function()? onBackPressed;
 
   const CommonBackgroundWidget({
     super.key,
@@ -18,6 +19,7 @@ class CommonBackgroundWidget extends StatelessWidget {
     this.bodyPadding,
     required this.bodyWidget,
     this.bodyBgColor,
+    this.onBackPressed,
   });
 
   @override
@@ -48,9 +50,10 @@ class CommonBackgroundWidget extends StatelessWidget {
                       children: [
                         if (pageTitle != null) ...[
                           GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
+                            onTap: onBackPressed ??
+                                () {
+                                  Navigator.pop(context);
+                                },
                             child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
                           ),
                           Expanded(

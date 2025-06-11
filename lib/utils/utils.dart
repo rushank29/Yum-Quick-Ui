@@ -175,7 +175,7 @@ void showDateSelector({
 String getPaymentMethodName(int paymentType, {String cardNumber = ""}) {
   switch (paymentType) {
     case 1:
-      return getArrangedCardNumber(cardNumber);
+      return cardNumber.isNotEmpty ? getArrangedCardNumber(cardNumber) : "Credit Card";
     case 2:
       return "Apple Pay";
     case 3:

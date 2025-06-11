@@ -8,7 +8,9 @@ import '../../utils/text_style.dart';
 
 class ItemKeyValueList extends StatelessWidget {
   final ItemKeyValuePair itemKeyValue;
-  const ItemKeyValueList({super.key, required this.itemKeyValue});
+  final TextStyle? fontStyle;
+  final Color? dividerColor;
+  const ItemKeyValueList({super.key, required this.itemKeyValue, this.fontStyle, this.dividerColor});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ItemKeyValueList extends StatelessWidget {
             vertical: itemKeyValue.showDivider ? commonPadding10px : commonPadding10px * 0.8,
           ),
           child: itemKeyValue.showDivider
-              ? DottedLine(dashColor: colorTextCommon)
+              ? DottedLine(dashColor: dividerColor ?? colorTextCommon)
               : const SizedBox.shrink(),
         ),
         Row(
@@ -28,11 +30,11 @@ class ItemKeyValueList extends StatelessWidget {
           children: [
             Text(
               itemKeyValue.title,
-              style: bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
+              style: fontStyle?? bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
             ),
             Text(
               itemKeyValue.value,
-              style: bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
+              style:fontStyle?? bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
             ),
           ],
         ),

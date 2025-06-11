@@ -11,12 +11,14 @@ class CartDataPojo {
     dynamic taxAndFees,
     dynamic deliveryFees,
     dynamic total,
+    String? estimatedDelivery,
   }) {
     _cartList = cartList;
     _subtotal = subtotal;
     _taxAndFees = taxAndFees;
     _deliveryFees = deliveryFees;
     _total = total;
+    _estimatedDelivery = estimatedDelivery;
   }
 
   CartDataPojo.fromJson(dynamic json) {
@@ -30,6 +32,7 @@ class CartDataPojo {
     _taxAndFees = json['tax_and_fees'];
     _deliveryFees = json['delivery_fees'];
     _total = json['total'];
+    _estimatedDelivery = json['estimated_delivery'];
   }
 
   List<ItemCartList>? _cartList;
@@ -37,6 +40,7 @@ class CartDataPojo {
   dynamic _taxAndFees;
   dynamic _deliveryFees;
   dynamic _total;
+  String? _estimatedDelivery;
 
   List<ItemCartList>? get cartList => _cartList;
 
@@ -47,6 +51,7 @@ class CartDataPojo {
   dynamic get deliveryFees => _deliveryFees ?? 0;
 
   dynamic get total => _total ?? 0;
+  String get estimatedDelivery => _estimatedDelivery ?? "";
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -57,6 +62,7 @@ class CartDataPojo {
     map['tax_and_fees'] = _taxAndFees;
     map['delivery_fees'] = _deliveryFees;
     map['total'] = _total;
+    map['estimated_delivery'] = _estimatedDelivery;
     return map;
   }
 }

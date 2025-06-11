@@ -80,11 +80,10 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 StreamBuilder<ItemPaymentMethodsList?>(
                   stream: _bloc?.selectedPaymentMethodSubject,
                   builder: (context, snapSelectedPaymentType) {
-                    bool isSelected = snapSelectedPaymentType.data == itemPaymentMethods;
                     return InkWell(
                       onTap: () {
                         _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
-                        setJsonString(prefSelectedPaymentType, itemPaymentMethods);
+                        setJsonString(prefSavedPaymentType, itemPaymentMethods);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +112,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                             groupValue: snapSelectedPaymentType.data,
                             onChanged: (value) {
                               _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
-                              setJsonString(prefSelectedPaymentType, itemPaymentMethods);
+                              setJsonString(prefSavedPaymentType, itemPaymentMethods);
                             },
                           ),
                         ],

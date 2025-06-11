@@ -34,6 +34,7 @@ double commonPadding24px = deviceAvgScreenSize * 0.04294;  //  24
 double commonPadding28px = deviceAvgScreenSize * 0.05009;  //  28
 double commonPadding32px = deviceAvgScreenSize * 0.05724;  //  32
 double commonPadding35px = deviceAvgScreenSize * 0.062612;  //  35
+double commonPadding50px = deviceAvgScreenSize * 0.08945;  //  50
 double commonPadding300px = deviceAvgScreenSize * 0.5869;  //  300
 
 double commonSize45px = deviceAvgScreenSize * 0.0805;  //  45

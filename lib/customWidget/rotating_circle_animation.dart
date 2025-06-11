@@ -1,19 +1,24 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
+import 'package:rxdart/subjects.dart';
 
 import '../constant/dimensions.dart';
 
 class RotatingCircleAnimation extends StatefulWidget {
-  const RotatingCircleAnimation({super.key});
+  final bool isForPaymentConfirmation;
+
+  const RotatingCircleAnimation({super.key, required this.isForPaymentConfirmation});
 
   @override
   State<RotatingCircleAnimation> createState() => _RotatingCircleAnimationState();
 }
 
-class _RotatingCircleAnimationState extends State<RotatingCircleAnimation>
-    with SingleTickerProviderStateMixin {
+class _RotatingCircleAnimationState extends State<RotatingCircleAnimation> with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _tickController;
+  late Animation<double> _tickScaleAnimation;
+  final isAnimationCompleteSubject = BehaviorSubject<bool>.seeded(false);
 
   @override
   void initState() {
@@ -22,12 +27,20 @@ class _RotatingCircleAnimationState extends State<RotatingCircleAnimation>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
+
     _handleTimedAnimation();
+    _tickController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _tickScaleAnimation = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: _tickController, curve: Curves.easeInOutCirc));
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _tickController.dispose();
     super.dispose();
   }
 
@@ -35,10 +48,13 @@ class _RotatingCircleAnimationState extends State<RotatingCircleAnimation>
     await Future.delayed(const Duration(seconds: 4));
     if (mounted) {
       _controller.stop();
+      isAnimationCompleteSubject.sink.add(true);
+      _tickController.forward();
     }
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      Navigator.of(context).pop();
+
+    if (!widget.isForPaymentConfirmation) {
+      await Future.delayed(const Duration(seconds: 2));
+      if (mounted) Navigator.of(context).pop();
     }
   }
 
@@ -53,42 +69,78 @@ class _RotatingCircleAnimationState extends State<RotatingCircleAnimation>
       child: SizedBox(
         width: outerRadius * 2,
         height: outerRadius * 2,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Outer Circle
-            Container(
-              width: outerRadius * 2,
-              height: outerRadius * 2,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colorPrimary, width: borderSide7px),
-              ),
-            ),
-
-            // Rotating Dot Inside Circle
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (_, __) {
-                double angle = _controller.value * 2 * pi;
-                double offsetX = pathRadius * cos(angle);
-                double offsetY = pathRadius * sin(angle);
-
-                return Transform.translate(
-                  offset: Offset(offsetX, offsetY),
-                  child: Container(
-                    width: dotRadius * 2,
-                    height: dotRadius * 2,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: colorPrimary,
+        child: StreamBuilder<bool>(
+            stream: isAnimationCompleteSubject,
+            builder: (context, snapIsAnimComplete) {
+              bool isAnimationCompleted = snapIsAnimComplete.data ?? false;
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Outer Circle - filled or border
+                  if (!isAnimationCompleted)
+                    Container(
+                      width: outerRadius * 2,
+                      height: outerRadius * 2,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (isAnimationCompleted) ? colorPrimary : Colors.transparent,
+                        border: (isAnimationCompleted)
+                            ? null
+                            : Border.all(color: colorPrimary, width: borderSide7px),
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+                  if (isAnimationCompleted)
+                    ScaleTransition(
+                      scale: _tickScaleAnimation,
+                      child: Container(
+                        width: outerRadius * 2,
+                        height: outerRadius * 2,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (isAnimationCompleted) ? colorPrimary : Colors.transparent,
+                          border: (isAnimationCompleted)
+                              ? null
+                              : Border.all(color: colorPrimary, width: borderSide7px),
+                        ),
+                      ),
+                    ),
+
+                  // Rotating Dot
+                  if (!isAnimationCompleted)
+                    AnimatedBuilder(
+                      animation: _controller,
+                      builder: (_, __) {
+                        double angle = _controller.value * 2 * pi;
+                        double offsetX = pathRadius * cos(angle);
+                        double offsetY = pathRadius * sin(angle);
+
+                        return Transform.translate(
+                          offset: Offset(offsetX, offsetY),
+                          child: Container(
+                            width: dotRadius * 2,
+                            height: dotRadius * 2,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: colorPrimary,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                  // Tick Icon when complete & for payment confirmation
+                  if (isAnimationCompleted)
+                    ScaleTransition(
+                      scale: _tickScaleAnimation,
+                      child: Icon(
+                        Icons.check,
+                        color: colorWhite,
+                        size: outerRadius, // adjust as needed
+                      ),
+                    ),
+                ],
+              );
+            }),
       ),
     );
   }

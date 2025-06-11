@@ -22,5 +22,6 @@ Map<String, dynamic> drawerCartJson = {
   "subtotal": 32,
   "tax_and_fees": 5,
   "delivery_fees": 3,
+  "estimated_delivery": "25 mins",
   "total": 40
 };

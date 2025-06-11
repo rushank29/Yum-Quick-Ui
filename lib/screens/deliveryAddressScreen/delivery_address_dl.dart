@@ -78,7 +78,7 @@ class ItemDeliveryAddressList {
 
   // Override equality and hashCode for proper comparison
   //
-  // This ensures two delivery addresses are considered the same if their `id` matches,
+  // This ensures two delivery addresses are considered the same if their 'id' matches,
   // even if they are different instances (useful for list operations, Radio button selection, etc.).
   // Without this, `Radio` groupValue comparison may fail due to object reference mismatch.
   @override

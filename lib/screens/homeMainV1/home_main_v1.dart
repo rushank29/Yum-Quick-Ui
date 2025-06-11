@@ -139,7 +139,7 @@ class _HomeMainV1State extends State<HomeMainV1> {
             ),
           ),
           Divider(color: colorPeach),
-          DrawerCartScreen(),
+          const DrawerCartScreen(),
         ],
       ),
     );

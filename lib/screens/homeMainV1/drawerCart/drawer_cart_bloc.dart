@@ -47,6 +47,7 @@ class DrawerCartBloc {
             deliveryFees: subjectCartData.valueOrNull?.data?.deliveryFees ?? 0,
             taxAndFees: subjectCartData.valueOrNull?.data?.taxAndFees ?? 0,
             total: subjectCartData.valueOrNull?.data?.total ?? 0,
+            estimatedDelivery: subjectCartData.valueOrNull?.data?.estimatedDelivery ?? "",
             cartList: List<ItemCartList>.from(currentList),
           ),
         ),
