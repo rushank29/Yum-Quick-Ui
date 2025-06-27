@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/screens/homeMainV1/drawerCart/drawer_cart_screen.dart';
-import 'package:food_ui/screens/homeMainV1/drawerNotification/drawer_notification.dart';
-import 'package:food_ui/screens/homeMainV1/drawerNotification/drawer_notification_dl.dart';
-import 'package:food_ui/utils/response_util.dart';
+import 'package:food_ui/screens/favoritesScreen/favorites_screen.dart';
+import 'package:food_ui/screens/orderHistory/order_history_screen.dart';
+
+import '../../utils/response_util.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
@@ -14,9 +14,12 @@ import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/text_style.dart';
 import '../../customWidget/customBottomNavBar/custom_bottom_nav_bar.dart';
 import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
-import 'home_main_v1_bloc.dart';
-
+import '../dishesScreen/dishes_screen.dart';
 import '../homeScreen/home_screen.dart';
+import 'drawerCart/drawer_cart_screen.dart';
+import 'drawerNotification/drawer_notification.dart';
+import 'drawerNotification/drawer_notification_dl.dart';
+import 'home_main_v1_bloc.dart';
 
 class HomeMainV1 extends StatefulWidget {
   const HomeMainV1({super.key});
@@ -67,9 +70,9 @@ class _HomeMainV1State extends State<HomeMainV1> {
               }),
           body: <Widget>[
             const HomeScreen(),
-            Container(),
-            Container(),
-            Container(),
+            const DishesScreen(),
+            const FavoritesScreen(),
+            const OrderHistoryScreen(),
             Container(),
           ][currentNavBarIndex],
           bottomNavigationBar: CustomBottomNavBar(
@@ -114,11 +117,10 @@ class _HomeMainV1State extends State<HomeMainV1> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsetsDirectional.all(commonPadding10px*0.6),
+                  padding: EdgeInsetsDirectional.all(commonPadding10px * 0.6),
                   decoration: BoxDecoration(
-                  color: colorMainBackground,
+                    color: colorMainBackground,
                     shape: BoxShape.circle,
-
                   ),
                   child: SvgPicture.asset(
                     "assets/svg/cart.svg",
@@ -147,7 +149,7 @@ class _HomeMainV1State extends State<HomeMainV1> {
 
   Widget _notificationDrawer() {
     return SingleChildScrollView(
-        padding: EdgeInsetsDirectional.only(start: commonPadding32px, end: commonPadding32px),
+      padding: EdgeInsetsDirectional.only(start: commonPadding32px, end: commonPadding32px),
       child: Column(
         children: [
           Padding(

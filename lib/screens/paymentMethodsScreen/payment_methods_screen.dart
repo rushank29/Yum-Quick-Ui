@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import '../../shared_pref_util/shared_pref_util.dart';
-import 'payment_methods_bloc.dart';
-import 'payment_methods_dl.dart';
-import 'payment_screen_shimmer.dart';
-import 'package:food_ui/utils/utils.dart';
 
+import '../../customWidget/common_bg_screen.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
@@ -14,6 +10,10 @@ import '../../customWidget/custom_rounded_button.dart';
 import '../../customWidget/no_record_found.dart';
 import '../../utils/response_util.dart';
 import '../../utils/text_style.dart';
+import 'payment_methods_bloc.dart';
+import 'payment_methods_dl.dart';
+import 'payment_screen_shimmer.dart';
+import 'package:food_ui/utils/utils.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({super.key});

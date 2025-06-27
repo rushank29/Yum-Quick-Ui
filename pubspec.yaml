@@ -53,6 +53,7 @@ dependencies:
   permission_handler: any
   firebase_storage: any
   dotted_line: any
+  tab_container: any
 
 dev_dependencies:
   flutter_test:

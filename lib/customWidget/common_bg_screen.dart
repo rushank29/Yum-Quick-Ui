@@ -9,8 +9,10 @@ class CommonBackgroundWidget extends StatelessWidget {
   final String? pageSubtitle;
   final EdgeInsetsDirectional? bodyPadding;
   final Widget bodyWidget;
+  final Widget? pageTitleWidget;
   final Color? bodyBgColor;
   final void Function()? onBackPressed;
+  final bool showBackButton;
 
   const CommonBackgroundWidget({
     super.key,
@@ -19,7 +21,7 @@ class CommonBackgroundWidget extends StatelessWidget {
     this.bodyPadding,
     required this.bodyWidget,
     this.bodyBgColor,
-    this.onBackPressed,
+    this.onBackPressed, this.pageTitleWidget, this.showBackButton = true,
   });
 
   @override
@@ -49,13 +51,14 @@ class CommonBackgroundWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         if (pageTitle != null) ...[
-                          GestureDetector(
-                            onTap: onBackPressed ??
-                                () {
-                                  Navigator.pop(context);
-                                },
-                            child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
-                          ),
+                          if (showBackButton)
+                            GestureDetector(
+                              onTap: onBackPressed ??
+                                  () {
+                                    Navigator.pop(context);
+                                  },
+                              child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
+                            ),
                           Expanded(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -84,6 +87,19 @@ class CommonBackgroundWidget extends StatelessWidget {
                               ],
                             ),
                           ),
+                        ],
+                        if (pageTitleWidget != null) ...[
+                          if (showBackButton)
+                            GestureDetector(
+                              onTap: onBackPressed ??
+                                  () {
+                                    Navigator.pop(context);
+                                  },
+                              child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
+                            ),
+                          Expanded(
+                            child: pageTitleWidget!,
+                          )
                         ],
                       ],
                     ),

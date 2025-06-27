@@ -35,26 +35,91 @@ Map<String, dynamic> homeJson = {
       "category_id": 1,
       "category_name": "Snacks",
       "category_icon": "assets/svg/snacks.svg",
+      "top_rated": 4,
+      "sub_categories": [
+        {"id": 1, "name": "Bruschetta"},
+        {"id": 2, "name": "Spring Rolls"},
+        {"id": 3, "name": "Crepes"},
+        {"id": 4, "name": "Wings"},
+        {"id": 5, "name": "Skewers"},
+        {"id": 6, "name": "Salmon"},
+        {"id": 7, "name": "Mexican"},
+        {"id": 8, "name": "Baked"},
+        {"id": 9, "name": "Appetizer"}
+      ],
+      "selected_price": 10
     },
     {
       "category_id": 2,
       "category_name": "Meal",
       "category_icon": "assets/svg/meals.svg",
+      "top_rated": 2,
+      "sub_categories": [
+        {"id": 1, "name": "Sushi"},
+        {"id": 2, "name": "Pizza"},
+        {"id": 3, "name": "Chicken"},
+        {"id": 4, "name": "Curry"},
+        {"id": 5, "name": "Burger"},
+        {"id": 6, "name": "Cheese"},
+        {"id": 7, "name": "Fresh Prawn"},
+        {"id": 8, "name": "Ceviche"},
+        {"id": 9, "name": "Pad Thai"}
+      ],
+      "selected_price": 50
     },
     {
       "category_id": 3,
       "category_name": "Vegan",
       "category_icon": "assets/svg/vegan.svg",
+      "top_rated": 4,
+      "sub_categories": [
+        {"id": 1, "name": "Bean Burger"},
+        {"id": 2, "name": "Lasagna"},
+        {"id": 3, "name": "Pizza"},
+        {"id": 4, "name": "Mushroom"},
+        {"id": 5, "name": "Risotto"},
+        {"id": 6, "name": "Brocolli"},
+        {"id": 7, "name": "Hummus"},
+        {"id": 8, "name": "Quinoa"},
+        {"id": 9, "name": "Salad"}
+      ],
+      "selected_price": 10
     },
     {
       "category_id": 4,
       "category_name": "Dessert",
       "category_icon": "assets/svg/desserts.svg",
+      "top_rated": 3,
+      "sub_categories": [
+        {"id": 1, "name": "Crepes"},
+        {"id": 2, "name": "Macarons"},
+        {"id": 3, "name": "Cupcakes"},
+        {"id": 4, "name": "Ice cream"},
+        {"id": 5, "name": "Flan"},
+        {"id": 6, "name": "Cheesecake"},
+        {"id": 7, "name": "Chocolate"},
+        {"id": 8, "name": "Cakes"},
+        {"id": 9, "name": "Brownie"}
+      ],
+      "selected_price": 50
     },
     {
       "category_id": 5,
       "category_name": "Drinks",
       "category_icon": "assets/svg/drinks.svg",
+      "top_rated": 5,
+      "sub_categories": [
+        {"id": 1, "name": "Coffee"},
+        {"id": 2, "name": "Cocktail"},
+        {"id": 3, "name": "Juice"},
+        {"id": 4, "name": "Milkshake"},
+        {"id": 5, "name": "Wine"},
+        {"id": 6, "name": "Piña Colada"},
+        {"id": 7, "name": "Mojito"},
+        {"id": 8, "name": "Craft Beer"},
+        {"id": 9, "name": "Ice Tea"}
+      ],
+      "selected_price": 100
     },
   ],
   "best_seller_food_items": [
@@ -89,30 +154,130 @@ Map<String, dynamic> homeJson = {
       "slider_image": "assets/images/home_page_slider.png",
       "slider_msg1": "Experience our delicious new dish",
       "slider_msg2": "30% OFF",
+      "product_item": [
+        {
+          "dish_image": "assets/images/pizza.png",
+          "dish_name": "Pizza with Pepperoni and Cheese",
+          "short_description":
+          "Pizza, made from a fresh dough, a gritted cheese, with a taste of pepperoni.",
+          "dish_rating": 14.0,
+          "dish_price": 14.0,
+          "dish_full_price": 20.0,
+          "is_favorite": 1,
+          "full_description":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "topping_list": [
+            {"id": 1, "price": 0.0, "name": "Personal (4 Slides)"},
+            {"id": 2, "price": 3.0, "name": "Medium (8 Slides)"},
+            {"id": 3, "price": 6.0, "name": "Familiar (10 Slides)"},
+            {"id": 4, "price": 10.0, "name": "Jumbo (12 Slides)"}
+          ]
+        }
+      ]
     },
     {
       "slider_id": 2,
       "slider_image": "assets/images/home_page_slider.png",
       "slider_msg1": "Experience our delicious new dish",
       "slider_msg2": "30% OFF",
+      "product_item": [
+        {
+          "dish_image": "assets/images/pizza.png",
+          "dish_name": "Pizza with Pepperoni and Cheese",
+          "short_description":
+          "Pizza, made from a fresh dough, a gritted cheese, with a taste of pepperoni.",
+          "dish_rating": 14.0,
+          "dish_price": 14.0,
+          "dish_full_price": 20.0,
+          "is_favorite": 0,
+          "full_description":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "topping_list": [
+            {"id": 1, "price": 0.0, "name": "Personal (4 Slides)"},
+            {"id": 2, "price": 3.0, "name": "Medium (8 Slides)"},
+            {"id": 3, "price": 6.0, "name": "Familiar (10 Slides)"},
+            {"id": 4, "price": 10.0, "name": "Jumbo (12 Slides)"}
+          ]
+        }
+      ]
     },
     {
       "slider_id": 3,
       "slider_image": "assets/images/home_page_slider.png",
       "slider_msg1": "Experience our delicious new dish",
       "slider_msg2": "30% OFF",
+      "product_item": [
+        {
+          "dish_image": "assets/images/pizza.png",
+          "dish_name": "Pizza with Pepperoni and Cheese",
+          "short_description":
+          "Pizza, made from a fresh dough, a gritted cheese, with a taste of pepperoni.",
+          "dish_rating": 14.0,
+          "dish_price": 14.0,
+          "dish_full_price": 20.0,
+          "is_favorite": 0,
+          "full_description":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "topping_list": [
+            {"id": 1, "price": 0.0, "name": "Personal (4 Slides)"},
+            {"id": 2, "price": 3.0, "name": "Medium (8 Slides)"},
+            {"id": 3, "price": 6.0, "name": "Familiar (10 Slides)"},
+            {"id": 4, "price": 10.0, "name": "Jumbo (12 Slides)"}
+          ]
+        }
+      ]
     },
     {
       "slider_id": 4,
       "slider_image": "assets/images/home_page_slider.png",
       "slider_msg1": "Experience our delicious new dish",
       "slider_msg2": "30% OFF",
+      "product_item": [
+        {
+          "dish_image": "assets/images/pizza.png",
+          "dish_name": "Pizza with Pepperoni and Cheese",
+          "short_description":
+          "Pizza, made from a fresh dough, a gritted cheese, with a taste of pepperoni.",
+          "dish_rating": 14.0,
+          "dish_price": 14.0,
+          "dish_full_price": 20.0,
+          "is_favorite": 1,
+          "full_description":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "topping_list": [
+            {"id": 1, "price": 0.0, "name": "Personal (4 Slides)"},
+            {"id": 2, "price": 3.0, "name": "Medium (8 Slides)"},
+            {"id": 3, "price": 6.0, "name": "Familiar (10 Slides)"},
+            {"id": 4, "price": 10.0, "name": "Jumbo (12 Slides)"}
+          ]
+        }
+      ]
     },
     {
       "slider_id": 5,
       "slider_image": "assets/images/home_page_slider.png",
       "slider_msg1": "Experience our delicious new dish",
       "slider_msg2": "30% OFF",
+      "product_item": [
+        {
+          "dish_image": "assets/images/pizza.png",
+          "dish_name": "Pizza with Pepperoni and Cheese",
+          "short_description":
+          "Pizza, made from a fresh dough, a gritted cheese, with a taste of pepperoni.",
+          "dish_rating": 14.0,
+          "dish_price": 14.0,
+          "dish_full_price": 20.0,
+          "is_favorite": 0,
+          "full_description":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "topping_list": [
+            {"id": 1, "price": 0.0, "name": "Personal (4 Slides)"},
+            {"id": 2, "price": 3.0, "name": "Medium (8 Slides)"},
+            {"id": 3, "price": 6.0, "name": "Familiar (10 Slides)"},
+            {"id": 4, "price": 10.0, "name": "Jumbo (12 Slides)"}
+          ]
+        }
+      ]
     },
   ],
   "recommended_food_items": [

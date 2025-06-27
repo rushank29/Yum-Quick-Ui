@@ -133,7 +133,8 @@ class _SocialLoginUtilState extends State<SocialLoginUtil> {
         },
       );
     } catch (error) {
-      openSimpleSnackBar('Error occurred while signing you in, $error');
+      print('Error occurred while signing you in, $error');
+      // openSimpleSnackBar('Error occurred while signing you in, $error');
     }
   }
 

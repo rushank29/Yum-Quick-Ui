@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/screens/paymentConfirmationScreen/payment_confirmation_screen.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../paymentConfirmationScreen/payment_confirmation_screen.dart';
 import '../../customWidget/custom_image.dart';
 import '../../customWidget/custom_rounded_button.dart';
 import '../../customWidget/keyValuePair/item_key_value_list.dart';

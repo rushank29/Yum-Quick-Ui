@@ -4,6 +4,7 @@ Color colorPrimary = const Color(0xffE95322);
 Color colorPrimaryLight = const Color(0xffFFDECF);
 Color colorCommonBackground = const Color(0xffF5CB58);
 Color colorTextCommon = const Color(0xffF8F8F8);
+Color colorTextCommonBlack = const Color(0xff070707);
 Color colorPeach = const Color(0xffF3E9B5);
 Color colorWhite = const Color(0xffFFFFFF);
 Color colorCommonBrown = const Color(0xff391713);

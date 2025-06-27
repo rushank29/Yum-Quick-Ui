@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/customWidget/no_record_found.dart';
-import 'package:food_ui/screens/cancelOrderScreen/cancel_order_bloc.dart';
-import 'package:food_ui/screens/cancelOrderScreen/cancel_order_shimmer.dart';
-import 'package:food_ui/screens/cancelOrderScreen/cancellation_reason_list_dl.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_text_form_field.dart';
+import '../../customWidget/no_record_found.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
 import '../../constant/constant.dart';
 import '../../customWidget/custom_rounded_button.dart';
+import 'cancel_order_bloc.dart';
+import 'cancel_order_shimmer.dart';
+import 'cancellation_reason_list_dl.dart';
 
 class CancelOrderScreen extends StatefulWidget {
   const CancelOrderScreen({super.key});

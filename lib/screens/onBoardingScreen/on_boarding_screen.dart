@@ -66,12 +66,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             },
                           ),
                           itemBuilder: (context, index, realIndex) {
+                            OnBoardingPages onBoarding = onBoardingList[index];
                             return Stack(
                               children: [
                                 Positioned.fill(
                                   child: CustomImage(
-                                    imagePath: page.onBoardingImage,
+                                    imagePath: onBoarding.onBoardingImage,
                                     fit: BoxFit.cover,
+                                    borderRadius: BorderRadius.zero,
                                   ),
                                 ),
                                 Positioned(
@@ -167,8 +169,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                 context: context, screen: const SignUpScreen());
                                           }
                                         } else {
-                                          _bloc?.carouselSliderController
-                                              ?.nextPage(); // Optional if using controller
+                                          _bloc?.carouselSliderController?.nextPage();
                                         }
                                       },
                                       buttonText: isLastPage ? "Get Started" : "Next",

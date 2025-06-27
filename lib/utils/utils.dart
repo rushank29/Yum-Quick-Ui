@@ -2,17 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/screens/signUpScreen/sign_up_dl.dart';
-import 'package:food_ui/screens/splashScreen/splash_screen.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/utils/text_style.dart';
 import 'package:intl/intl.dart';
 
+import '../constant/colors.dart';
+import '../constant/dimensions.dart';
+import '../main.dart';
+import '../screens/signUpScreen/sign_up_dl.dart';
+import '../screens/splashScreen/splash_screen.dart';
+import '../shared_pref_util/shared_pref_constants.dart';
 import '../customWidget/custom_rounded_button.dart';
 import '../shared_pref_util/shared_pref_util.dart';
+import 'text_style.dart';
 
 void openScreen({required BuildContext context, required Widget screen}) {
   Navigator.of(context, rootNavigator: true).push(
@@ -248,5 +248,83 @@ Widget commonTabWidget(
     textColor: isTabSelected ? colorWhite : colorPrimary,
     borderColor: isTabSelected ? colorPrimary : colorPrimaryLight,
     padding: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px * 0.6),
+  );
+}
+
+Widget commonHomeHeaderIcon(String image, {bool revertBg = false}) {
+  return Container(
+    margin: EdgeInsetsDirectional.only(start: commonPadding10px * 0.7),
+    padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+    decoration: BoxDecoration(
+      color: revertBg ? colorPrimary : colorWhite,
+      borderRadius: BorderRadiusDirectional.all(Radius.circular(borderRadius10px)),
+    ),
+    child: SvgPicture.asset(
+      image,
+      height: iconSize20px,
+      width: iconSize20px,
+      colorFilter: ColorFilter.mode(revertBg ? colorWhite : colorPrimary, BlendMode.srcIn),
+    ),
+  );
+}
+
+SvgPicture getFoodCategoryTypeIcon(int foodCategoryType) {
+  String icon;
+  switch (foodCategoryType) {
+    case 1:
+      icon = "assets/svg/snacks.svg";
+    case 2:
+      icon = "assets/svg/meals.svg";
+    case 3:
+      icon = "assets/svg/vegan.svg";
+    case 4:
+      icon = "assets/svg/desserts.svg";
+    case 5:
+      icon = "assets/svg/drinks.svg";
+    default:
+      icon = "assets/svg/snacks.svg";
+  }
+  return SvgPicture.asset(
+    icon,
+    height: iconSize20px,
+    width: iconSize20px,
+    colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
+  );
+}
+
+Widget getOrderStatusWidget(int orderStatus) {
+  String text;
+  String icon;
+  switch (orderStatus) {
+    case 1:
+      text = "Pending";
+      icon = "assets/svg/order_delivered_tick.svg";
+    case 2:
+      text = "Order cancelled";
+      icon = "assets/svg/order_cancelled_cross.svg";
+    case 3:
+      text = "Order delivered";
+      icon = "assets/svg/order_delivered_tick.svg";
+    default:
+      text = "Order Pending";
+      icon = "assets/svg/order_delivered_tick.svg";
+  }
+  return Row(
+    children: [
+      SvgPicture.asset(
+        icon,
+        height: iconSize24px * 0.5,
+        width: iconSize24px * 0.5,
+      ),
+      SizedBox(width: commonPadding10px * 0.5),
+      Text(
+        text,
+        style: bodyText(
+          fontSize: textSize14px,
+          fontWeight: FontWeight.w300,
+          textColor: colorPrimary,
+        ),
+      )
+    ],
   );
 }

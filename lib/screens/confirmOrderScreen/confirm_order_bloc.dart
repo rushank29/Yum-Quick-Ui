@@ -84,7 +84,7 @@ class ConfirmOrderBloc {
     keyValueList.add(
       ItemKeyValuePair(title: "Delivery", value: getAmountWithCurrency(deliveryFees)),
     );
-    keyValueList.add(ItemKeyValuePair(title: "Total", value: "$total", showDivider: true));
+    keyValueList.add(ItemKeyValuePair(title: "Total", value: getAmountWithCurrency(total), showDivider: true));
     subjectKeyValueList?.sink.add(keyValueList);
   }
 }

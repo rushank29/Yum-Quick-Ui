@@ -37,6 +37,9 @@ double commonPadding35px = deviceAvgScreenSize * 0.062612;  //  35
 double commonPadding50px = deviceAvgScreenSize * 0.08945;  //  50
 double commonPadding300px = deviceAvgScreenSize * 0.5869;  //  300
 
+double commonSize10px = deviceAvgScreenSize * 0.01789;  //  10
+double commonSize16px = deviceAvgScreenSize * 0.028175;  //  16
+double commonSize28px = deviceAvgScreenSize * 0.05009;  //  28
 double commonSize45px = deviceAvgScreenSize * 0.0805;  //  45
 double commonSize50px = deviceAvgScreenSize * 0.08945;  //  50
 double commonSize62px = deviceAvgScreenSize * 0.1109;  //  62
@@ -47,9 +50,11 @@ double commonSize128px = deviceAvgScreenSize * 0.229;  //  128
 
 double borderRadius10px = deviceAvgScreenSize * 0.01789;  //  10
 double borderRadius13px = deviceAvgScreenSize * 0.02326;  //  13
+double borderRadius15px = deviceAvgScreenSize * 0.026834;  //  15
 double borderRadius20px = deviceAvgScreenSize * 0.03579;  //  20
-double borderRadius32px = deviceAvgScreenSize * 0.05724;  //  32
 double borderRadius30px = deviceAvgScreenSize * 0.05367;  //  30
+double borderRadius32px = deviceAvgScreenSize * 0.05724;  //  32
+double borderRadius36px = deviceAvgScreenSize * 0.060657;  //  36
 
 double circleSize6px = deviceAvgScreenSize * 0.010734;  //  6
 double borderSide7px = deviceAvgScreenSize * 0.012523;  //  7

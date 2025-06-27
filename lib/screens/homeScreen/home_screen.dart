@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_ui/screens/bestSeller/best_seller_screen.dart';
+import 'package:food_ui/screens/productDetailScreen/product_detail_screen.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_image.dart';
 import '../../customWidget/custom_text_form_field.dart';
+import '../fliterScreen/filter_screen.dart';
+import '../recommendedScreen/recommended_screen.dart';
 import 'home_bloc.dart';
 import 'home_dl.dart';
 import 'home_shimmer.dart';
@@ -13,7 +17,6 @@ import '../../utils/response_util.dart';
 import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: commonPadding300px * 0.2),
+              padding:
+                  EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceAvgScreenSize * 0.11738),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -89,23 +93,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(width: commonPadding32px),
                       GestureDetector(
                         onTap: () {
-                            selectedDrawerIndexSubject.sink.add(3);
+                          selectedDrawerIndexSubject.sink.add(3);
                         },
-                        child: _commonHeaderIcon("assets/svg/cart.svg"),
+                        child: commonHomeHeaderIcon("assets/svg/cart.svg"),
                       ),
                       SizedBox(width: commonPadding10px * 0.7),
                       GestureDetector(
                         onTap: () {
-                            selectedDrawerIndexSubject.sink.add(2);
+                          selectedDrawerIndexSubject.sink.add(2);
                         },
-                        child: _commonHeaderIcon("assets/svg/bell.svg"),
+                        child: commonHomeHeaderIcon("assets/svg/bell.svg"),
                       ),
                       SizedBox(width: commonPadding10px * 0.7),
                       GestureDetector(
                           onTap: () {
                             selectedDrawerIndexSubject.sink.add(1);
                           },
-                          child: _commonHeaderIcon("assets/svg/person.svg")),
+                          child: commonHomeHeaderIcon("assets/svg/person.svg")),
                       SizedBox(width: commonPadding32px),
                     ],
                   ),
@@ -199,21 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _commonHeaderIcon(String image) {
-    return Container(
-      margin: EdgeInsetsDirectional.only(start: commonPadding10px * 0.7),
-      padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
-      decoration: BoxDecoration(
-          color: colorWhite, borderRadius: BorderRadiusDirectional.all(Radius.circular(borderRadius10px))),
-      child: SvgPicture.asset(
-        image,
-        height: iconSize20px,
-        width: iconSize20px,
-        colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
-      ),
-    );
-  }
-
   Widget _foodCategorySection(HomePojo? data) {
     return Container(
       margin: EdgeInsetsDirectional.only(
@@ -225,35 +214,46 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: data?.foodCategories.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsetsDirectional.only(
-                end: index < (data?.foodCategories.length ?? 0) - 1 ? commonPadding20px : 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsetsDirectional.all(commonPadding10px),
-                  decoration: BoxDecoration(
-                    color: colorPeach,
-                    borderRadius: BorderRadiusDirectional.all(
-                      Radius.circular(borderRadius30px),
+          return GestureDetector(
+            onTap: () {
+              openScreen(
+                context: context,
+                screen: FilterScreen(
+                  foodCategoryList: data?.foodCategories ?? [],
+                  selectedIndex: index,
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsetsDirectional.only(
+                  end: index < (data?.foodCategories.length ?? 0) - 1 ? commonPadding20px : 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsetsDirectional.all(commonPadding10px),
+                    decoration: BoxDecoration(
+                      color: colorPeach,
+                      borderRadius: BorderRadiusDirectional.all(
+                        Radius.circular(borderRadius30px),
+                      ),
+                    ),
+                    child: SvgPicture.asset(
+                      data?.foodCategories[index].categoryIcon ?? "",
+                      height: iconSize37px,
+                      width: iconSize33px,
+                      colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
                     ),
                   ),
-                  child: SvgPicture.asset(
-                    data?.foodCategories[index].categoryIcon ?? "",
-                    height: iconSize37px,
-                    width: iconSize33px,
-                    colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
-                  ),
-                ),
-                Text(
-                  data?.foodCategories[index].categoryName ?? "",
-                  style: bodyText(
-                    fontSize: textSize12px,
-                    textColor: colorCommonBrown,
-                  ),
-                )
-              ],
+                  Text(
+                    data?.foodCategories[index].categoryName ?? "",
+                    style: bodyText(
+                      fontSize: textSize12px,
+                      textColor: colorCommonBrown,
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -280,6 +280,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               if ((data?.bestSellerFoodItems.length ?? 0) >= 4)
                 GestureDetector(
+                  onTap: () {
+                    openScreen(context: context, screen: const BestSellerScreen());
+                  },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -297,8 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  onTap: () {},
-                )
+                ),
             ],
           ),
           Container(
@@ -370,42 +372,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               itemBuilder: (context, index, realIndex) {
-                return Stack(
-                  children: [
-                    CustomImage(
-                      imagePath: data?.homePageSlider[index].sliderImage ?? '',
-                      height: commonSize120px,
-                      borderRadius: BorderRadius.all(Radius.circular(borderRadius20px)),
-                    ),
-                    Positioned(
-                      top: commonPadding28px,
-                      left: commonPadding10px * 1.25,
-                      child: SizedBox(
-                        width: deviceWidth * 0.35,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              data?.homePageSlider[index].sliderMsg1 ?? '',
-                              textAlign: TextAlign.center,
-                              style: bodyText(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize16px,
+                return GestureDetector(
+                  onTap: () {
+                    openScreen(
+                      context: context,
+                      screen: ProductDetailScreen(productItem: data!.homePageSlider[index].productItem[0]),
+                    );
+                  },
+                  child: Stack(
+                    children: [
+                      CustomImage(
+                        imagePath: data?.homePageSlider[index].sliderImage ?? '',
+                        height: commonSize120px,
+                        borderRadius: BorderRadius.all(Radius.circular(borderRadius20px)),
+                      ),
+                      Positioned(
+                        top: commonPadding28px,
+                        left: commonPadding10px * 1.25,
+                        child: SizedBox(
+                          width: deviceWidth * 0.35,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                data?.homePageSlider[index].sliderMsg1 ?? '',
+                                textAlign: TextAlign.center,
+                                style: bodyText(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: textSize16px,
+                                ),
                               ),
-                            ),
-                            Text(
-                              data?.homePageSlider[index].sliderMsg2 ?? '',
-                              textAlign: TextAlign.center,
-                              style: bodyText(
-                                fontWeight: FontWeight.w700,
-                                fontSize: textSize32px,
+                              Text(
+                                data?.homePageSlider[index].sliderMsg2 ?? '',
+                                textAlign: TextAlign.center,
+                                style: bodyText(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: textSize32px,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),
@@ -424,13 +434,40 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            "Recommended",
-            style: bodyText(
-              textColor: colorCommonBrown,
-              fontSize: textSize20px,
-              fontWeight: FontWeight.w500,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Recommended",
+                style: bodyText(
+                  textColor: colorCommonBrown,
+                  fontSize: textSize20px,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  openScreen(context: context, screen: const RecommendedScreen());
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "View All",
+                      style: bodyText(
+                        fontWeight: FontWeight.w600,
+                        textColor: colorPrimary,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: colorPrimary,
+                      size: iconSize24px,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           GridView.builder(
             itemCount: data?.recommendedFoodItems.length,

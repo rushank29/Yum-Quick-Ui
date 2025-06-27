@@ -172,16 +172,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           ),
           SizedBox(height: commonPadding32px),
           StreamBuilder<ResponseUtil>(
-              stream: _bloc?.subjectSetDataStatus,
-              builder: (context, snapSetStatus) {
-                return CustomRoundedButton(
-                  buttonText: "Update Profile",
-                  onPressed: () {
-                    _bloc?.updateProfile();
-                  },
-                  setProgress: snapSetStatus.data?.status == Status.loading,
-                );
-              })
+            stream: _bloc?.subjectSetDataStatus,
+            builder: (context, snapSetStatus) {
+              return CustomRoundedButton(
+                buttonText: "Update Profile",
+                onPressed: () {
+                  _bloc?.updateProfile();
+                },
+                setProgress: snapSetStatus.data?.status == Status.loading,
+              );
+            },
+          )
         ],
       ),
     );

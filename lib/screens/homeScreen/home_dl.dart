@@ -1,4 +1,6 @@
 
+import '../dishesScreen/dishes_dl.dart';
+
 /// greeting_message_main : "greetingMessage1"
 /// greeting_message_sub : "greetingMessage2"
 /// food_categories : [{"category_id":1,"category_name":"Snacks","category_icon":"assets/svg/snacks.svg"},{"category_id":2,"category_name":"Meal","category_icon":"assets/svg/meals.svg"},{"category_id":3,"category_name":"Vegan","category_icon":"assets/svg/vegan.svg"},{"category_id":4,"category_name":"Dessert","category_icon":"assets/svg/desserts.svg"},{"category_id":5,"category_name":"Drinks","category_icon":"assets/svg/drinks.svg"}]
@@ -136,41 +138,107 @@ class RecommendedFoodItems {
 
 }
 
-/// category_id : 1
-/// category_name : "Snacks"
-/// category_icon : "assets/svg/snacks.svg"
+/// category_id : 5
+/// category_name : "Drinks"
+/// category_icon : "assets/svg/drinks.svg"
+/// top_rated : 4
+/// sub_categories : [{"id":1,"name":"Coffee"},{"id":2,"name":"Cocktail"},{"id":3,"name":"Juice"},{"id":4,"name":"Milkshake"},{"id":5,"name":"Wine"},{"id":6,"name":"Piña Colada"},{"id":7,"name":"Mojito"},{"id":8,"name":"Craft Beer"},{"id":9,"name":"Ice Tea"}]
+/// selected_price : 100
 
 class FoodCategories {
   FoodCategories({
     int? categoryId,
     String? categoryName,
-    String? categoryIcon,}){
+    String? categoryIcon,
+    dynamic topRated,
+    List<SubCategories>? subCategories,
+    dynamic selectedPrice,
+  }) {
     _categoryId = categoryId;
     _categoryName = categoryName;
     _categoryIcon = categoryIcon;
+    _topRated = topRated;
+    _subCategories = subCategories;
+    _selectedPrice = selectedPrice;
   }
 
   FoodCategories.fromJson(dynamic json) {
     _categoryId = json['category_id'];
     _categoryName = json['category_name'];
     _categoryIcon = json['category_icon'];
+    _topRated = json['top_rated'];
+    if (json['sub_categories'] != null) {
+      _subCategories = [];
+      json['sub_categories'].forEach((v) {
+        _subCategories?.add(SubCategories.fromJson(v));
+      });
+    }
+    _selectedPrice = json['selected_price'];
   }
+
   int? _categoryId;
   String? _categoryName;
   String? _categoryIcon;
+  dynamic _topRated;
+  List<SubCategories>? _subCategories;
+  dynamic _selectedPrice;
 
   int get categoryId => _categoryId ?? 0;
+
   String get categoryName => _categoryName ?? "";
+
   String get categoryIcon => _categoryIcon ?? "";
+
+  dynamic get topRated => _topRated ?? 0;
+
+  List<SubCategories> get subCategories => _subCategories ?? [];
+
+  dynamic get selectedPrice => _selectedPrice ?? 0;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['category_id'] = _categoryId;
     map['category_name'] = _categoryName;
     map['category_icon'] = _categoryIcon;
+    map['top_rated'] = _topRated;
+    if (_subCategories != null) {
+      map['sub_categories'] = _subCategories?.map((v) => v.toJson()).toList();
+    }
+    map['selected_price'] = _selectedPrice;
     return map;
   }
+}
 
+/// id : 1
+/// name : "Coffee"
+
+class SubCategories {
+  SubCategories({
+    int? id,
+    String? name,
+  }) {
+    _id = id;
+    _name = name;
+  }
+
+  SubCategories.fromJson(dynamic json) {
+    _id = json['id'];
+    _name = json['name'];
+  }
+
+  int? _id;
+  String? _name;
+
+  int get id => _id??0;
+
+  String get name => _name??"";
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['name'] = _name;
+    return map;
+  }
 }
 
 /// item_id : 1
@@ -227,11 +295,12 @@ class HomePageSlider {
     int? sliderId,
     String? sliderImage,
     String? sliderMsg1,
-    String? sliderMsg2,}){
+    String? sliderMsg2,List<ProductItem>? productItem,}){
     _sliderId = sliderId;
     _sliderImage = sliderImage;
     _sliderMsg1 = sliderMsg1;
     _sliderMsg2 = sliderMsg2;
+    _productItem = productItem;
   }
 
   HomePageSlider.fromJson(dynamic json) {
@@ -239,16 +308,24 @@ class HomePageSlider {
     _sliderImage = json['slider_image'];
     _sliderMsg1 = json['slider_msg1'];
     _sliderMsg2 = json['slider_msg2'];
+    if (json['product_item'] != null) {
+      _productItem = [];
+      json['product_item'].forEach((v) {
+        _productItem?.add(ProductItem.fromJson(v));
+      });
+    }
   }
   int? _sliderId;
   String? _sliderImage;
   String? _sliderMsg1;
   String? _sliderMsg2;
+  List<ProductItem>? _productItem;
 
   int get sliderId => _sliderId ?? 0;
   String get sliderImage => _sliderImage ?? "";
   String get sliderMsg1 => _sliderMsg1 ?? "";
   String get sliderMsg2 => _sliderMsg2 ?? "";
+  List<ProductItem> get productItem => _productItem ?? [];
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -256,6 +333,9 @@ class HomePageSlider {
     map['slider_image'] = _sliderImage;
     map['slider_msg1'] = _sliderMsg1;
     map['slider_msg2'] = _sliderMsg2;
+    if (_productItem != null) {
+      map['product_item'] = _productItem?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 

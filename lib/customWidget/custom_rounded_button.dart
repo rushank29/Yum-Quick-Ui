@@ -15,6 +15,8 @@ class CustomRoundedButton extends StatelessWidget {
   final EdgeInsetsDirectional? padding, margin;
   final bool setProgress;
   final IconData? icon;
+  final Widget? widget;
+  final Color? iconColor;
 
   const CustomRoundedButton({
     super.key,
@@ -29,7 +31,7 @@ class CustomRoundedButton extends StatelessWidget {
     this.padding,
     this.margin,
     this.setProgress = false,
-    this.icon,
+    this.icon, this.iconColor, this.widget,
   });
 
   @override
@@ -82,9 +84,10 @@ class CustomRoundedButton extends StatelessWidget {
                     Flexible(
                       child: Container(
                         margin: EdgeInsetsDirectional.only(end: deviceWidth * 0.02),
-                        child: Icon(icon),
+                        child: Icon(icon, color: iconColor),
                       ),
                     ),
+                  if (widget != null) Flexible(child: widget!),
                   Flexible(
                     child: Text(
                       buttonText,
