@@ -328,3 +328,46 @@ Widget getOrderStatusWidget(int orderStatus) {
     ],
   );
 }
+
+Widget chatMsgWidget(List<Widget> msgWidget, String msgTime, bool isSent) {
+  return Align(
+    alignment: isSent ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+    child: Column(
+          crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: List.generate(
+            msgWidget.length,
+            (index) {
+              return Container(
+                alignment: isSent ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                width: isSent ? deviceWidth * 0.4 : deviceWidth * 0.6,
+                padding: EdgeInsetsDirectional.all(commonPadding10px),
+                margin: EdgeInsetsDirectional.only(bottom: deviceHeight * 0.008),
+                decoration: BoxDecoration(
+                  color: isSent ? colorPeach : Colors.transparent,
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(borderRadius10px),
+                    topEnd: Radius.circular(borderRadius10px),
+                    bottomStart: isSent ? Radius.circular(borderRadius10px) : Radius.zero,
+                    bottomEnd: isSent ? Radius.zero : Radius.circular(borderRadius10px),
+                  ),
+                  border: isSent ? null : Border.fromBorderSide(BorderSide(color: colorPrimary)),
+                ),
+                child: msgWidget[index],
+              );
+            },
+          ),
+        ),
+        Text(
+          getFormattedDateTime(inputDateTime: msgTime, format: "HH:mm", returnFormat: "HH:mm"),
+          style: bodyText(
+            fontWeight: FontWeight.w300,
+            textColor: colorCommonBrown,
+          ),
+        ),
+      ],
+    ),
+  );
+}

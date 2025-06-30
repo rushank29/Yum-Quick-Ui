@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ui/screens/favoritesScreen/favorites_screen.dart';
+import 'package:food_ui/screens/helpAndSupportScreen/help_screen.dart';
 import 'package:food_ui/screens/orderHistory/order_history_screen.dart';
 
 import '../../utils/response_util.dart';
@@ -73,7 +74,7 @@ class _HomeMainV1State extends State<HomeMainV1> {
             const DishesScreen(),
             const FavoritesScreen(),
             const OrderHistoryScreen(),
-            Container(),
+            const HelpScreen(),
           ][currentNavBarIndex],
           bottomNavigationBar: CustomBottomNavBar(
             bottomNavBarList: bottomNavBarList,
