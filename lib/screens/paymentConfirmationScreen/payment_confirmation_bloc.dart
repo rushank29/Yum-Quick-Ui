@@ -32,5 +32,7 @@ class PaymentConfirmationBloc {
     savedPaymentMethodSubject.sink.add(savedPaymentMethod);
   }
 
-  void dispose() {}
+  void dispose() {
+    savedPaymentMethodSubject.close();
+  }
 }

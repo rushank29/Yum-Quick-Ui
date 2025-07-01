@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ui/main.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
@@ -31,7 +32,7 @@ class _SupportScreenState extends State<SupportScreen> {
               children: [
                 chatMsgWidget([
                   Text(
-                    "Hello!",
+                    languages.hello,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       textColor: colorCommonBrown,
@@ -40,7 +41,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 ], "09:00", true),
                 chatMsgWidget([
                   Text(
-                    "Hello!, please choose the number corresponding to your needs for a more efficient service.",
+                    languages.helloPleaseChooseNumberCorresponding,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       textColor: colorCommonBrown,
@@ -48,43 +49,43 @@ class _SupportScreenState extends State<SupportScreen> {
                   ),
                   RichText(
                     text: TextSpan(
-                      text: '1. ',
+                      text: '${languages.one}. ',
                       style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w500),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'Order Management',
+                          text: languages.orderManagement,
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                         ),
                         TextSpan(
-                          text: '\n2. ',
+                          text: '\n${languages.two}. ',
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: 'Payments Management',
+                          text: languages.paymentsManagement,
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                         ),
                         TextSpan(
-                          text: '\n3. ',
+                          text: '\n${languages.three}. ',
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: 'Account management and profile',
+                          text: languages.accountManagementAndProfile,
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                         ),
                         TextSpan(
-                          text: '\n4. ',
+                          text: '\n${languages.four}. ',
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: 'About order tracking',
+                          text: languages.aboutOrderTracking,
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                         ),
                         TextSpan(
-                          text: '\n5. ',
+                          text: '\n${languages.five}. ',
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: 'Safety',
+                          text: languages.safety,
                           style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                         ),
                       ],
@@ -93,7 +94,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 ], "09:00", false),
                 chatMsgWidget([
                   Text(
-                    "1",
+                    languages.one,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       textColor: colorCommonBrown,
@@ -107,11 +108,11 @@ class _SupportScreenState extends State<SupportScreen> {
                         padding: EdgeInsetsDirectional.only(bottom: deviceHeight * 0.01),
                         child: RichText(
                           text: TextSpan(
-                            text: 'You have a current order Strawberry Shake and Broccoli Lasagna',
+                            text: languages.aboutCurrentOrder,
                             style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300),
                             children: <TextSpan>[
                               TextSpan(
-                                text: '\nOrder No. 0054752 \n29 Nov, 01:20 pm',
+                                text: '\n${languages.orderNo} 0054752 \n29 Nov, 01:20 pm',
                                 style: bodyText(
                                   textColor: colorCommonBrown,
                                   fontWeight: FontWeight.w500,
@@ -133,7 +134,7 @@ class _SupportScreenState extends State<SupportScreen> {
                               ),
                               padding: EdgeInsetsDirectional.all(commonPadding10px),
                               child: Text(
-                                "Order Issues",
+                                languages.orderIssues,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: bodyText(fontSize: textSize12px, textColor: colorPrimary),
@@ -150,7 +151,7 @@ class _SupportScreenState extends State<SupportScreen> {
                               ),
                               padding: EdgeInsetsDirectional.all(commonPadding10px),
                               child: Text(
-                                "Order not received",
+                                languages.orderNotReceived,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: bodyText(fontSize: textSize12px, textColor: colorPrimary),
@@ -164,7 +165,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 ], "09:06", false),
                 chatMsgWidget([
                   Text(
-                    "2",
+                    languages.two,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       textColor: colorCommonBrown,
@@ -201,7 +202,7 @@ class _SupportScreenState extends State<SupportScreen> {
                   child: CustomTextFormField(
                     backgroundColor: colorWhite,
                     formFieldHeight: deviceHeight * 0.04,
-                    hintText: "Write here...",
+                    hintText: languages.writeHere,
                     suffixPadding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
                     contentPadding: EdgeInsetsDirectional.symmetric(
                         horizontal: commonPadding10px, vertical: commonPadding10px * 0),

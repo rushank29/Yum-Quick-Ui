@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/contactUsScreen/faqTab/faq_data_dl.dart';
-import 'package:food_ui/screens/contactUsScreen/faqTab/faq_json.dart';
-import 'contactUsTab/contact_us_data_dl.dart';
-import 'contactUsTab/contact_us_json.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'faqTab/faq_data_dl.dart';
+import 'faqTab/faq_json.dart';
+import 'contactUsTab/contact_us_data_dl.dart';
+import 'contactUsTab/contact_us_json.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_ui/constant/constant.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
 import 'package:food_ui/customWidget/no_record_found.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/favoritesScreen/favorites_bloc.dart';
 import 'package:food_ui/screens/favoritesScreen/favorites_dl.dart';
 import 'package:food_ui/screens/favoritesScreen/favorites_shimmer.dart';
@@ -33,11 +34,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
       showBackButton: false,
-      pageTitle: "Favorites",
+      pageTitle: languages.favorites,
       bodyWidget: Column(
         children: [
           Text(
-            "It's time to buy your favorite dish.",
+            languages.itsTimeToBuyFavoriteDish,
             style: bodyText(
               fontSize: textSize20px,
               fontWeight: FontWeight.w500,

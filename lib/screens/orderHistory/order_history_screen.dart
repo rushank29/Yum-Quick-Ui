@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/orderDetailsScreen/order_details_screen.dart';
 import 'package:food_ui/screens/orderHistory/order_history_shimmer.dart';
 
@@ -32,7 +33,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Order History",
+      pageTitle: languages.orderHistory,
       showBackButton: false,
       bodyWidget: Column(
         children: [
@@ -124,7 +125,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                           ),
                         ),
                         CustomRoundedButton(
-                          buttonText: "Details",
+                          buttonText: languages.details,
                           onPressed: () {
                             openScreen(context: context, screen: OrderDetailsScreen(item: itemOrderList));
                           },

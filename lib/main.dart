@@ -1,13 +1,17 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter/services.dart';
+import 'shared_pref_util/shared_pref_util.dart';
+import 'constant/colors.dart';
+import 'constant/dimensions.dart';
 import 'firebase_options.dart';
 import 'screens/splashScreen/splash_screen.dart';
+
+late AppLocalizations languages;
+Locale? selectedLocale;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +19,10 @@ Future<void> main() async {
   await initPreferences();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // Choose your desired color
-      statusBarIconBrightness: Brightness.dark, // Or Brightness.dark for dark icons
+      statusBarColor: Colors.transparent,
+      // Choose your desired color
+      statusBarIconBrightness: Brightness.dark,
+      // Or Brightness.dark for dark icons
       statusBarBrightness: Brightness.light,
       // Optionally, set navigation bar color as well
       systemNavigationBarColor: colorWhite,
@@ -32,19 +38,58 @@ Future<void> main() async {
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    var state = context.findAncestorStateOfType<MyAppState>();
+    state?.setLocale(newLocale);
+  }
+
+  @override
+  State<MyApp> createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+  //For Multi Language
+  void setLocale(Locale locale) {
+    setState(() {
+      selectedLocale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    selectedLocale = getLocale();
+    super.didChangeDependencies();
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    deviceHeight = MediaQuery.of(context).size.height;
-    deviceWidth = MediaQuery.of(context).size.width;
-    deviceAvgScreenSize = (deviceHeight + deviceWidth) / 2;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: colorWhite,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
+      builder: (context, child) {
+        if (AppLocalizations.of(context) != null) {
+          languages = AppLocalizations.of(context)!;
+        }
+        deviceHeight = MediaQuery.of(context).size.height;
+        deviceWidth = MediaQuery.of(context).size.width;
+        deviceAvgScreenSize = (deviceHeight + deviceWidth) / 2;
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.9)),
+          child: ScrollConfiguration(behavior: MyBehavior(), child: child ?? Container()),
+        );
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -65,7 +110,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: colorPrimary),
         useMaterial3: true,
       ),
+      locale: selectedLocale,
       home: const SplashScreen(),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

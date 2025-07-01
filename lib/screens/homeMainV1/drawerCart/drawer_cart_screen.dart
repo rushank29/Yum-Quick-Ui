@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../customWidget/custom_image.dart';
 import '../../../customWidget/custom_rounded_button.dart';
 import '../../../customWidget/keyValuePair/item_key_value_list.dart';
 import '../../../customWidget/keyValuePair/item_key_value_pair_dl.dart';
+import '../../../main.dart';
 import '../../confirmOrderScreen/confirm_order_screen.dart';
 import 'cart_data_dl.dart';
 import 'drawer_cart_bloc.dart';
@@ -45,7 +47,7 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
       children: [
         SizedBox(height: commonPadding10px),
         Text(
-          "Your cart is empty",
+          languages.emptyCartMsg,
           style: bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
         ),
         Column(
@@ -67,7 +69,7 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
             Padding(
               padding: EdgeInsetsDirectional.symmetric(horizontal: deviceAvgScreenSize * 0.009),
               child: Text(
-                "Want to add something?",
+                languages.addSomething,
                 textAlign: TextAlign.center,
                 style: bodyText(
                   fontSize: textSize24px,
@@ -88,7 +90,7 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
       children: [
         SizedBox(height: commonPadding10px),
         Text(
-          "You have ${cartList.length} items in the cart",
+          languages.noOfItemsInCart(cartList.length),
           style: bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500),
         ),
         ListView.builder(
@@ -216,7 +218,7 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
           },
         ),
         CustomRoundedButton(
-          buttonText: "Checkout",
+          buttonText: languages.checkOut,
           onPressed: () {
             openScreen(
               context: context,

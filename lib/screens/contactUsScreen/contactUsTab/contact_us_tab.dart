@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/utils/text_style.dart';
 
+import '../../../constant/colors.dart';
+import '../../../constant/dimensions.dart';
+import '../../../utils/text_style.dart';
 import 'contact_us_data_dl.dart';
 
 class ContactUsTab extends StatelessWidget {

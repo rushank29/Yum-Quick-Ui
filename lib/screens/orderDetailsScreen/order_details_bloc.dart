@@ -1,3 +1,4 @@
+import 'package:food_ui/main.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../orderHistory/order_history_list_dl.dart';
@@ -19,15 +20,15 @@ class OrderDetailsBloc {
     dynamic taxAndFees = item.taxAndFees ?? 0;
     dynamic deliveryFees = item.deliveryFees ?? 0;
     dynamic total = subtotal + taxAndFees + deliveryFees;
-    keyValueList.add(ItemKeyValuePair(title: "Subtotal", value: getAmountWithCurrency(subtotal)));
+    keyValueList.add(ItemKeyValuePair(title: languages.subTotal, value: getAmountWithCurrency(subtotal)));
     keyValueList.add(
-      ItemKeyValuePair(title: "Tax and Fees", value: getAmountWithCurrency(taxAndFees)),
+      ItemKeyValuePair(title: languages.taxAndFees, value: getAmountWithCurrency(taxAndFees)),
     );
     keyValueList.add(
-      ItemKeyValuePair(title: "Delivery", value: getAmountWithCurrency(deliveryFees)),
+      ItemKeyValuePair(title: languages.delivery, value: getAmountWithCurrency(deliveryFees)),
     );
-    keyValueList
-        .add(ItemKeyValuePair(title: "Total", value: getAmountWithCurrency(total), showDivider: true));
+    keyValueList.add(
+        ItemKeyValuePair(title: languages.total, value: getAmountWithCurrency(total), showDivider: true));
     subjectKeyValueList.sink.add(keyValueList);
   }
 }

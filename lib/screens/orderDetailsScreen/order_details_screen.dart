@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/screens/orderDetailsScreen/order_details_bloc.dart';
 
+import '../../customWidget/custom_image.dart';
+import '../../main.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
@@ -13,6 +13,7 @@ import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
 import '../cancelOrderScreen/cancel_order_screen.dart';
 import '../orderHistory/order_history_list_dl.dart';
+import 'order_details_bloc.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final ItemOrderList item;
@@ -35,13 +36,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Order Details",
+      pageTitle: languages.orderDetails,
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Order No. ${widget.item.orderNo}",
+            "${languages.orderNo} ${widget.item.orderNo}",
             style: bodyText(
               fontWeight: FontWeight.w500,
               fontSize: textSize20px,
@@ -143,7 +144,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                         ),
                         Text(
-                          "${orderItem.productQuantity} items",
+                          "${orderItem.productQuantity} ${languages.items}",
                           style: bodyText(
                             fontWeight: FontWeight.w400,
                             fontSize: textSize13px,
@@ -194,7 +195,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           if (widget.item.orderStatus == 3 || widget.item.orderStatus == 1)
             Center(
               child: CustomRoundedButton(
-                buttonText: (widget.item.orderStatus == 3) ? "Order Again" : "Cancel Order",
+                buttonText: (widget.item.orderStatus == 3) ? languages.orderAgain : languages.cancelOrder,
                 onPressed: () {
                   if (widget.item.orderStatus == 3) {
                     selectedDrawerIndexSubject.sink.add(3);

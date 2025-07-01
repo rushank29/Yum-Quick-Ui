@@ -4,6 +4,7 @@ import 'package:food_ui/constant/colors.dart';
 import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
 import 'package:food_ui/customWidget/custom_image.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/utils/utils.dart';
 
 import '../../customWidget/custom_rounded_button.dart';
@@ -34,7 +35,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Leave A Review",
+      pageTitle: languages.leaveAReview,
       bodyWidget: Column(
         children: [
           SizedBox(height: commonPadding10px * 1.6),
@@ -55,7 +56,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
           ),
           SizedBox(height: commonPadding32px),
           Text(
-            "We'd love to know what you think of your dish.",
+            languages.weWouldLoveToKnow,
             textAlign: TextAlign.center,
             style: bodyText(
               fontSize: textSize25px,
@@ -79,7 +80,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
           ),
           SizedBox(height: commonPadding32px),
           Text(
-            "Leave us your comment!",
+            languages.leaveUsComment,
             textAlign: TextAlign.center,
             style: bodyText(
               fontSize: textSize25px,
@@ -91,7 +92,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
           CustomTextFormField(
             controller: reviewCommentController,
             maxLines: 3,
-            hintText: "Write Review...",
+            hintText: languages.writeReview,
             margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
           ),
           SizedBox(height: commonPadding20px),
@@ -99,7 +100,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
             children: [
               Expanded(
                 child: CustomRoundedButton(
-                  buttonText: "Cancel",
+                  buttonText: languages.cancel,
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -113,13 +114,13 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: commonPadding10px * 1.5),
+              SizedBox(width: deviceAvgScreenSize * 0.0268425),
               Expanded(
                 child: CustomRoundedButton(
-                  buttonText: "Submit",
+                  buttonText: languages.submit,
                   onPressed: () {
                     if (userReview <= 0) {
-                      openSimpleSnackBar("Please review your order");
+                      openSimpleSnackBar(languages.pleaseReviewYourOrder);
                     } else {
                       Navigator.pop(context);
                     }

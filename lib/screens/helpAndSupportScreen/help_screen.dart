@@ -5,6 +5,7 @@ import 'package:food_ui/utils/utils.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/common_bg_screen.dart';
+import '../../main.dart';
 import '../../utils/text_style.dart';
 import 'help_dl.dart';
 
@@ -20,12 +21,12 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
       showBackButton: false,
-      pageTitle: "Help",
+      pageTitle: languages.help,
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor.",
+            languages.loremIpsum,
             style: bodyText(
               fontSize: textSize14px,
               fontWeight: FontWeight.w300,
@@ -99,7 +100,7 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   List<ItemHelpList> helpAndSupportList = [
-    ItemHelpList(title: "Help with the Order", subTitle: "Support"),
-    ItemHelpList(title: "Help center", subTitle: "General Information"),
+    ItemHelpList(title: languages.helpWithTheOrder, subTitle: languages.support),
+    ItemHelpList(title: languages.helpCenter, subTitle: languages.generalInformation),
   ];
 }

@@ -14,6 +14,7 @@ import 'package:food_ui/utils/utils.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
+import '../../main.dart';
 import '../cancelOrderScreen/cancel_order_screen.dart';
 import '../leaveReviewScreen/leave_a_review_screen.dart';
 
@@ -46,7 +47,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   Widget _myOrdersBody() {
     return CommonBackgroundWidget(
-      pageTitle: "My Orders",
+      pageTitle: languages.myOrders,
       bodyWidget: StreamBuilder<int>(
         stream: _bloc?.selectedTabIndex,
         builder: (context, snapSelectedTab) {
@@ -57,7 +58,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 children: [
                   Expanded(
                     child: _orderFilterButton(
-                      "Active",
+                      languages.active,
                       selectedTab == 0,
                       onTabSelected: () {
                         _bloc?.selectedTabIndex.sink.add(0);
@@ -67,7 +68,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   SizedBox(width: commonPadding10px),
                   Expanded(
                     child: _orderFilterButton(
-                      "Completed",
+                      languages.completed,
                       selectedTab == 1,
                       onTabSelected: () {
                         _bloc?.selectedTabIndex.sink.add(1);
@@ -77,7 +78,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   SizedBox(width: commonPadding10px),
                   Expanded(
                     child: _orderFilterButton(
-                      "Cancelled",
+                      languages.cancelled,
                       selectedTab == 2,
                       onTabSelected: () {
                         _bloc?.selectedTabIndex.sink.add(2);
@@ -176,7 +177,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                             ),
                           ),
                           Text(
-                            "${itemOrderHistory?.orderItemCount ?? 0} items",
+                            "${itemOrderHistory?.orderItemCount ?? 0} ${languages.items}",
                             style: bodyText(
                               fontWeight: FontWeight.w300,
                               fontSize: textSize14px,
@@ -197,7 +198,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                             ),
                             SizedBox(width: commonPadding10px * 0.5),
                             Text(
-                              (selectedTab == 1) ? "Order delivered" : "Order cancelled",
+                              (selectedTab == 1) ? languages.orderDelivered : languages.orderCancelledTxt,
                               style: bodyText(
                                 fontSize: textSize14px,
                                 fontWeight: FontWeight.w300,
@@ -213,7 +214,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                           children: [
                             Expanded(
                               child: CustomRoundedButton(
-                                buttonText: selectedTab == 0 ? "Cancel Order" : "Leave a review",
+                                buttonText: selectedTab == 0 ? languages.cancelOrder : languages.leaveAReview,
                                 onPressed: () {
                                   if (selectedTab == 0) {
                                     openScreen(context: context, screen: const CancelOrderScreen());
@@ -234,7 +235,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: commonPadding10px * 1.5),
+                            SizedBox(width: deviceAvgScreenSize * 0.0268425),
                             Expanded(
                               child: CustomRoundedButton(
                                 buttonText: selectedTab == 0 ? "Track Driver" : "Order Again",
@@ -280,7 +281,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   Widget _emptyOrderHistory({String? message}) {
     return NoRecordFound(
-      message: message ?? "You don't have any active orders at this time",
+      message: message ?? languages.noActiveOrdersThisTime,
     );
   }
 }

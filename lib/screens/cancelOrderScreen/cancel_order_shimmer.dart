@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
 
 class CancelOrderShimmer extends StatelessWidget {
   const CancelOrderShimmer({super.key});

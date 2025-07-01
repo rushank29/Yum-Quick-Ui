@@ -41,7 +41,7 @@ class MyOrdersShimmer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Container(
-                                height: commonPadding10px * 1.5,
+                                height: deviceAvgScreenSize * 0.0268425,
                                 color: colorBlack,
                                 width: double.infinity,
                               ),
@@ -49,7 +49,7 @@ class MyOrdersShimmer extends StatelessWidget {
                             SizedBox(width: commonPadding20px),
                             Expanded(
                               child: Container(
-                                height: commonPadding10px * 1.5,
+                                height: deviceAvgScreenSize * 0.0268425,
                                 color: colorBlack,
                                 width: double.infinity,
                               ),
@@ -74,7 +74,7 @@ class MyOrdersShimmer extends StatelessWidget {
                         Container(
                           height: commonPadding10px * 1.4,
                           color: colorBlack,
-                          width: commonPadding300px * 0.2,
+                          width: deviceAvgScreenSize * 0.10737,
                         ),
                         SizedBox(height: commonPadding10px * 0.8),
                         Row(

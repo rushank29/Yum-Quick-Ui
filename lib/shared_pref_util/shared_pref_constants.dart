@@ -10,3 +10,4 @@ const String prefUserMobileNo = "userMobileNo";
 const String prefUserDOB = "userDOB";
 const String prefSavedAddress = "userSavedAddress";
 const String prefSavedPaymentType = "userSelectedPaymentType";
+const String prefSelectedLanguageCode = "selectedLanguageCode";

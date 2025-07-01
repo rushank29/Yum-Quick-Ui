@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/customWidget/no_record_found.dart';
-import 'package:food_ui/screens/bestSeller/best_seller_bloc.dart';
-import 'package:food_ui/screens/bestSeller/best_seller_dl.dart';
-import 'package:food_ui/screens/bestSeller/best_seller_shimmer.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
 
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_image.dart';
+import '../../customWidget/no_record_found.dart';
+import '../../main.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import '../../constant/constant.dart';
+import 'best_seller_bloc.dart';
+import 'best_seller_dl.dart';
+import 'best_seller_shimmer.dart';
 
 class BestSellerScreen extends StatefulWidget {
   const BestSellerScreen({super.key});
@@ -33,11 +34,11 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Best Seller",
+      pageTitle: languages.bestSeller,
       bodyWidget: Column(
         children: [
           Text(
-            "Discover our most popular dishes!",
+            languages.discoverPopularDishes,
             style: bodyText(
               fontSize: textSize20px,
               fontWeight: FontWeight.w500,

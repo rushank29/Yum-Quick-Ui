@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_dl.dart';
-import 'package:food_ui/screens/paymentMethodsScreen/payment_methods_json.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'payment_methods_dl.dart';
+import 'payment_methods_json.dart';
+import 'addNewCardScreen/add_new_card_screen.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/utils.dart';
-import 'addNewCardScreen/add_new_card_screen.dart';
 
 class PaymentMethodsBloc {
   final BuildContext context;
@@ -64,7 +64,6 @@ class PaymentMethodsBloc {
     if (savedMethod != null) {
       final currentList = subject.valueOrNull?.data?.paymentMethodsList ?? [];
 
-      // If it's not already in the list, add it
       if (!currentList.contains(savedMethod)) {
         currentList.add(savedMethod);
         subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));

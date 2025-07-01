@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
+
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/common_bg_screen.dart';
 import 'contactUsTab/contact_us_data_dl.dart';
 import 'contactUsTab/contact_us_tab.dart';
 import 'contact_us_bloc.dart';
 import 'faqTab/faq_data_dl.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
-
 import '../../constant/constant.dart';
 import 'faqTab/faq_tab.dart';
 

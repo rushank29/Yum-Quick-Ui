@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
@@ -247,7 +248,7 @@ Widget commonTabWidget(
     backgroundColor: isTabSelected ? colorPrimary : colorPrimaryLight,
     textColor: isTabSelected ? colorWhite : colorPrimary,
     borderColor: isTabSelected ? colorPrimary : colorPrimaryLight,
-    padding: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px * 0.6),
+    padding: EdgeInsetsDirectional.symmetric(vertical: deviceAvgScreenSize * 0.010737),
   );
 }
 
@@ -297,16 +298,16 @@ Widget getOrderStatusWidget(int orderStatus) {
   String icon;
   switch (orderStatus) {
     case 1:
-      text = "Pending";
+      text = languages.orderPending;
       icon = "assets/svg/order_delivered_tick.svg";
     case 2:
-      text = "Order cancelled";
+      text = languages.orderCancelledTxt;
       icon = "assets/svg/order_cancelled_cross.svg";
     case 3:
-      text = "Order delivered";
+      text = languages.orderDelivered;
       icon = "assets/svg/order_delivered_tick.svg";
     default:
-      text = "Order Pending";
+      text = languages.orderPending;
       icon = "assets/svg/order_delivered_tick.svg";
   }
   return Row(
@@ -370,4 +371,23 @@ Widget chatMsgWidget(List<Widget> msgWidget, String msgTime, bool isSent) {
       ],
     ),
   );
+}
+
+setChangedLanguage(BuildContext context, String languageCode, {Function()? nextAction}) {
+  changeLanguage(context, languageCode).then((value) {
+    selectedLocale = getLocale();
+    if (selectedLocale != null) {
+      AppLocalizations.delegate.load(selectedLocale!).then((value) {
+        languages = value;
+        if (nextAction != null) nextAction();
+      });
+    }
+  });
+}
+
+Future changeLanguage(BuildContext context, String selectedLanguageCode) async {
+  var locale = await setLocale(selectedLanguageCode);
+
+  if (!context.mounted) return;
+  MyApp.setLocale(context, locale);
 }

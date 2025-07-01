@@ -30,7 +30,7 @@ class MyProfileShimmer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: commonPadding10px * 1.5,
+                    height: deviceAvgScreenSize * 0.0268425,
                     width: deviceWidth * 0.25,
                     margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
                       color: colorBlack,

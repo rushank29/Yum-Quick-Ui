@@ -10,6 +10,7 @@ enum DrawerItem {
   deliveryAddress,
   paymentMethods,
   contactUs,
+  selectLanguage,
   helpAndFAQs,
   settings,
   logOut
@@ -18,3 +19,4 @@ enum DrawerItem {
 enum SettingItem { notificationSetting, passwordSetting, deleteAccount }
 
 final selectedDrawerIndexSubject = BehaviorSubject<int>.seeded(1);
+const String defaultLanguage = "en";

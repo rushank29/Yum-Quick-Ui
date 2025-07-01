@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/screens/biometricLoginScreen/biometric_login_bloc.dart';
+import 'package:food_ui/main.dart';
 
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import 'biometric_login_bloc.dart';
 import '../../utils/text_style.dart';
 
 class BiometricLoginScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _BiometricLoginScreenState extends State<BiometricLoginScreen> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: CommonBackgroundWidget(
-        pageTitle: "Set Your Fingerprint",
+        pageTitle: languages.setYourFingerPrint,
         bodyWidget: StreamBuilder<bool>(
             stream: _bloc?.changeColorSubject,
             builder: (context, snapColorChange) {
@@ -43,7 +44,7 @@ class _BiometricLoginScreenState extends State<BiometricLoginScreen> {
             return Column(
               children: [
                 Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  languages.loremIpsum,
                   style: bodyText(
                     fontWeight: FontWeight.w300,
                     textColor: colorDarkGrey,
@@ -62,7 +63,7 @@ class _BiometricLoginScreenState extends State<BiometricLoginScreen> {
                   children: [
                     Expanded(
                       child: CustomRoundedButton(
-                        buttonText: "Skip",
+                        buttonText: languages.skip,
                         onPressed: () {},
                         backgroundColor: colorPrimaryLight,
                         borderColor: colorPrimaryLight,
@@ -74,7 +75,7 @@ class _BiometricLoginScreenState extends State<BiometricLoginScreen> {
                     ),
                     Expanded(
                       child: CustomRoundedButton(
-                        buttonText: "Continue",
+                        buttonText: languages.continueTxt,
                         onPressed: () {
                           _bloc?.changeColorSubject.sink.add(!isColorToBeChanged);
                         },

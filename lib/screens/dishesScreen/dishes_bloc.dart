@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/dishesScreen/dishes_json.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
+import 'dishes_json.dart';
 import 'dishes_dl.dart';
 
 class DishesBloc {

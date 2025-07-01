@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/setPasswordScreen/set_password_bloc.dart';
 import 'package:food_ui/utils/response_util.dart';
 
@@ -37,13 +38,13 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: CommonBackgroundWidget(pageTitle: "Set Password", bodyWidget: Form(
+      body: CommonBackgroundWidget(pageTitle: languages.setPassword, bodyWidget: Form(
         key: _bloc?.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              languages.loremIpsum,
               style: bodyText(
                 fontWeight: FontWeight.w300,
                 textColor: colorDarkGrey,
@@ -51,7 +52,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
             ),
             SizedBox(height: commonPadding24px * 2),
             CustomTextFormField(
-              formFieldLabel: "Email or Mobile Number",
+              formFieldLabel: "${languages.email} ${languages.or} ${languages.mobileNumber}",
               controller: _bloc?.emailController,
               keyboardType: TextInputType.emailAddress,
               validator: (value) => validateEmail(value),
@@ -63,7 +64,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 stream: _bloc?.subjectStatus,
                 builder: (context, snapStatus) {
                   return CustomRoundedButton(
-                    buttonText: "Create New Password",
+                    buttonText: languages.createNewPassword,
                     fontSize: textSize17px,
                     setProgress: snapStatus.data?.status == Status.loading,
                     onPressed: () {

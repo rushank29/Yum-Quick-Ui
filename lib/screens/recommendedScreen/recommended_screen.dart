@@ -6,6 +6,7 @@ import 'package:food_ui/constant/dimensions.dart';
 import 'package:food_ui/customWidget/common_bg_screen.dart';
 import 'package:food_ui/customWidget/custom_image.dart';
 import 'package:food_ui/customWidget/no_record_found.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/bestSeller/best_seller_shimmer.dart';
 import 'package:food_ui/screens/recommendedScreen/recommended_bloc.dart';
 import 'package:food_ui/screens/recommendedScreen/recommended_dl.dart';
@@ -33,11 +34,11 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Recommendations",
+      pageTitle: languages.recommendations,
       bodyWidget: Column(
         children: [
           Text(
-            "Discover the dishes recommended by the chef.",
+            languages.discoverTheDishesRecommended,
             textAlign: TextAlign.center,
             style: bodyText(
               fontWeight: FontWeight.w500,
@@ -104,7 +105,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                         padding:
                             EdgeInsetsDirectional.only(start: commonPadding10px, top: deviceHeight * 0.003),
                         child: Text(
-                          "New Product",
+                          languages.newProduct,
                           textAlign: TextAlign.center,
                           style: bodyText(
                             fontWeight: FontWeight.w500,

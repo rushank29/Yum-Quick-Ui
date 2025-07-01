@@ -17,7 +17,7 @@ class DrawerNotification extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: drawerNotificationList.length,
-      padding: EdgeInsetsDirectional.only(top: commonPadding20px * 2),
+      padding: EdgeInsetsDirectional.only(top: deviceAvgScreenSize * 0.07158),
       itemBuilder: (context, index) {
         ItemDrawerNotificationList item = drawerNotificationList[index];
         return Container(

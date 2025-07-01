@@ -7,6 +7,7 @@ import 'package:food_ui/utils/validator_util.dart';
 
 import '../../../constant/colors.dart';
 import '../../../customWidget/custom_rounded_button.dart';
+import '../../../main.dart';
 import 'add_new_address_bloc.dart';
 
 class AddNewAddressScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Add New Address",
+      pageTitle: languages.addNewAddress,
       bodyWidget: Form(
         key: _bloc?.formKey,
         child: Column(
@@ -49,19 +50,19 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
               formFieldLabel: "Name",
               controller: _bloc?.nameController,
               validator: (value) {
-                return validateEmptyField(value, "Please enter the address name");
+                return validateEmptyField(value, languages.enterAddressName);
               },
             ),
             SizedBox(height: commonPadding32px),
             CustomTextFormField(
-              formFieldLabel: "Address",
+              formFieldLabel: languages.address,
               validator: (value) {
-                return validateEmptyField(value, "Please enter the full address in descriptive form!");
+                return validateEmptyField(value, languages.enterFullAddressInDescriptive);
               },
               controller: _bloc?.descriptionController,
             ),
             CustomRoundedButton(
-              buttonText: "Apply",
+              buttonText: languages.apply,
               onPressed: () {
                 if (_bloc!.formKey.currentState!.validate()) {
                   _bloc?.addNewAddress();

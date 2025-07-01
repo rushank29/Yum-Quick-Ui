@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/screens/favoritesScreen/favorites_screen.dart';
-import 'package:food_ui/screens/helpAndSupportScreen/help_screen.dart';
-import 'package:food_ui/screens/orderHistory/order_history_screen.dart';
 
+import '../../main.dart';
+import '../favoritesScreen/favorites_screen.dart';
+import '../helpAndSupportScreen/help_screen.dart';
+import '../orderHistory/order_history_screen.dart';
 import '../../utils/response_util.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
@@ -111,14 +112,14 @@ class _HomeMainV1State extends State<HomeMainV1> {
         children: [
           Padding(
             padding: EdgeInsetsDirectional.only(
-              top: commonPadding300px * 0.2,
-              bottom: commonPadding20px * 2,
+              top: deviceAvgScreenSize * 0.10737,
+              bottom: deviceAvgScreenSize * 0.07158,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsetsDirectional.all(commonPadding10px * 0.6),
+                  padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.010737),
                   decoration: BoxDecoration(
                     color: colorMainBackground,
                     shape: BoxShape.circle,
@@ -132,7 +133,7 @@ class _HomeMainV1State extends State<HomeMainV1> {
                 ),
                 SizedBox(width: commonPadding10px),
                 Text(
-                  "Cart",
+                  languages.cart,
                   style: bodyText(
                     fontSize: textSize24px,
                     fontWeight: FontWeight.w700,
@@ -155,8 +156,8 @@ class _HomeMainV1State extends State<HomeMainV1> {
         children: [
           Padding(
             padding: EdgeInsetsDirectional.only(
-              top: commonPadding300px * 0.2,
-              bottom: commonPadding20px * 2,
+              top: deviceAvgScreenSize * 0.10737,
+              bottom: deviceAvgScreenSize * 0.07158,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +170,7 @@ class _HomeMainV1State extends State<HomeMainV1> {
                 ),
                 SizedBox(width: commonPadding10px),
                 Text(
-                  "Notifications",
+                  languages.notifications,
                   style: bodyText(
                     fontSize: textSize24px,
                     fontWeight: FontWeight.w700,
@@ -197,10 +198,10 @@ class _HomeMainV1State extends State<HomeMainV1> {
         children: [
           Padding(
             padding: EdgeInsetsDirectional.only(
-              top: commonPadding300px * 0.2,
-              bottom: commonPadding20px * 2,
+              top: deviceAvgScreenSize * 0.10737,
+              bottom: deviceAvgScreenSize * 0.07158,
               start: commonPadding32px,
-              end: commonPadding10px * 1.5,
+              end: deviceAvgScreenSize * 0.0268425,
             ),
             child: Row(
               children: [
@@ -264,12 +265,12 @@ class _HomeMainV1State extends State<HomeMainV1> {
                             padding: EdgeInsets.all(commonPadding10px),
                             decoration: BoxDecoration(
                               color: colorMainBackground,
-                              borderRadius: BorderRadius.circular(borderRadius30px * 0.5),
+                              borderRadius: BorderRadius.circular(borderRadius15px),
                             ),
                             child: SvgPicture.asset(
                               item.iconPath,
-                              height: commonSize45px * 0.5,
-                              width: commonSize45px * 0.5,
+                              height: iconSize24px,
+                              width: iconSize24px,
                             ),
                           ),
                           SizedBox(width: commonPadding16px),

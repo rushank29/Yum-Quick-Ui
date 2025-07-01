@@ -13,6 +13,7 @@ import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_rounded_button.dart';
 import '../../customWidget/custom_text_form_field.dart';
+import '../../main.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/utils.dart';
 import '../../utils/validator_util.dart';
@@ -42,7 +43,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "My Profile",
+      pageTitle: languages.myProfile,
       bodyWidget: StreamBuilder<ResponseUtil>(
           stream: _bloc?.subjectGetDataStatus,
           builder: (context, snapStatus) {
@@ -119,16 +120,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           ),
           SizedBox(height: commonPadding35px),
           CustomTextFormField(
-            formFieldLabel: "Full name",
+            formFieldLabel: languages.fullName,
             controller: _bloc?.fullNameController,
             keyboardType: TextInputType.name,
             validator: (value) {
-              return validateEmptyField(value, "Please enter your name.");
+              return validateEmptyField(value, languages.enterYourName);
             },
           ),
-          SizedBox(height: commonPadding10px * 1.5),
+          SizedBox(height: deviceAvgScreenSize * 0.0268425),
           CustomTextFormField(
-            formFieldLabel: "Date of birth",
+            formFieldLabel: languages.dateOfBirth,
             controller: _bloc?.birthDateController,
             readOnly: true,
             onTap: () {
@@ -136,12 +137,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             },
             keyboardType: TextInputType.datetime,
             validator: (value) {
-              return validateEmptyField(value, "Please select your birth date!");
+              return validateEmptyField(value, languages.selectDateOfBirth);
             },
           ),
-          SizedBox(height: commonPadding10px * 1.5),
+          SizedBox(height: deviceAvgScreenSize * 0.0268425),
           CustomTextFormField(
-            formFieldLabel: "Email",
+            formFieldLabel: languages.email,
             controller: _bloc?.emailController,
             readOnly: true,
             keyboardType: TextInputType.emailAddress,
@@ -149,9 +150,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               return validateEmail(value);
             },
           ),
-          SizedBox(height: commonPadding10px * 1.5),
+          SizedBox(height: deviceAvgScreenSize * 0.0268425),
           CustomTextFormField(
-            formFieldLabel: "Mobile Number",
+            formFieldLabel: languages.mobileNumber,
             controller: _bloc?.mobileNumberController,
             keyboardType: TextInputType.phone,
             prefix: CountryCodePicker(
@@ -167,7 +168,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               },
             ),
             validator: (value) {
-              return validateEmptyField(value, "Please enter your mobile number!");
+              return validateEmptyField(value, languages.enterMobileNumber);
             },
           ),
           SizedBox(height: commonPadding32px),
@@ -175,7 +176,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             stream: _bloc?.subjectSetDataStatus,
             builder: (context, snapSetStatus) {
               return CustomRoundedButton(
-                buttonText: "Update Profile",
+                buttonText: languages.updateProfile,
                 onPressed: () {
                   _bloc?.updateProfile();
                 },

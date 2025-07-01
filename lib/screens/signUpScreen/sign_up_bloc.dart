@@ -1,12 +1,14 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
+
+import '../../main.dart';
 import '../homeMainV1/home_main_v1.dart';
 import 'sign_up_dl.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
-import 'package:rxdart/rxdart.dart';
 
 class SignUpBloc {
   BuildContext context;
@@ -30,7 +32,7 @@ class SignUpBloc {
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty || fullName.isEmpty || birthDate.isEmpty || mobileNo.isEmpty) {
-      openSimpleSnackBar('Please fill up the full form.');
+      openSimpleSnackBar(languages.fillUpFullForm);
       return;
     }
     if (formKey.currentState!.validate()) {
@@ -66,11 +68,11 @@ class SignUpBloc {
         subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'email-already-in-use') {
-            openSimpleSnackBar('User already exist for that $email.');
+            openSimpleSnackBar('${languages.userExistMsg} $email.');
           } else if (error.code == 'invalid-email') {
-            openSimpleSnackBar("Please check your email address.");
+            openSimpleSnackBar(languages.checkEmailMsg);
           } else if (error.code == 'weak-password') {
-            openSimpleSnackBar("Weak password provided by the User.");
+            openSimpleSnackBar(languages.weakPasswordMsg);
           } else {
             debugPrint("errorCode =====> ${error.code}");
           }

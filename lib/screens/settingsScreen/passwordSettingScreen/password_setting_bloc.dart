@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
 import 'package:rxdart/rxdart.dart';
@@ -31,7 +32,7 @@ class PasswordSettingBloc {
     final DataSnapshot snapshot = await dbRef.get();
     SignUpPojo response = SignUpPojo.fromJson(snapshot.value as Map);
     if (code.isEmpty || newPassword.isEmpty || oldPassword.isEmpty) {
-      openSimpleSnackBar('Please enter code and both passwords.');
+      openSimpleSnackBar(languages.enterCodeAndBothPasswords);
       return;
     } else if (snapshot.exists && response.userPassword != oldPasswordController.text.trim()) {
       openSimpleSnackBar("The old password doesn't match!");

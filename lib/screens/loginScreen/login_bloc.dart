@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
 import 'package:food_ui/utils/response_util.dart';
 import 'package:food_ui/utils/utils.dart';
@@ -22,7 +23,7 @@ class LoginBloc {
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      openSimpleSnackBar('Please enter both email and password.');
+      openSimpleSnackBar(languages.enterBothEmailAndPassword);
       return;
     }
     if (formKey.currentState!.validate()) {
@@ -55,9 +56,9 @@ class LoginBloc {
         subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'user-not-found') {
-            openSimpleSnackBar('No user found for $email.');
+            openSimpleSnackBar(languages.noUserFoundForEmail(email));
           } else if (error.code == 'wrong-password') {
-            openSimpleSnackBar("Wrong password provided by the user.");
+            openSimpleSnackBar(languages.wrongPasswordProvidedByTheUser);
           } else {
             debugPrint("errorCode =====> ${error.code}");
           }

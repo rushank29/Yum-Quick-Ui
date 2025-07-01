@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/utils/text_style.dart';
 import 'package:food_ui/utils/utils.dart';
 import 'add_new_card_bloc.dart';
@@ -31,7 +32,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Add New Address",
+      pageTitle: languages.addNewAddress,
       bodyWidget: Form(
         key: _bloc?.formKey,
         child: Column(
@@ -89,7 +90,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                           Column(
                             children: [
                               Text(
-                                "Card Holder Name",
+                                languages.cardHolderName,
                                 style: bodyText(
                                   fontSize: textSize12px,
                                   textColor: colorCommonBrown,
@@ -114,7 +115,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                           Column(
                             children: [
                               Text(
-                                "Expiry Date",
+                                languages.expiryDate,
                                 style: bodyText(
                                   fontSize: textSize12px,
                                   textColor: colorCommonBrown,
@@ -151,10 +152,10 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             ),
             SizedBox(height: commonPadding300px * 0.1667),
             CustomTextFormField(
-              formFieldLabel: "Card Holder Name",
+              formFieldLabel: languages.cardHolderName,
               controller: _bloc?.cardHolderNameController,
               validator: (value) {
-                return validateEmptyField(value, "Please enter the card holder name");
+                return validateEmptyField(value, languages.enterCardHolderName);
               },
               onChanged: (value) {
                 _bloc?.cardHolderNameSubject.sink.add(value.trim());
@@ -162,9 +163,9 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             ),
             SizedBox(height: commonPadding32px),
             CustomTextFormField(
-              formFieldLabel: "Card Number",
+              formFieldLabel: languages.cardNumber,
               validator: (value) {
-                return validateEmptyField(value, "Please enter the card number");
+                return validateEmptyField(value, languages.enterCardNumber);
               },
               controller: _bloc?.cardNumberController,
               keyboardType: TextInputType.number,
@@ -177,43 +178,47 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomTextFormField(
-                  formFieldWidth: commonSize120px,
-                  formFieldLabel: "Expiry Date",
-                  validator: (value) {
-                    return validateEmptyField(value, "Please enter the expiry date");
-                  },
-                  readOnly: true,
-                  onTap: () {
-                    showDateSelector(
-                      context: context,
-                      controller: _bloc!.expiryDateController,
-                      initialDate: DateTime.now(),
-                      lastDate: DateTime(2042),
-                      firstDate: DateTime.now(),
-                      format: "MM/yyyy",
-                      onDateSelected: (value) {
-                        _bloc?.expiryDateSubject.sink.add(value.trim());
-                      },
-                    );
-                  },
-                  controller: _bloc?.expiryDateController,
+                Flexible(
+                  child: CustomTextFormField(
+                    formFieldWidth: commonSize120px,
+                    formFieldLabel: languages.expiryDate,
+                    validator: (value) {
+                      return validateEmptyField(value, languages.enterExpiryDate);
+                    },
+                    readOnly: true,
+                    onTap: () {
+                      showDateSelector(
+                        context: context,
+                        controller: _bloc!.expiryDateController,
+                        initialDate: DateTime.now(),
+                        lastDate: DateTime(2042),
+                        firstDate: DateTime.now(),
+                        format: "MM/yyyy",
+                        onDateSelected: (value) {
+                          _bloc?.expiryDateSubject.sink.add(value.trim());
+                        },
+                      );
+                    },
+                    controller: _bloc?.expiryDateController,
+                  ),
                 ),
-                CustomTextFormField(
-                  formFieldWidth: commonSize120px,
-                  formFieldLabel: "CVV",
-                  validator: (value) {
-                    return validateEmptyField(value, "Please enter the CVV");
-                  },
-                  controller: _bloc?.cvvController,
-                  onChanged: (value) {
-                    _bloc?.cvvSubject.sink.add(value.trim());
-                  },
+                Flexible(
+                  child: CustomTextFormField(
+                    formFieldWidth: commonSize120px,
+                    formFieldLabel: languages.cvv,
+                    validator: (value) {
+                      return validateEmptyField(value, languages.enterCVV);
+                    },
+                    controller: _bloc?.cvvController,
+                    onChanged: (value) {
+                      _bloc?.cvvSubject.sink.add(value.trim());
+                    },
+                  ),
                 ),
               ],
             ),
             CustomRoundedButton(
-              buttonText: "Apply",
+              buttonText: languages.apply,
               onPressed: () {
                 if (_bloc!.formKey.currentState!.validate()) {
                   _bloc?.addNewCard();

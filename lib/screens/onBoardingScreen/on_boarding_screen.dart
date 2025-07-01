@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/screens/loginScreen/login_screen.dart';
-import 'package:food_ui/screens/onBoardingScreen/on_boarding_bloc.dart';
-import 'package:food_ui/screens/onBoardingScreen/on_boarding_dl.dart';
-import 'package:food_ui/screens/signUpScreen/sign_up_screen.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
+import 'package:food_ui/customWidget/custom_image.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import '../../main.dart';
+import '../loginScreen/login_screen.dart';
+import 'on_boarding_bloc.dart';
+import 'on_boarding_dl.dart';
+import '../signUpScreen/sign_up_screen.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   final bool isRedirectedToLogin;
@@ -92,7 +93,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                           child: Row(
                                             children: [
                                               Text(
-                                                'Skip',
+                                                languages.skip,
                                                 style: bodyText(
                                                   fontWeight: FontWeight.w600,
                                                   textColor: colorPrimary,
@@ -172,7 +173,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                           _bloc?.carouselSliderController?.nextPage();
                                         }
                                       },
-                                      buttonText: isLastPage ? "Get Started" : "Next",
+                                      buttonText: isLastPage ? languages.getStarted : languages.next,
                                     ),
                                   ],
                                 ),

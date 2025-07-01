@@ -1,18 +1,19 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/constant.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/screens/loginScreen/login_screen.dart';
-import 'package:food_ui/screens/signUpScreen/sign_up_bloc.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
-import 'package:food_ui/utils/validator_util.dart';
 
+import '../../constant/constant.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import '../../customWidget/custom_text_form_field.dart';
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../../main.dart';
+import '../loginScreen/login_screen.dart';
+import 'sign_up_bloc.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
+import '../../utils/validator_util.dart';
 import '../../utils/social_login_util.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -42,23 +43,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: CommonBackgroundWidget(
-        pageTitle: "New Account",
+        pageTitle: languages.newAccount,
         bodyWidget: Form(
           key: _bloc?.formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextFormField(
-                formFieldLabel: "Full name",
+                formFieldLabel: languages.fullName,
                 controller: _bloc?.fullNameController,
                 keyboardType: TextInputType.name,
                 validator: (value) {
-                  return validateEmptyField(value, "Please enter your name.");
+                  return validateEmptyField(value, languages.enterYourName);
                 },
               ),
-              SizedBox(height: commonPadding10px * 1.5),
+              SizedBox(height: deviceAvgScreenSize * 0.0268425),
               CustomTextFormField(
-                formFieldLabel: "Password",
+                formFieldLabel: languages.password,
                 controller: _bloc?.passwordController,
                 setPassword: true,
                 keyboardType: TextInputType.text,
@@ -66,18 +67,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   return validatePassword(value);
                 },
               ),
-              SizedBox(height: commonPadding10px * 1.5),
+              SizedBox(height: deviceAvgScreenSize * 0.0268425),
               CustomTextFormField(
-                formFieldLabel: "Email",
+                formFieldLabel: languages.email,
                 controller: _bloc?.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   return validateEmail(value);
                 },
               ),
-              SizedBox(height: commonPadding10px * 1.5),
+              SizedBox(height: deviceAvgScreenSize * 0.0268425),
               CustomTextFormField(
-                formFieldLabel: "Mobile Number",
+                formFieldLabel: languages.mobileNumber,
                 controller: _bloc?.mobileNumberController,
                 keyboardType: TextInputType.phone,
                 prefix: CountryCodePicker(
@@ -91,12 +92,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 validator: (value) {
-                  return validateEmptyField(value, "Please enter your mobile number!");
+                  return validateEmptyField(value, languages.enterMobileNumber);
                 },
               ),
-              SizedBox(height: commonPadding10px * 1.5),
+              SizedBox(height: deviceAvgScreenSize * 0.0268425),
               CustomTextFormField(
-                formFieldLabel: "Date of birth",
+                formFieldLabel: languages.dateOfBirth,
                 controller: _bloc?.birthDateController,
                 readOnly: true,
                 onTap: () {
@@ -104,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 },
                 keyboardType: TextInputType.datetime,
                 validator: (value) {
-                  return validateEmptyField(value, "Please select your birth date!");
+                  return validateEmptyField(value, languages.selectDateOfBirth);
                 },
               ),
               SizedBox(height: commonPadding20px),
@@ -113,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: "By continuing, you agree to\n",
+                    text: languages.byContinuing,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       fontSize: textSize12px,
@@ -121,15 +122,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     children: [
                       TextSpan(
-                        text: "Terms of Use ",
+                        text: "${languages.termsOfUse} ",
                         style: TextStyle(
                           color: colorPrimary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const TextSpan(text: "and "),
+                      TextSpan(text: "${languages.and} "),
                       TextSpan(
-                        text: "Privacy Policy.",
+                        text: "${languages.privacyPolicy}.",
                         style: TextStyle(
                           color: colorPrimary,
                           fontWeight: FontWeight.w500,
@@ -146,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   stream: _bloc?.subjectStatus,
                   builder: (context, snapStatus) {
                     return CustomRoundedButton(
-                      buttonText: "Sign Up",
+                      buttonText: languages.signUp,
                       fontSize: textSize24px,
                       setProgress: snapStatus.data?.status == Status.loading,
                       onPressed: () {
@@ -168,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Already have an account?  ",
+                      "${languages.alreadyHaveAccount}  ",
                       style: bodyText(fontWeight: FontWeight.w500, textColor: colorDarkGrey),
                     ),
                     GestureDetector(
@@ -179,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         );
                       },
                       child: Text(
-                        "Login",
+                        languages.logIn,
                         style: bodyText(fontWeight: FontWeight.w500, textColor: colorPrimary),
                       ),
                     ),

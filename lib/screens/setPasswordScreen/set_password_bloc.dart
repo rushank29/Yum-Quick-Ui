@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -28,7 +29,7 @@ class SetPasswordBloc {
         subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'auth/invalid-email') {
-            openSimpleSnackBar('No user found for $email.');
+            openSimpleSnackBar('${languages.noUserFoundForEmail(email)}.');
           } else {
             debugPrint("errorCode =====> ${error.code}");
           }

@@ -73,7 +73,7 @@ class CommonBackgroundWidget extends StatelessWidget {
                                   ),
                                 ),
                                 if (pageSubtitle != null) ...[
-                                  SizedBox(height: commonPadding10px * 0.6),
+                                  SizedBox(height: deviceAvgScreenSize * 0.010737),
                                   Text(
                                     pageSubtitle!,
                                     textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class CommonBackgroundWidget extends StatelessWidget {
                                       textColor: colorPrimary,
                                     ),
                                   ),
-                                  SizedBox(height: commonPadding10px * 0.6),
+                                  SizedBox(height: deviceAvgScreenSize * 0.010737),
                                 ]
                               ],
                             ),

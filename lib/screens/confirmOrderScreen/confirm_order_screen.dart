@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../main.dart';
 import '../paymentConfirmationScreen/payment_confirmation_screen.dart';
 import '../../customWidget/custom_image.dart';
 import '../../customWidget/custom_rounded_button.dart';
@@ -40,14 +41,14 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Confirm Order",
+      pageTitle: languages.confirmOrder,
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Text(
-                "Shipping Address",
+                languages.shippingAddress,
                 style: bodyText(
                   fontWeight: FontWeight.w700,
                   fontSize: textSize24px,
@@ -86,7 +87,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
           ),
           SizedBox(height: commonPadding50px),
           Text(
-            "Order Summary",
+            languages.orderSummary,
             style: bodyText(
               fontSize: textSize20px,
               fontWeight: FontWeight.w500,
@@ -171,13 +172,13 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "${cartItem.itemQuantity} items",
+                                      "${cartItem.itemQuantity} ${languages.items}",
                                       style: bodyText(
                                         fontWeight: FontWeight.w300,
                                         textColor: colorCommonBrown,
                                       ),
                                     ),
-                                    SizedBox(height: commonPadding10px * 0.6), // optional spacing
+                                    SizedBox(height: deviceAvgScreenSize * 0.010737), // optional spacing
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,7 +255,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
           ),
           Center(
             child: CustomRoundedButton(
-              buttonText: "Place Order",
+              buttonText: languages.placeOrder,
               onPressed: () {
                 openScreen(
                   context: context,

@@ -5,13 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/signUpScreen/sign_up_dl.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../main.dart';
+import '../signUpScreen/sign_up_dl.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
+import '../../utils/response_util.dart';
+import '../../utils/utils.dart';
 import '../../utils/image_picker.dart';
 
 class MyProfileBloc {
@@ -54,9 +55,9 @@ class MyProfileBloc {
       );
       subjectGetDataStatus.sink.add(ResponseUtil.completed());
     } else {
-      subjectGetDataStatus.sink.add(ResponseUtil.error("No data available."));
-      debugPrint('No data available.');
-      openSimpleSnackBar('No data available.');
+      subjectGetDataStatus.sink.add(ResponseUtil.error(languages.noDataAvailable));
+      debugPrint(languages.noDataAvailable);
+      openSimpleSnackBar(languages.noDataAvailable);
     }
   }
 
@@ -67,7 +68,7 @@ class MyProfileBloc {
     final email = emailController.text.trim();
 
     if (email.isEmpty || fullName.isEmpty || birthDate.isEmpty || mobileNo.isEmpty) {
-      openSimpleSnackBar('Please fill-up the full form.');
+      openSimpleSnackBar(languages.fillUpFullForm);
       return;
     }
     String? downloadUrl;
@@ -94,7 +95,7 @@ class MyProfileBloc {
                 currentUser!,
                 signUpPojo: SignUpPojo.fromJson(userMap),
               );
-              openSimpleSnackBar("User ${fullNameController.text.trim()} updated successfully.");
+              openSimpleSnackBar(languages.userUpdatedSuccess(fullNameController.text.trim()));
               subjectSetDataStatus.sink.add(ResponseUtil.completed());
               await Future.delayed(const Duration(seconds: 2));
             if (context.mounted) {
@@ -103,8 +104,8 @@ class MyProfileBloc {
           });
         }
       } else {
-        subjectSetDataStatus.sink.add(ResponseUtil.error("Error occurred while updating your profile"));
-        openSimpleSnackBar("Error occurred while updating your profile");
+        subjectSetDataStatus.sink.add(ResponseUtil.error(languages.errorOccurredWhileUpdatingProfile));
+        openSimpleSnackBar(languages.errorOccurredWhileUpdatingProfile);
       }
     }
   }

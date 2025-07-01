@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import 'package:intl/intl.dart';
 
 import '../../constant/dimensions.dart';
@@ -70,7 +71,7 @@ class CancelledOrConfirmedOrderScreen extends StatelessWidget {
                 RotatingCircleAnimation(isForPaymentConfirmation: isForPaymentConfirmation),
                 SizedBox(height: commonPadding35px),
                 Text(
-                  isForPaymentConfirmation ? "¡Order Confirmed!" : "¡Order Cancelled!",
+                  isForPaymentConfirmation ? languages.orderConfirmed : languages.orderCancelled,
                   style: bodyText(
                     fontWeight: FontWeight.w900,
                     fontSize: textSize24px,
@@ -80,8 +81,8 @@ class CancelledOrConfirmedOrderScreen extends StatelessWidget {
                 SizedBox(height: commonPadding16px),
                 Text(
                   isForPaymentConfirmation
-                      ? "Your order has been placed successfully"
-                      : "Your order has been successfully cancelled",
+                      ? languages.orderPlacedSuccessful
+                      : languages.orderSuccessfullyCancelled,
                   textAlign: TextAlign.center,
                   style: bodyText(
                     fontWeight: FontWeight.w600,
@@ -92,7 +93,7 @@ class CancelledOrConfirmedOrderScreen extends StatelessWidget {
                 SizedBox(height: commonPadding16px),
                 if (eta.isNotEmpty) ...[
                   Text(
-                    'Delivery by $weekday, $day$daySuffix, $time',
+                    '${languages.deliveryBy} $weekday, $day$daySuffix, $time',
                     textAlign: TextAlign.center,
                     style: bodyText(
                       fontWeight: FontWeight.w600,
@@ -104,7 +105,7 @@ class CancelledOrConfirmedOrderScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {},
                     child: Text(
-                      'Track my order',
+                      languages.trackMyOrder,
                       textAlign: TextAlign.center,
                       style: bodyText(
                         fontWeight: FontWeight.w500,
@@ -117,7 +118,7 @@ class CancelledOrConfirmedOrderScreen extends StatelessWidget {
               ],
             ),
             Text(
-              "If you have any question reach directly to our customer support",
+              languages.ifQuestionsReachSupport,
               textAlign: TextAlign.center,
               style: bodyText(
                 fontWeight: FontWeight.w500,

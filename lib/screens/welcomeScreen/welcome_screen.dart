@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/screens/welcomeScreen/welcome_bloc.dart';
-import 'package:food_ui/screens/welcomeScreen/welcome_dl.dart';
-import 'package:food_ui/utils/text_style.dart';
 
+import '../../customWidget/custom_rounded_button.dart';
+import '../../main.dart';
+import 'welcome_bloc.dart';
+import 'welcome_dl.dart';
+import '../../utils/text_style.dart';
 import '../../customWidget/custom_image.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
@@ -55,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               SizedBox(height: deviceHeight * 0.06),
               CustomRoundedButton(
-                buttonText: "Log In",
+                buttonText: languages.logIn,
                 onPressed: () {
                   _bloc?.onButtonClickedEvent(true);
                 },
@@ -72,7 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               SizedBox(height: deviceHeight * 0.001),
               CustomRoundedButton(
-                buttonText: "Sign Up",
+                buttonText: languages.signUp,
                 onPressed: () {
                   _bloc?.onButtonClickedEvent(false);
                 },

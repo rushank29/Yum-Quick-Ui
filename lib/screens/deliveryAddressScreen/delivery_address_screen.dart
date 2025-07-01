@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
+import 'package:food_ui/main.dart';
+
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/common_bg_screen.dart';
 import '../../customWidget/no_record_found.dart';
 import '../../utils/response_util.dart';
-import 'delivery_address_bloc.dart';
-import 'delivery_address_dl.dart';
-import 'package:food_ui/utils/text_style.dart';
-
+import '../../utils/text_style.dart';
 import '../../constant/constant.dart';
 import '../../customWidget/custom_rounded_button.dart';
+import 'delivery_address_dl.dart';
+import 'delivery_address_bloc.dart';
 import 'delivery_address_shimmer.dart';
 
 class DeliveryAddressScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Delivery Address",
+      pageTitle: languages.deliveryAddress,
       bodyPadding: EdgeInsetsDirectional.symmetric(
         horizontal: commonPadding35px,
         vertical: commonPadding300px * 0.16667,
@@ -60,7 +61,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                       ? _deliveryAddressBody(data)
                       : const NoRecordFound();
                 case Status.error:
-                  return const NoRecordFound(message: "You don't have any delivery addresses set, currently.");
+                  return NoRecordFound(message: languages.noDeliveryAddressSet);
               }
             },
           ),
@@ -168,7 +169,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           },
         ),
         CustomRoundedButton(
-          buttonText: "Add New Address",
+          buttonText: languages.addNewAddress,
           onPressed: () {
             _bloc?.openAddAddressScreen();
           },

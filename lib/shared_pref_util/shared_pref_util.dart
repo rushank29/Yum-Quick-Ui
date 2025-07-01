@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ui';
 
+import '../constant/constant.dart';
 import 'shared_pref_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,4 +62,18 @@ Future<T?> getObjectFromPrefs<T>(
   }
 
   return null;
+}
+
+Locale _locale(String languageCode) {
+  return languageCode.isNotEmpty ? Locale(languageCode, '') : const Locale('en', '');
+}
+
+Future<Locale> setLocale(String languageCode) async {
+  await prefs?.setString(prefSelectedLanguageCode, languageCode);
+  return _locale(languageCode);
+}
+
+Locale getLocale() {
+  String languageCode = prefs?.getString(prefSelectedLanguageCode) ?? defaultLanguage;
+  return _locale(languageCode);
 }

@@ -1,3 +1,5 @@
+import 'package:food_ui/main.dart';
+
 String? validateEmptyField(String? value, String? message) {
   return (value ?? "").isEmpty ? message : null;
 }
@@ -15,7 +17,7 @@ String? validateEmail(String? value) {
   return value!.isEmpty
       ? 'Enter a email address'
       : !regex.hasMatch(value)
-          ? 'Enter a valid email address'
+          ? languages.enterValidEmail
           : null;
 }
 
@@ -25,6 +27,6 @@ String? validatePassword(String? value) {
   return value!.isEmpty
       ? 'Enter a password'
       : (!regExp.hasMatch(value))
-          ? "Password needs: uppercase, lowercase, number, symbol, min 6 chars."
+          ? languages.enterValidPassword
           : null;
 }

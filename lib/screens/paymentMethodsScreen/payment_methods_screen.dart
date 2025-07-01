@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 
 import '../../customWidget/common_bg_screen.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
@@ -34,7 +35,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Payment Methods",
+      pageTitle: languages.paymentMethods,
       bodyWidget: Column(
         children: [
           StreamBuilder<ResponseUtil<PaymentMethodsPojo>>(
@@ -126,7 +127,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           },
         ),
         CustomRoundedButton(
-          buttonText: "Add New Card",
+          buttonText: languages.addNewCard,
           onPressed: () {
             _bloc?.addNewCardScreen();
           },

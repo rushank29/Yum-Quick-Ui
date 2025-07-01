@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/common_bg_screen.dart';
@@ -37,7 +38,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Cancel Order",
+      pageTitle: languages.cancelOrder,
       bodyPadding: EdgeInsetsDirectional.symmetric(
         horizontal: commonPadding35px,
         vertical: commonPadding300px * 0.16667,
@@ -46,7 +47,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor.",
+            languages.loremIpsum,
             style: bodyText(textColor: colorCommonBrown, fontWeight: FontWeight.w300, fontSize: textSize14px),
           ),
           StreamBuilder<ResponseUtil<CancellationReasonListPojo>>(
@@ -132,7 +133,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                               ? CustomTextFormField(
                                   controller: _bloc?.otherReasonController,
                                   maxLines: 3,
-                                  hintText: "Others reason...",
+                                  hintText: languages.otherReasons,
                                   margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
                                   onChanged: (value) {
                                     _bloc?.selectedReasonSubject.sink.add(null);
@@ -149,7 +150,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
           },
         ),
         CustomRoundedButton(
-          buttonText: "Submit",
+          buttonText: languages.submit,
           onPressed: () {
             _bloc?.onSubmitCancelledReason();
           },

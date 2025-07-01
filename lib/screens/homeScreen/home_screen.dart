@@ -1,14 +1,17 @@
+import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/screens/bestSeller/best_seller_screen.dart';
-import 'package:food_ui/screens/productDetailScreen/product_detail_screen.dart';
+
+import '../../main.dart';
+import '../bestSeller/best_seller_screen.dart';
+import '../productDetailScreen/product_detail_screen.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_image.dart';
 import '../../customWidget/custom_text_form_field.dart';
-import '../fliterScreen/filter_screen.dart';
+import '../filterScreen/filter_screen.dart';
 import '../recommendedScreen/recommended_screen.dart';
 import 'home_bloc.dart';
 import 'home_dl.dart';
@@ -16,7 +19,6 @@ import 'home_shimmer.dart';
 import '../../utils/response_util.dart';
 import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -72,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: CustomTextFormField(
                           backgroundColor: colorWhite,
                           formFieldHeight: commonSize45px * 0.9,
-                          hintText: "Search",
+                          hintText: languages.search,
                           suffixPadding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
                           contentPadding: EdgeInsetsDirectional.symmetric(
                               horizontal: commonPadding10px, vertical: commonPadding10px * 0),
@@ -271,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Bestseller",
+                languages.bestseller2,
                 style: bodyText(
                   fontSize: textSize20px,
                   fontWeight: FontWeight.w500,
@@ -287,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "View All",
+                        languages.viewAll,
                         style: bodyText(
                           fontWeight: FontWeight.w600,
                           textColor: colorPrimary,
@@ -438,7 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Recommended",
+                languages.recommended,
                 style: bodyText(
                   textColor: colorCommonBrown,
                   fontSize: textSize20px,
@@ -453,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "View All",
+                      languages.viewAll,
                       style: bodyText(
                         fontWeight: FontWeight.w600,
                         textColor: colorPrimary,

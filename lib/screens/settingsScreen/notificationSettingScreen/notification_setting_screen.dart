@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/constant/colors.dart';
+import 'package:food_ui/main.dart';
 import 'package:food_ui/screens/settingsScreen/notificationSettingScreen/notification_setting_shimmer.dart';
 import '../../../constant/dimensions.dart';
 import '../../../customWidget/common_bg_screen.dart';
@@ -29,7 +30,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Notification Setting",
+      pageTitle: languages.notificationSetting,
       bodyWidget: StreamBuilder<ResponseUtil<NotificationSettingListPojo>>(
         stream: _bloc?.subject,
         builder: (context, snapNotificationSetting) {

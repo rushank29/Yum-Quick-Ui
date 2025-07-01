@@ -13,6 +13,7 @@ import 'package:food_ui/utils/utils.dart';
 import 'package:food_ui/utils/validator_util.dart';
 
 import '../../constant/constant.dart';
+import '../../main.dart';
 import '../../utils/social_login_util.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Welcome",
+                languages.welcome,
                 style: bodyText(
                   fontSize: textSize24px,
                   fontWeight: FontWeight.w600,
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: commonPadding20px),
               Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                languages.loremIpsum,
                 style: bodyText(
                   fontWeight: FontWeight.w300,
                   textColor: colorDarkGrey,
@@ -66,14 +67,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: commonPadding24px * 2),
               CustomTextFormField(
-                formFieldLabel: "Email or Mobile Number",
+                formFieldLabel: "${languages.email} ${languages.or} ${languages.mobileNumber}",
                 controller: _bloc?.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => validateEmail(value),
               ),
               SizedBox(height: commonPadding24px),
               CustomTextFormField(
-                formFieldLabel: "Password",
+                formFieldLabel: languages.password,
                 controller: _bloc?.passwordController,
                 setPassword: true,
                 keyboardType: TextInputType.text,
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                   child: Text(
-                    "Forgot Password",
+                    languages.forgotPassword,
                     style: bodyText(fontWeight: FontWeight.w500, textColor: colorPrimary),
                   ),
                 ),
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   stream: _bloc?.subjectStatus,
                   builder: (context, snapStatus) {
                     return CustomRoundedButton(
-                      buttonText: "Log In",
+                      buttonText: languages.logIn,
                       fontSize: textSize24px,
                       setProgress: snapStatus.data?.status == Status.loading,
                       onPressed: () {
@@ -125,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Don’t have an account?  ",
+                      "${languages.doNotHaveAnAccount}  ",
                       style: bodyText(fontWeight: FontWeight.w500, textColor: colorDarkGrey),
                     ),
                     GestureDetector(
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       child: Text(
-                        "Sign Up",
+                        languages.signUp,
                         style: bodyText(fontWeight: FontWeight.w500, textColor: colorPrimary),
                       ),
                     ),

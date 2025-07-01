@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/onBoardingScreen/on_boarding_screen.dart';
-import 'package:food_ui/screens/welcomeScreen/welcome_dl.dart';
-import 'package:food_ui/screens/welcomeScreen/welcome_json.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
-import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../onBoardingScreen/on_boarding_screen.dart';
+import 'welcome_dl.dart';
+import 'welcome_json.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../shared_pref_util/shared_pref_util.dart';
+import '../../utils/utils.dart';
 import '../loginScreen/login_screen.dart';
 import '../signUpScreen/sign_up_screen.dart';
 

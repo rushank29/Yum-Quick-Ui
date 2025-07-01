@@ -13,6 +13,7 @@ import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_text_form_field.dart';
+import '../../main.dart';
 import '../../utils/text_style.dart';
 import '../productDetailScreen/product_detail_screen.dart';
 
@@ -66,7 +67,7 @@ class _DishesScreenState extends State<DishesScreen> with TickerProviderStateMix
                         child: CustomTextFormField(
                           backgroundColor: colorWhite,
                           formFieldHeight: commonSize45px * 0.9,
-                          hintText: "Search",
+                          hintText: languages.search,
                           suffixPadding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
                           borderRadius: BorderRadius.circular(deviceAvgScreenSize * 0.05),
                           contentPadding: EdgeInsetsDirectional.symmetric(
@@ -216,7 +217,7 @@ class _DishesScreenState extends State<DishesScreen> with TickerProviderStateMix
                           Row(
                             children: [
                               Text(
-                                "Sort by",
+                                languages.sortBy,
                                 style: bodyText(
                                   fontSize: textSize12px,
                                   textColor: colorTextCommonBlack,
@@ -225,7 +226,7 @@ class _DishesScreenState extends State<DishesScreen> with TickerProviderStateMix
                               ),
                               SizedBox(width: commonPadding10px),
                               Text(
-                                "Popular",
+                                languages.popular,
                                 style: bodyText(
                                   fontSize: textSize12px,
                                   textColor: colorPrimary,

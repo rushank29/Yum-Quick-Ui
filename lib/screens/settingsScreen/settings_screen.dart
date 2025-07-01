@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
-import 'package:food_ui/screens/settingsScreen/settings_bloc.dart';
 
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
+import '../../main.dart';
+import 'settings_bloc.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../utils/text_style.dart';
@@ -29,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Settings",
+      pageTitle: languages.settings,
       bodyWidget: Column(
         children: settingList.asMap().entries.map((entry) {
           int settingIndex = entry.key;

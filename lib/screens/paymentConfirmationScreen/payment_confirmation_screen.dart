@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 
 import '../../customWidget/common_bg_screen.dart';
 import '../cancelOrderScreen/cancelled_confirmed_order_screen.dart';
@@ -41,7 +42,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Payment",
+      pageTitle: languages.payment,
       bodyWidget: StreamBuilder<ResponseUtil<CartDataPojo>>(
         stream: widget.subjectCartData,
         builder: (context, snapCart) {
@@ -50,7 +51,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Shipping Address",
+                languages.shippingAddress,
                 style: bodyText(
                   fontWeight: FontWeight.w700,
                   fontSize: textSize24px,
@@ -74,7 +75,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Order Summary",
+                    languages.orderSummary,
                     style: bodyText(
                       fontSize: textSize20px,
                       fontWeight: FontWeight.w500,
@@ -111,7 +112,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                             ),
                             SizedBox(width: commonPadding16px),
                             Text(
-                              "${cartItem.itemQuantity} items",
+                              "${cartItem.itemQuantity} ${languages.items}",
                               style: bodyText(
                                 fontSize: textSize14px,
                                 fontWeight: FontWeight.w300,
@@ -195,7 +196,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
               Divider(color: colorPrimaryLight),
               SizedBox(height: commonPadding16px),
               Text(
-                "Delivery Time",
+                languages.deliveryTime,
                 style: bodyText(
                   fontWeight: FontWeight.w500,
                   fontSize: textSize20px,
@@ -206,7 +207,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Estimated Delivery",
+                    languages.estimatedDelivery,
                     style: bodyText(
                       fontWeight: FontWeight.w300,
                       textColor: colorCommonBrown,
@@ -226,7 +227,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
               Divider(color: colorPrimaryLight),
               Center(
                 child: CustomRoundedButton(
-                  buttonText: "Pay Now",
+                  buttonText: languages.payNow,
                   onPressed: () {
                     openScreen(
                       context: context,
@@ -268,7 +269,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadiusDirectional.circular(borderRadius10px), color: colorPrimaryLight),
         child: Text(
-          "Edit",
+          languages.edit,
           style: bodyText(
             textColor: colorPrimary,
             fontSize: textSize12px,

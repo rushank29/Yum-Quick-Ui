@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ui/main.dart';
 
 import '../../constant/colors.dart';
 import '../../customWidget/common_bg_screen.dart';
@@ -135,7 +136,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                         horizontal: commonPadding10px * 0.5,
                       ),
                       child: Text(
-                        "1",
+                        languages.one,
                         style: bodyText(fontSize: textSize24px, textColor: colorCommonBrown),
                       ),
                     ),
@@ -167,7 +168,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             ),
             SizedBox(height: commonPadding28px),
             Text(
-              "Add on ingredients",
+              languages.addOnIngredients,
               style: bodyText(
                 fontSize: textSize20px,
                 textColor: colorCommonBrown,
@@ -247,7 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             Align(
               alignment: AlignmentDirectional.center,
               child: CustomRoundedButton(
-                buttonText: "Add to Cart",
+                buttonText: languages.addToCart,
                 widget: Padding(
                   padding: EdgeInsetsDirectional.only(end: commonPadding10px),
                   child: SvgPicture.asset(

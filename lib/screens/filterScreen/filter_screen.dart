@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/screens/fliterScreen/filter_bloc.dart';
+import 'package:food_ui/main.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/common_bg_screen.dart';
 import '../../utils/text_style.dart';
 import '../homeScreen/home_dl.dart';
+import 'filter_bloc.dart';
 
 class FilterScreen extends StatefulWidget {
   final List<FoodCategories> foodCategoryList;
@@ -49,7 +50,7 @@ class _FilterScreenState extends State<FilterScreen> {
               Align(
                 alignment: AlignmentDirectional.center,
                 child: CustomRoundedButton(
-                  buttonText: "Apply",
+                  buttonText: languages.apply,
                   onPressed: () {},
                   margin: EdgeInsetsDirectional.only(top: commonPadding32px, bottom: commonPadding10px),
                 ),
@@ -67,7 +68,7 @@ class _FilterScreenState extends State<FilterScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "Categories",
+          languages.categories,
           style: bodyText(fontSize: textSize20px, textColor: colorCommonBrown, fontWeight: FontWeight.w500),
         ),
         Container(
@@ -132,7 +133,7 @@ class _FilterScreenState extends State<FilterScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "Sort by",
+          languages.sortBy,
           style: bodyText(fontSize: textSize20px, textColor: colorCommonBrown, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: commonPadding10px),
@@ -143,7 +144,7 @@ class _FilterScreenState extends State<FilterScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Top Rated",
+                languages.topRated,
                 style: bodyText(
                     fontSize: textSize14px, textColor: colorCommonBrown, fontWeight: FontWeight.w300),
               ),
@@ -199,7 +200,7 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
           margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
           child: Text(
-            "Categories",
+            languages.categories,
             style: bodyText(fontSize: textSize14px, textColor: colorCommonBrown, fontWeight: FontWeight.w300),
           ),
         ),
@@ -266,7 +267,7 @@ class _FilterScreenState extends State<FilterScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "Price",
+          languages.price,
           style: bodyText(fontSize: textSize20px, textColor: colorPrimary, fontWeight: FontWeight.w500),
         ),
         StreamBuilder<num>(

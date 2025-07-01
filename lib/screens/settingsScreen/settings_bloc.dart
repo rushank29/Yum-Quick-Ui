@@ -5,6 +5,7 @@ import '../../constant/constant.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
 import '../../customWidget/custom_rounded_button.dart';
+import '../../main.dart';
 import '../../utils/text_style.dart';
 import 'notificationSettingScreen/notification_setting_screen.dart';
 
@@ -27,7 +28,7 @@ class SettingsBloc {
     switch (item) {
       case SettingItem.notificationSetting:
         return ItemSettings(
-          title: "Notification Setting",
+          title: languages.notificationSetting,
           iconPath: "assets/svg/bell.svg",
           onTap: () {
             openScreen(context: context, screen: const NotificationSettingScreen());
@@ -35,7 +36,7 @@ class SettingsBloc {
         );
       case SettingItem.passwordSetting:
         return ItemSettings(
-          title: "Password Setting",
+          title: languages.passwordSetting,
           iconPath: "assets/svg/password_key_icon.svg",
           onTap: () {
             openScreen(context: context, screen: const PasswordSettingScreen());
@@ -43,7 +44,7 @@ class SettingsBloc {
         );
       case SettingItem.deleteAccount:
         return ItemSettings(
-          title: "Delete Account",
+          title: languages.deleteAccount,
           iconPath: "assets/svg/person.svg",
           onTap: () {
             deleteAccountBottomSheet();
@@ -75,7 +76,7 @@ class SettingsBloc {
                   end: commonPadding300px * 0.25,
                 ),
                 child: Text(
-                  "Are you sure you want to delete your account?",
+                  languages.deleteAccountMsg,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -90,7 +91,7 @@ class SettingsBloc {
                 children: [
                   Expanded(
                     child: CustomRoundedButton(
-                      buttonText: "Cancel",
+                      buttonText: languages.cancel,
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -106,10 +107,10 @@ class SettingsBloc {
                       ),
                     ),
                   ),
-                  SizedBox(width: commonPadding10px * 1.5),
+                  SizedBox(width: deviceAvgScreenSize * 0.0268425),
                   Expanded(
                     child: CustomRoundedButton(
-                      buttonText: "Yes, delete",
+                      buttonText: languages.deleteConfirm,
                       onPressed: () {
                         deleteAccount(context);
                       },
