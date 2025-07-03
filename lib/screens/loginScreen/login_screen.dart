@@ -110,6 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonText: languages.logIn,
                       fontSize: textSize24px,
                       setProgress: snapStatus.data?.status == Status.loading,
+                      minBtnHeight: 0.052,
+                      minBtnWidth: 0.45,
                       onPressed: () {
                         _bloc?.userLogin();
                       },

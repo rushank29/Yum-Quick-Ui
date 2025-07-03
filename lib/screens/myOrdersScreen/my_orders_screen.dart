@@ -229,26 +229,22 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                   }
                                 },
                                 fontSize: textSize15px,
-                                padding: EdgeInsetsDirectional.only(
-                                  start: commonPadding10px,
-                                  end: commonPadding10px,
-                                ),
+                                minBtnHeight: 0.042,
+                                minBtnWidth: 0.4,
                               ),
                             ),
                             SizedBox(width: deviceAvgScreenSize * 0.0268425),
                             Expanded(
                               child: CustomRoundedButton(
-                                buttonText: selectedTab == 0 ? "Track Driver" : "Order Again",
+                                buttonText: selectedTab == 0 ? languages.trackMyOrder : languages.orderAgain,
                                 onPressed: () {},
                                 fontSize: textSize15px,
                                 fontWeight: FontWeight.w400,
                                 backgroundColor: colorPrimaryLight,
                                 textColor: colorPrimary,
                                 borderColor: colorPrimaryLight,
-                                padding: EdgeInsetsDirectional.only(
-                                  start: commonPadding10px,
-                                  end: commonPadding10px,
-                                ),
+                                minBtnHeight: 0.042,
+                                minBtnWidth: 0.4,
                               ),
                             ),
                           ],
@@ -272,7 +268,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         onTabSelected?.call();
         _bloc?.getMyOrders();
       },
-      padding: EdgeInsetsDirectional.only(start: commonPadding10px * 0.5, end: commonPadding10px * 0.5),
+      minBtnHeight: 0.048,
       backgroundColor: isTabSelected ? null : colorPrimaryLight,
       textColor: isTabSelected ? null : colorPrimary,
       borderColor: isTabSelected ? null : colorPrimaryLight,

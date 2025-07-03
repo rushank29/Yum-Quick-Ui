@@ -209,10 +209,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 textColor: colorPrimary,
                 borderColor: colorPrimaryLight,
                 margin: EdgeInsetsDirectional.only(top: commonPadding50px),
-                padding: EdgeInsetsDirectional.only(
-                  start: commonPadding10px,
-                  end: commonPadding10px,
-                ),
+                minBtnHeight: 0.048,
+                minBtnWidth: 0.4,
               ),
             ),
         ],

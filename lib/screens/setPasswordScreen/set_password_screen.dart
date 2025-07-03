@@ -67,6 +67,8 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                     buttonText: languages.createNewPassword,
                     fontSize: textSize17px,
                     setProgress: snapStatus.data?.status == Status.loading,
+                    minBtnHeight: 0.052,
+                    minBtnWidth: 0.5,
                     onPressed: () {
                       _bloc?.setNewPassword();
                     },

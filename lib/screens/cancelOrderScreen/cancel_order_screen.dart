@@ -155,6 +155,8 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
             _bloc?.onSubmitCancelledReason();
           },
           fontWeight: FontWeight.w600,
+          minBtnHeight: 0.048,
+          minBtnWidth: 0.4,
           margin: EdgeInsetsDirectional.only(top: commonPadding20px),
         )
       ],

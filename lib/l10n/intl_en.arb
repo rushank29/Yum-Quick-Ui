@@ -166,6 +166,9 @@
   "discoverTheDishesRecommended": "Discover the dishes recommended by the chef.",
   "selectLanguage": "Select Language",
   "orderPending": "Order Pending",
+  "general": "General",
+  "account": "Account",
+  "services": "Services",
   "@userUpdatedSuccess": {
     "placeholders": {
       "userName": {

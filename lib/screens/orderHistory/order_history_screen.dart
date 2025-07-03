@@ -130,10 +130,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                             openScreen(context: context, screen: OrderDetailsScreen(item: itemOrderList));
                           },
                           fontSize: textSize15px,
-                          padding: EdgeInsetsDirectional.symmetric(
-                            horizontal: commonPadding28px,
-                            vertical: 0,
-                          ),
+                          minBtnHeight: 0.039,
+                          minBtnWidth: 0.28,
                         ),
                       ],
                     ),
@@ -143,7 +141,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             );
           },
         ),
-        SizedBox(height: commonPadding24px),
+        SizedBox(height: commonPadding16px),
         Divider(color: colorPrimaryLight),
       ],
     );

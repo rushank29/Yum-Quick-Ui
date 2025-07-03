@@ -248,7 +248,8 @@ Widget commonTabWidget(
     backgroundColor: isTabSelected ? colorPrimary : colorPrimaryLight,
     textColor: isTabSelected ? colorWhite : colorPrimary,
     borderColor: isTabSelected ? colorPrimary : colorPrimaryLight,
-    padding: EdgeInsetsDirectional.symmetric(vertical: deviceAvgScreenSize * 0.010737),
+    minBtnHeight: 0.048,
+    minBtnWidth: 0.4,
   );
 }
 

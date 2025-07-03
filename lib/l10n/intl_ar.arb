@@ -165,5 +165,8 @@
   "newProduct": "منتج جديد",
   "discoverTheDishesRecommended": "اكتشف الأطباق التي أوصى بها الشيف.",
   "selectLanguage": "اختر اللغة",
-  "orderPending": "الطلب معلق"
+  "orderPending": "الطلب معلق",
+  "general": "عام",
+  "account": "حسابات",
+  "services": "خدمات"
 }

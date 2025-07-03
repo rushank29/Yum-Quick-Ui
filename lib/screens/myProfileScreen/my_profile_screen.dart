@@ -177,6 +177,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             builder: (context, snapSetStatus) {
               return CustomRoundedButton(
                 buttonText: languages.updateProfile,
+                minBtnHeight: 0.048,
+                minBtnWidth: 0.4,
                 onPressed: () {
                   _bloc?.updateProfile();
                 },

@@ -134,6 +134,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           fontSize: textSize20px,
           fontWeight: FontWeight.w400,
           backgroundColor: colorPrimaryLight,
+          minBtnHeight: 0.048,
+          minBtnWidth: 0.4,
           textColor: colorPrimary,
           borderColor: colorPrimaryLight,
           margin: EdgeInsetsDirectional.only(top: commonPadding35px),

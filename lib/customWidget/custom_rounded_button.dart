@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/utils/text_style.dart';
+
+import '../constant/colors.dart';
+import '../constant/dimensions.dart';
+import '../utils/text_style.dart';
 
 class CustomRoundedButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final double? borderRadius;
+  final double minBtnHeight;
+  final double minBtnWidth;
   final double? fontSize;
   final FontWeight fontWeight;
   final Color? borderColor;
   final Color? textColor;
-  final EdgeInsetsDirectional? padding, margin;
+  final EdgeInsetsDirectional padding;
+  final EdgeInsetsDirectional? margin;
   final bool setProgress;
   final IconData? icon;
   final Widget? widget;
@@ -28,10 +32,14 @@ class CustomRoundedButton extends StatelessWidget {
     this.fontWeight = FontWeight.w500,
     this.borderColor,
     this.textColor,
-    this.padding,
+    this.padding = EdgeInsetsDirectional.zero,
     this.margin,
     this.setProgress = false,
-    this.icon, this.iconColor, this.widget,
+    this.icon,
+    this.iconColor,
+    this.widget,
+    this.minBtnHeight = 0,
+    this.minBtnWidth = 0,
   });
 
   @override
@@ -44,15 +52,8 @@ class CustomRoundedButton extends StatelessWidget {
           backgroundColor: MaterialStatePropertyAll(onPressed == null
               ? (backgroundColor?.withOpacity(0.3) ?? colorPrimaryLight)
               : backgroundColor ?? colorPrimary),
-          padding: MaterialStatePropertyAll(
-            padding ??
-                EdgeInsetsDirectional.only(
-                  start: deviceWidth * 0.1,
-                  end: deviceWidth * 0.1,
-                  top: deviceHeight * 0.01,
-                  bottom: deviceHeight * 0.01,
-                ),
-          ),
+          minimumSize: MaterialStatePropertyAll(Size(deviceWidth * minBtnWidth, deviceHeight * minBtnHeight)),
+          padding: MaterialStatePropertyAll(padding),
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadiusDirectional.circular(

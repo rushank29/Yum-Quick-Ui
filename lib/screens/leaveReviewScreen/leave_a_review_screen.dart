@@ -108,10 +108,8 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                   backgroundColor: colorPrimaryLight,
                   textColor: colorPrimary,
                   borderColor: colorPrimaryLight,
-                  padding: EdgeInsetsDirectional.only(
-                    start: commonPadding10px,
-                    end: commonPadding10px,
-                  ),
+                  minBtnHeight: 0.048,
+                  minBtnWidth: 0.4,
                 ),
               ),
               SizedBox(width: deviceAvgScreenSize * 0.0268425),
@@ -125,10 +123,8 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  padding: EdgeInsetsDirectional.only(
-                    start: commonPadding10px,
-                    end: commonPadding10px,
-                  ),
+                  minBtnHeight: 0.048,
+                  minBtnWidth: 0.4,
                 ),
               ),
             ],

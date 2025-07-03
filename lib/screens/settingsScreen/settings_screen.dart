@@ -45,35 +45,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: commonSize45px * 0.75,
-                        alignment: AlignmentDirectional.center,
-                        child: SvgPicture.asset(
-                          item.iconPath,
-                          height: commonSize45px * 0.75,
+                  Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
                           width: commonSize45px * 0.75,
-                        ),
-                      ),
-                      SizedBox(width: commonPadding16px),
-                      Expanded(
-                        child: Text(
-                          item.title,
-                          style: bodyText(
-                            fontSize: textSize20px,
-                            fontWeight: FontWeight.w500,
-                            textColor: colorCommonBrown,
+                          alignment: AlignmentDirectional.center,
+                          child: SvgPicture.asset(
+                            item.iconPath,
+                            height: commonSize45px * 0.75,
+                            width: commonSize45px * 0.75,
                           ),
                         ),
-                      ),
-                      SizedBox(width: commonPadding16px),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: iconSize24px,
-                        color: colorPrimary,
-                      )
-                    ],
+                        SizedBox(width: commonPadding16px),
+                        Expanded(
+                          child: Text(
+                            item.title,
+                            style: bodyText(
+                              fontSize: textSize20px,
+                              fontWeight: FontWeight.w500,
+                              textColor: colorCommonBrown,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: commonPadding16px),
+                        Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: iconSize24px,
+                          color: colorPrimary,
+                        )
+                      ],
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(

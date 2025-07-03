@@ -52,6 +52,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: CustomRoundedButton(
                   buttonText: languages.apply,
                   onPressed: () {},
+                  minBtnHeight: 0.044,
+                  minBtnWidth: 0.35,
                   margin: EdgeInsetsDirectional.only(top: commonPadding32px, bottom: commonPadding10px),
                 ),
               ),

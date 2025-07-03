@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_dl.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_json.dart';
-import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'my_orders_dl.dart';
+import 'my_orders_json.dart';
+import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
 
 class MyOrdersBloc {

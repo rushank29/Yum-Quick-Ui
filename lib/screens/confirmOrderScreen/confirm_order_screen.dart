@@ -272,12 +272,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               textColor: colorPrimary,
               borderColor: colorPrimaryLight,
               margin: EdgeInsetsDirectional.only(top: commonPadding32px),
-              padding: EdgeInsetsDirectional.only(
-                start: commonPadding10px,
-                end: commonPadding10px,
-                top: commonPadding10px,
-                bottom: commonPadding10px,
-              ),
+              minBtnHeight: 0.048,
+              minBtnWidth: 0.4,
             ),
           )
         ],

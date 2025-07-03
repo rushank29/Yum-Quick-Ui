@@ -176,6 +176,8 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           fontSize: textSize20px,
           fontWeight: FontWeight.w400,
           backgroundColor: colorPrimaryLight,
+          minBtnHeight: 0.05,
+          minBtnWidth: 0.45,
           textColor: colorPrimary,
           borderColor: colorPrimaryLight,
           margin: EdgeInsetsDirectional.only(top: commonPadding35px),

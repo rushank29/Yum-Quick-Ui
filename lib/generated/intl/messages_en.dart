@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You have a current order Strawberry Shake and Broccoli Lasagna"),
         "aboutOrderTracking":
             MessageLookupByLibrary.simpleMessage("About order tracking"),
+        "account": MessageLookupByLibrary.simpleMessage("Account"),
         "accountManagementAndProfile": MessageLookupByLibrary.simpleMessage(
             "Account management and profile"),
         "active": MessageLookupByLibrary.simpleMessage("Active"),
@@ -138,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "four": MessageLookupByLibrary.simpleMessage("4"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full name"),
+        "general": MessageLookupByLibrary.simpleMessage("General"),
         "generalInformation":
             MessageLookupByLibrary.simpleMessage("General Information"),
         "getStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
@@ -236,6 +238,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Language"),
         "selectOrEnterCancellationReason": MessageLookupByLibrary.simpleMessage(
             "Please select the cancellation reason or enter the one!"),
+        "services": MessageLookupByLibrary.simpleMessage("Services"),
         "setPassword": MessageLookupByLibrary.simpleMessage("Set Password"),
         "setYourFingerPrint":
             MessageLookupByLibrary.simpleMessage("Set Your Fingerprint"),

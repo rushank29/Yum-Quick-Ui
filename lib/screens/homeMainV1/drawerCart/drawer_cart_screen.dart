@@ -232,10 +232,8 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
           backgroundColor: colorPeach,
           textColor: colorPrimary,
           margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding35px),
-          padding: EdgeInsetsDirectional.only(
-            start: commonPadding10px,
-            end: commonPadding10px,
-          ),
+          minBtnHeight: 0.048,
+          minBtnWidth: 0.4,
         )
       ],
     );

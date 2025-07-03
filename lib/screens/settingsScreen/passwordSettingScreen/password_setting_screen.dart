@@ -65,6 +65,8 @@ class _PasswordSettingScreenState extends State<PasswordSettingScreen> {
             onPressed: () {
               _bloc?.userChangePassword();
             },
+            minBtnHeight: 0.05,
+            minBtnWidth: 0.45,
           ),
         ],
       ),

@@ -225,6 +225,8 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                 }
               },
               fontSize: textSize20px,
+              minBtnHeight: 0.044,
+              minBtnWidth: 0.3,
               margin: EdgeInsetsDirectional.only(top: commonPadding35px),
             )
           ],

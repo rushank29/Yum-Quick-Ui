@@ -259,30 +259,33 @@ class _HomeMainV1State extends State<HomeMainV1> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(commonPadding10px),
-                            decoration: BoxDecoration(
-                              color: colorMainBackground,
-                              borderRadius: BorderRadius.circular(borderRadius15px),
+                      Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(commonPadding10px),
+                              decoration: BoxDecoration(
+                                color: colorMainBackground,
+                                borderRadius: BorderRadius.circular(borderRadius15px),
+                              ),
+                              child: SvgPicture.asset(
+                                item.iconPath,
+                                height: iconSize24px,
+                                width: iconSize24px,
+                              ),
                             ),
-                            child: SvgPicture.asset(
-                              item.iconPath,
-                              height: iconSize24px,
-                              width: iconSize24px,
+                            SizedBox(width: commonPadding16px),
+                            Text(
+                              item.title,
+                              style: bodyText(
+                                fontSize: textSize24px,
+                                fontWeight: FontWeight.w500,
+                                textColor: colorFormFieldBg,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: commonPadding16px),
-                          Text(
-                            item.title,
-                            style: bodyText(
-                              fontSize: textSize24px,
-                              fontWeight: FontWeight.w500,
-                              textColor: colorFormFieldBg,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(

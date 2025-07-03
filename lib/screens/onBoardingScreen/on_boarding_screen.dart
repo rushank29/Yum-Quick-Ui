@@ -173,6 +173,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                           _bloc?.carouselSliderController?.nextPage();
                                         }
                                       },
+                                      minBtnHeight: 0.048,
+                                      minBtnWidth: 0.4,
                                       buttonText: isLastPage ? languages.getStarted : languages.next,
                                     ),
                                   ],

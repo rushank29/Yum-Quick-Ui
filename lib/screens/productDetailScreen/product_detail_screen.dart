@@ -262,6 +262,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                   ),
                 ),
                 onPressed: () {},
+                minBtnHeight: 0.05,
+                minBtnWidth: 0.4,
               ),
             ),
           ],

@@ -1719,6 +1719,36 @@ class S {
       args: [],
     );
   }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get account {
+    return Intl.message(
+      'Account',
+      name: 'account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get services {
+    return Intl.message(
+      'Services',
+      name: 'services',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

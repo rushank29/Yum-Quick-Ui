@@ -6,6 +6,7 @@ import 'package:food_ui/screens/contactUsScreen/faqTab/faq_data_dl.dart';
 
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
+import '../../../main.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/utils.dart';
 
@@ -53,7 +54,7 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
                   Expanded(
                     child: commonTabWidget(
                       selectedTabIndex == 0,
-                      "General",
+                      languages.general,
                       fontSize: textSize15px,
                       onPressed: () {
                         widget.contactUsBloc.selectedSubTabSubject.sink.add(0);
@@ -65,7 +66,7 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
                   Expanded(
                     child: commonTabWidget(
                       selectedTabIndex == 1,
-                      "Account",
+                      languages.account,
                       fontSize: textSize15px,
                       onPressed: () {
                         widget.contactUsBloc.selectedSubTabSubject.sink.add(1);
@@ -77,7 +78,7 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
                   Expanded(
                     child: commonTabWidget(
                       selectedTabIndex == 2,
-                      "Services",
+                      languages.services,
                       fontSize: textSize15px,
                       onPressed: () {
                         widget.contactUsBloc.selectedSubTabSubject.sink.add(2);

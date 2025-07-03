@@ -211,10 +211,8 @@ class HomeMainV1Bloc {
                       textColor: colorPrimary,
                       borderColor: colorPrimaryLight,
                       margin: EdgeInsetsDirectional.only(start: commonPadding35px),
-                      padding: EdgeInsetsDirectional.only(
-                        start: commonPadding10px,
-                        end: commonPadding10px,
-                      ),
+                      minBtnHeight: 0.048,
+                      minBtnWidth: 0.35,
                     ),
                   ),
                   SizedBox(width: deviceAvgScreenSize * 0.0268425),
@@ -226,10 +224,8 @@ class HomeMainV1Bloc {
                       },
                       fontSize: textSize20px,
                       margin: EdgeInsetsDirectional.only(end: commonPadding35px),
-                      padding: EdgeInsetsDirectional.only(
-                        start: commonPadding10px,
-                        end: commonPadding10px,
-                      ),
+                      minBtnHeight: 0.048,
+                      minBtnWidth: 0.35,
                     ),
                   ),
                 ],
@@ -320,7 +316,7 @@ class HomeMainV1Bloc {
   }
 
   Widget languageSelection(String languageName, String languageCode, EdgeInsetsDirectional margin) {
-    bool isLanguageSelected = prefs?.getString(prefSelectedLanguageCode) == languageCode;
+    bool isLanguageSelected = (prefs?.getString(prefSelectedLanguageCode) ?? defaultLanguage) == languageCode;
     return CustomRoundedButton(
       buttonText: languageName,
       onPressed: () {
@@ -338,10 +334,8 @@ class HomeMainV1Bloc {
       backgroundColor: isLanguageSelected ? null : colorPrimaryLight,
       textColor: isLanguageSelected ? null : colorPrimary,
       borderColor: isLanguageSelected ? null : colorPrimaryLight,
-      padding: EdgeInsetsDirectional.only(
-        start: commonPadding10px,
-        end: commonPadding10px,
-      ),
+      minBtnHeight: 0.048,
+      minBtnWidth: 0.4,
     );
   }
 }

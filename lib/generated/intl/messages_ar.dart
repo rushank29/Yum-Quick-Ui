@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "لديك طلب حالي لازانيا الفراولة والبروكلي"),
         "aboutOrderTracking":
             MessageLookupByLibrary.simpleMessage("حول تتبع الطلب"),
+        "account": MessageLookupByLibrary.simpleMessage("حسابات"),
         "accountManagementAndProfile":
             MessageLookupByLibrary.simpleMessage("إدارة الحساب والملف الشخصي"),
         "active": MessageLookupByLibrary.simpleMessage("نشيط"),
@@ -141,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر"),
         "four": MessageLookupByLibrary.simpleMessage("4"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
+        "general": MessageLookupByLibrary.simpleMessage("عام"),
         "generalInformation":
             MessageLookupByLibrary.simpleMessage("معلومات عامة"),
         "getStarted": MessageLookupByLibrary.simpleMessage("البدء"),
@@ -239,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
         "selectOrEnterCancellationReason": MessageLookupByLibrary.simpleMessage(
             "الرجاء تحديد سبب الإلغاء أو إدخال السبب!"),
+        "services": MessageLookupByLibrary.simpleMessage("خدمات"),
         "setPassword":
             MessageLookupByLibrary.simpleMessage("تعيين كلمة المرور"),
         "setYourFingerPrint":
