@@ -44,7 +44,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
       pageTitle: languages.deliveryAddress,
       bodyPadding: EdgeInsetsDirectional.symmetric(
         horizontal: commonPadding35px,
-        vertical: commonPadding300px * 0.16667,
+        vertical: deviceAvgScreenSize * 0.0978186,
       ),
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,12 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                   return const DeliveryAddressShimmer();
                 case Status.completed:
                   return ((data?.deliveryAddressList ?? []).isNotEmpty)
-                      ? _deliveryAddressBody(data)
+                      ? Column(
+                          children: [
+                            _deliveryAddressList(data),
+                            _addAddressButton(),
+                          ],
+                        )
                       : const NoRecordFound();
                 case Status.error:
                   return NoRecordFound(message: languages.noDeliveryAddressSet);
@@ -70,119 +75,118 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     );
   }
 
-  Widget _deliveryAddressBody(DeliveryAddressPojo? data) {
+  Widget _deliveryAddressList(DeliveryAddressPojo? data) {
     List<ItemDeliveryAddressList> deliveryAddressList = data?.deliveryAddressList ?? [];
-    return Column(
-      children: [
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: deliveryAddressList.length,
-          padding: EdgeInsetsDirectional.zero,
-          separatorBuilder: (context, index) {
-            return Divider(color: colorDividerOrange);
-          },
-          itemBuilder: (context, index) {
-            ItemDeliveryAddressList itemDeliveryAddress = deliveryAddressList[index];
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (index == 0) Divider(color: colorDividerOrange),
-                StreamBuilder<ItemDeliveryAddressList?>(
-                  stream: _bloc?.selectedDeliveryAddressSubject,
-                  builder: (context, snapSelectedDeliveryAddress) {
-                    return GestureDetector(
-                      onTap: () {
-                        setJsonString(prefSavedAddress, itemDeliveryAddress);
-                        _bloc?.loadAddress();
-                      },
-                      child: Column(
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: deliveryAddressList.length,
+      padding: EdgeInsetsDirectional.zero,
+      separatorBuilder: (context, index) {
+        return Divider(color: colorDividerOrange);
+      },
+      itemBuilder: (context, index) {
+        ItemDeliveryAddressList itemDeliveryAddress = deliveryAddressList[index];
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (index == 0) Divider(color: colorDividerOrange),
+            StreamBuilder<ItemDeliveryAddressList?>(
+              stream: _bloc?.selectedDeliveryAddressSubject,
+              builder: (context, snapSelectedDeliveryAddress) {
+                return GestureDetector(
+                  onTap: () {
+                    setJsonString(prefSavedAddress, itemDeliveryAddress);
+                    _bloc?.loadAddress();
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Container(
-                                  margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding16px),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/svg/home_icon.svg",
-                                        height: iconSize33px,
-                                        width: iconSize33px,
-                                        colorFilter: ColorFilter.mode(
-                                          colorPrimary,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      SizedBox(width: commonPadding16px),
-                                      Flexible(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              itemDeliveryAddress.addressName,
-                                              style: bodyText(
-                                                fontSize: textSize20px,
-                                                fontWeight: FontWeight.w500,
-                                                textColor: colorCommonBrown,
-                                              ),
-                                            ),
-                                            Flexible(
-                                              child: Text(
-                                                itemDeliveryAddress.addressDescription,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: bodyText(
-                                                  fontSize: textSize14px,
-                                                  fontWeight: FontWeight.w300,
-                                                  textColor: colorCommonBrown,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                          Flexible(
+                            child: Container(
+                              margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding16px),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/svg/home_icon.svg",
+                                    height: iconSize33px,
+                                    width: iconSize33px,
+                                    colorFilter: ColorFilter.mode(
+                                      colorPrimary,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(width: commonPadding16px),
+                                  Flexible(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          itemDeliveryAddress.addressName,
+                                          style: bodyText(
+                                            fontSize: textSize20px,
+                                            fontWeight: FontWeight.w500,
+                                            textColor: colorCommonBrown,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            itemDeliveryAddress.addressDescription,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: bodyText(
+                                              fontSize: textSize14px,
+                                              fontWeight: FontWeight.w300,
+                                              textColor: colorCommonBrown,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Radio<ItemDeliveryAddressList>(
-                                value: itemDeliveryAddress,
-                                groupValue: snapSelectedDeliveryAddress.data,
-                                onChanged: (value) {
-                                  setJsonString(prefSavedAddress, itemDeliveryAddress);
-                                  _bloc?.loadAddress();
-                                },
-                              ),
-                            ],
+                            ),
+                          ),
+                          Radio<ItemDeliveryAddressList>(
+                            value: itemDeliveryAddress,
+                            groupValue: snapSelectedDeliveryAddress.data,
+                            onChanged: (value) {
+                              setJsonString(prefSavedAddress, itemDeliveryAddress);
+                              _bloc?.loadAddress();
+                            },
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
-                if (index == deliveryAddressList.length - 1) Divider(color: colorDividerOrange),
-              ],
-            );
-          },
-        ),
-        CustomRoundedButton(
-          buttonText: languages.addNewAddress,
-          onPressed: () {
-            _bloc?.openAddAddressScreen();
-          },
-          fontSize: textSize20px,
-          fontWeight: FontWeight.w400,
-          backgroundColor: colorPrimaryLight,
-          minBtnHeight: 0.05,
-          minBtnWidth: 0.45,
-          textColor: colorPrimary,
-          borderColor: colorPrimaryLight,
-          margin: EdgeInsetsDirectional.only(top: commonPadding35px),
-        )
-      ],
+                    ],
+                  ),
+                );
+              },
+            ),
+            if (index == deliveryAddressList.length - 1) Divider(color: colorDividerOrange),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _addAddressButton() {
+    return CustomRoundedButton(
+      buttonText: languages.addNewAddress,
+      onPressed: () {
+        _bloc?.openAddAddressScreen();
+      },
+      fontSize: textSize20px,
+      fontWeight: FontWeight.w400,
+      backgroundColor: colorPrimaryLight,
+      minBtnHeight: 0.05,
+      minBtnWidth: 0.45,
+      textColor: colorPrimary,
+      borderColor: colorPrimaryLight,
+      margin: EdgeInsetsDirectional.only(top: commonPadding35px),
     );
   }
 }

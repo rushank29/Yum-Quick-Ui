@@ -27,7 +27,6 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
   void initState() {
     _subTabController = TabController(length: 3, vsync: this);
     _subTabController.addListener(() {
-      // Only emit when the tab index has changed and the animation completed
       if (_subTabController.indexIsChanging == false) {
         widget.contactUsBloc.selectedSubTabSubject.sink.add(_subTabController.index);
       }
@@ -36,11 +35,17 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _subTabController.removeListener(() {});
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(commonPadding10px * 0.4),
+          padding: EdgeInsets.all(deviceAvgScreenSize * 0.007156),
           decoration: BoxDecoration(
             color: colorHomeBackground,
             borderRadius: BorderRadius.circular(borderRadius30px),
@@ -119,7 +124,7 @@ class _FAQTabState extends State<FAQTab> with TickerProviderStateMixin {
           hintText: "Search",
           backgroundColor: colorWhite,
           suffix: Container(
-            padding: EdgeInsetsDirectional.all(commonPadding10px * 0.7),
+            padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.012523),
             decoration: BoxDecoration(
               color: colorWhite,
               shape: BoxShape.circle,

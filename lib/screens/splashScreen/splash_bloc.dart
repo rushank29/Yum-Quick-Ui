@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
-import 'package:food_ui/screens/splashScreen/splash_json.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
 
 import '../../shared_pref_util/shared_pref_util.dart';
+import '../../shared_pref_util/shared_pref_constants.dart';
+import '../../utils/utils.dart';
+import '../homeMainV1/home_main_v1.dart';
 import '../welcomeScreen/welcome_screen.dart';
+import 'splash_json.dart';
 import 'splash_dl.dart';
 
 class SplashBloc {

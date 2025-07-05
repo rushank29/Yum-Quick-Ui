@@ -72,8 +72,8 @@ class SettingsBloc {
               Container(
                 margin: EdgeInsetsDirectional.only(
                   top: commonPadding300px * 0.15,
-                  start: commonPadding300px * 0.25,
-                  end: commonPadding300px * 0.25,
+                  start: deviceAvgScreenSize * 0.146725,
+                  end: deviceAvgScreenSize * 0.146725,
                 ),
                 child: Text(
                   languages.deleteAccountMsg,

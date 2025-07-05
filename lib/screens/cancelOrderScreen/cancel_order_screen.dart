@@ -41,7 +41,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
       pageTitle: languages.cancelOrder,
       bodyPadding: EdgeInsetsDirectional.symmetric(
         horizontal: commonPadding35px,
-        vertical: commonPadding300px * 0.16667,
+        vertical: deviceAvgScreenSize * 0.0978186,
       ),
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +58,14 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                 case Status.loading:
                   return const CancelOrderShimmer();
                 case Status.completed:
+                  List<ItemCancellationReasonList> reasonList = data?.cancellationReasonList ?? [];
                   return ((data?.cancellationReasonList ?? []).isNotEmpty)
-                      ? _cancelReasonBody(data)
+                      ? Column(
+                          children: [
+                            _cancelReasonOptionList(reasonList),
+                            _submitButton(),
+                          ],
+                        )
                       : const NoRecordFound();
                 case Status.error:
                   return const NoRecordFound();
@@ -71,95 +77,95 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
     );
   }
 
-  Widget _cancelReasonBody(CancellationReasonListPojo? data) {
-    List<ItemCancellationReasonList> reasonList = data?.cancellationReasonList ?? [];
-    return Column(
-      children: [
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: reasonList.length,
-          padding: EdgeInsetsDirectional.zero,
-          separatorBuilder: (context, index) {
-            return Divider(color: colorDividerOrange);
-          },
-          itemBuilder: (context, index) {
-            ItemCancellationReasonList itemReason = reasonList[index];
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (index == 0) Divider(color: colorDividerOrange),
-                StreamBuilder<ItemCancellationReasonList?>(
-                  stream: _bloc?.selectedReasonSubject,
-                  builder: (context, snapSelectedReason) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (itemReason.showTextField != 1) {
-                          _bloc?.selectedReasonSubject.sink.add(itemReason);
-                        } else {
-                          _bloc?.selectedReasonSubject.sink.add(null);
-                        }
-                      },
-                      child: Column(
+  Widget _cancelReasonOptionList(List<ItemCancellationReasonList> reasonList) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: reasonList.length,
+      padding: EdgeInsetsDirectional.zero,
+      separatorBuilder: (context, index) {
+        return Divider(color: colorDividerOrange);
+      },
+      itemBuilder: (context, index) {
+        ItemCancellationReasonList itemReason = reasonList[index];
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (index == 0) Divider(color: colorDividerOrange),
+            StreamBuilder<ItemCancellationReasonList?>(
+              stream: _bloc?.selectedReasonSubject,
+              builder: (context, snapSelectedReason) {
+                return GestureDetector(
+                  onTap: () {
+                    if (itemReason.showTextField != 1) {
+                      _bloc?.selectedReasonSubject.sink.add(itemReason);
+                    } else {
+                      _bloc?.selectedReasonSubject.sink.add(null);
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: (itemReason.showTextField == 1)
-                                    ? EdgeInsetsDirectional.symmetric(vertical: commonPadding10px)
-                                    : null,
-                                child: Text(
-                                  itemReason.reasonMessage,
-                                  style: bodyText(
-                                    fontSize: textSize15px,
-                                    fontWeight: FontWeight.w400,
-                                    textColor: colorCommonBrown,
-                                  ),
-                                ),
+                          Container(
+                            margin: (itemReason.showTextField == 1)
+                                ? EdgeInsetsDirectional.symmetric(vertical: commonPadding10px)
+                                : null,
+                            child: Text(
+                              itemReason.reasonMessage,
+                              style: bodyText(
+                                fontSize: textSize15px,
+                                fontWeight: FontWeight.w400,
+                                textColor: colorCommonBrown,
                               ),
-                              if (itemReason.showTextField != 1) ...[
-                                Radio<ItemCancellationReasonList>(
-                                  value: itemReason,
-                                  groupValue: snapSelectedReason.data,
-                                  onChanged: (value) {
-                                    _bloc?.selectedReasonSubject.sink.add(value);
-                                  },
-                                ),
-                              ],
-                            ],
+                            ),
                           ),
-                          (itemReason.showTextField == 1)
-                              ? CustomTextFormField(
-                                  controller: _bloc?.otherReasonController,
-                                  maxLines: 3,
-                                  hintText: languages.otherReasons,
-                                  margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
-                                  onChanged: (value) {
-                                    _bloc?.selectedReasonSubject.sink.add(null);
-                                  },
-                                )
-                              : const SizedBox.shrink(),
+                          if (itemReason.showTextField != 1) ...[
+                            Radio<ItemCancellationReasonList>(
+                              value: itemReason,
+                              groupValue: snapSelectedReason.data,
+                              onChanged: (value) {
+                                _bloc?.selectedReasonSubject.sink.add(value);
+                              },
+                            ),
+                          ],
                         ],
                       ),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        ),
-        CustomRoundedButton(
-          buttonText: languages.submit,
-          onPressed: () {
-            _bloc?.onSubmitCancelledReason();
-          },
-          fontWeight: FontWeight.w600,
-          minBtnHeight: 0.048,
-          minBtnWidth: 0.4,
-          margin: EdgeInsetsDirectional.only(top: commonPadding20px),
-        )
-      ],
+                      (itemReason.showTextField == 1) ? _reasonTextField() : const SizedBox.shrink(),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _reasonTextField() {
+    return CustomTextFormField(
+      controller: _bloc?.otherReasonController,
+      maxLines: 3,
+      hintText: languages.otherReasons,
+      margin: EdgeInsetsDirectional.only(bottom: commonPadding10px),
+      onChanged: (value) {
+        _bloc?.selectedReasonSubject.sink.add(null);
+      },
+    );
+  }
+
+  Widget _submitButton() {
+    return CustomRoundedButton(
+      buttonText: languages.submit,
+      onPressed: () {
+        _bloc?.onSubmitCancelledReason();
+      },
+      fontWeight: FontWeight.w600,
+      minBtnHeight: 0.048,
+      minBtnWidth: 0.4,
+      margin: EdgeInsetsDirectional.only(top: commonPadding20px),
     );
   }
 }

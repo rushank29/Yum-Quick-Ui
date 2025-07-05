@@ -255,8 +255,8 @@ Widget commonTabWidget(
 
 Widget commonHomeHeaderIcon(String image, {bool revertBg = false}) {
   return Container(
-    margin: EdgeInsetsDirectional.only(start: commonPadding10px * 0.7),
-    padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+    margin: EdgeInsetsDirectional.only(start: deviceAvgScreenSize * 0.012523),
+    padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
     decoration: BoxDecoration(
       color: revertBg ? colorPrimary : colorWhite,
       borderRadius: BorderRadiusDirectional.all(Radius.circular(borderRadius10px)),
@@ -318,7 +318,7 @@ Widget getOrderStatusWidget(int orderStatus) {
         height: iconSize24px * 0.5,
         width: iconSize24px * 0.5,
       ),
-      SizedBox(width: commonPadding10px * 0.5),
+      SizedBox(width: deviceAvgScreenSize * 0.008945),
       Text(
         text,
         style: bodyText(

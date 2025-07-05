@@ -15,7 +15,7 @@ class NotificationSettingShimmer extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsetsDirectional.only(top: commonPadding10px * 0.5),
+        padding: EdgeInsetsDirectional.only(top: deviceAvgScreenSize * 0.008945),
         itemCount: 6,
         itemBuilder: (context, index) {
           return Row(

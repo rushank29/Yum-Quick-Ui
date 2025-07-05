@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/main.dart';
+import 'package:food_ui/utils/utils.dart';
 
+import '../../customWidget/custom_rounded_button.dart';
+import '../../main.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/common_bg_screen.dart';
@@ -34,7 +35,7 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return CommonBackgroundWidget(
-      pageTitle: "Filter",
+      pageTitle: languages.filter,
       bodyWidget: StreamBuilder<int>(
         stream: _bloc?.selectedIndexSubject,
         builder: (context, snapSelectedIndex) {
@@ -76,7 +77,7 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
           margin: EdgeInsetsDirectional.only(
             top: commonPadding20px,
-            bottom: commonPadding10px * 1.4,
+            bottom: deviceAvgScreenSize * 0.0025046,
           ),
           height: commonSize75px,
           child: ListView.builder(
@@ -141,7 +142,7 @@ class _FilterScreenState extends State<FilterScreen> {
         SizedBox(height: commonPadding10px),
         Container(
           height: deviceAvgScreenSize * 0.03579,
-          margin: EdgeInsetsDirectional.only(bottom: commonPadding10px * 1.4),
+          margin: EdgeInsetsDirectional.only(bottom: deviceAvgScreenSize * 0.0025046),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -314,9 +315,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("\$1", style: bodyText(textColor: colorCommonBrown)),
-                      Text("\$10", style: bodyText(textColor: colorCommonBrown)),
-                      Text("\$50", style: bodyText(textColor: colorCommonBrown)),
+                      Text(getAmountWithCurrency(1), style: bodyText(textColor: colorCommonBrown)),
+                      Text(getAmountWithCurrency(10), style: bodyText(textColor: colorCommonBrown)),
+                      Text(getAmountWithCurrency(50), style: bodyText(textColor: colorCommonBrown)),
                       Text("\$100 >", style: bodyText(textColor: colorCommonBrown)),
                     ],
                   ),

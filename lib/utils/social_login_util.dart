@@ -52,7 +52,7 @@ class _SocialLoginUtilState extends State<SocialLoginUtil> {
             _socialLoginCommonWidget(
               svgPicture: "assets/svg/biometric_login.svg",
               onTap: () {
-                openScreenWithReplacePrevious(context: context, screen: const BiometricLoginScreen());
+                openScreen(context: context, screen: const BiometricLoginScreen());
               },
             ),
           ],

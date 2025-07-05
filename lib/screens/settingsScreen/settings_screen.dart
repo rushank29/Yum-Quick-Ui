@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import '../../customWidget/common_bg_screen.dart';
 import '../../customWidget/customBottomNavBar/custom_nav_bar_dl.dart';
 import '../../main.dart';
-import 'settings_bloc.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../utils/text_style.dart';
+import 'settings_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -35,59 +35,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: settingList.asMap().entries.map((entry) {
           int settingIndex = entry.key;
           ItemSettings item = entry.value;
-          return Container(
-            color: Colors.transparent,
-            margin: EdgeInsets.symmetric(
-              horizontal: commonPadding16px,
-            ),
-            child: GestureDetector(
-              onTap: item.onTap,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+          return _itemSettingsListWidget(settingIndex, item);
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _itemSettingsListWidget(int settingIndex, ItemSettings item) {
+    return Container(
+      color: Colors.transparent,
+      margin: EdgeInsets.symmetric(
+        horizontal: commonPadding16px,
+      ),
+      child: GestureDetector(
+        onTap: item.onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: Colors.transparent,
+              child: Row(
                 children: [
                   Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: commonSize45px * 0.75,
-                          alignment: AlignmentDirectional.center,
-                          child: SvgPicture.asset(
-                            item.iconPath,
-                            height: commonSize45px * 0.75,
-                            width: commonSize45px * 0.75,
-                          ),
-                        ),
-                        SizedBox(width: commonPadding16px),
-                        Expanded(
-                          child: Text(
-                            item.title,
-                            style: bodyText(
-                              fontSize: textSize20px,
-                              fontWeight: FontWeight.w500,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: commonPadding16px),
-                        Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          size: iconSize24px,
-                          color: colorPrimary,
-                        )
-                      ],
+                    width: commonSize45px * 0.75,
+                    alignment: AlignmentDirectional.center,
+                    child: SvgPicture.asset(
+                      item.iconPath,
+                      height: commonSize45px * 0.75,
+                      width: commonSize45px * 0.75,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: (settingIndex != settingList.length - 1) ?commonPadding10px: 0,
+                  SizedBox(width: commonPadding16px),
+                  Expanded(
+                    child: Text(
+                      item.title,
+                      style: bodyText(
+                        fontSize: textSize20px,
+                        fontWeight: FontWeight.w500,
+                        textColor: colorCommonBrown,
+                      ),
                     ),
                   ),
+                  SizedBox(width: commonPadding16px),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: iconSize24px,
+                    color: colorPrimary,
+                  )
                 ],
               ),
             ),
-          );
-        }).toList(),
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: (settingIndex != settingList.length - 1) ? commonPadding10px : 0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

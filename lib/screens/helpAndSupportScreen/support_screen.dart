@@ -175,74 +175,78 @@ class _SupportScreenState extends State<SupportScreen> {
               ],
             ),
           ),
+          _bottomSection(),
+        ],
+      ),
+    );
+  }
+
+  Widget _bottomSection() {
+    return Container(
+      decoration: BoxDecoration(color: colorLightOrange),
+      padding: EdgeInsetsDirectional.all(commonPadding24px),
+      margin: EdgeInsetsDirectional.only(top: commonPadding20px),
+      child: Row(
+        children: [
           Container(
-            decoration: BoxDecoration(color: colorLightOrange),
-            padding: EdgeInsetsDirectional.all(commonPadding24px),
-            margin: EdgeInsetsDirectional.only(top: commonPadding20px),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
-                  margin: EdgeInsetsDirectional.only(end: deviceWidth * 0.015),
-                  decoration: BoxDecoration(
-                    color: colorWhite,
-                    borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/svg/attach_icon.svg",
-                    height: iconSize20px,
-                    width: iconSize20px,
-                    colorFilter: ColorFilter.mode(
-                      colorPrimary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: CustomTextFormField(
-                    backgroundColor: colorWhite,
-                    formFieldHeight: deviceHeight * 0.04,
-                    hintText: languages.writeHere,
-                    suffixPadding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
-                    contentPadding: EdgeInsetsDirectional.symmetric(
-                        horizontal: commonPadding10px, vertical: commonPadding10px * 0),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
-                  margin: EdgeInsetsDirectional.only(start: deviceWidth * 0.015),
-                  decoration: BoxDecoration(
-                    color: colorWhite,
-                    borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/svg/microphone.svg",
-                    height: iconSize20px,
-                    width: iconSize20px,
-                    colorFilter: ColorFilter.mode(
-                      colorPrimary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
-                  margin: EdgeInsetsDirectional.only(start: deviceWidth * 0.015),
-                  decoration: BoxDecoration(
-                    color: colorWhite,
-                    borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/svg/share.svg",
-                    colorFilter: ColorFilter.mode(
-                      colorPrimary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              ],
+            padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
+            margin: EdgeInsetsDirectional.only(end: deviceWidth * 0.015),
+            decoration: BoxDecoration(
+              color: colorWhite,
+              borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
             ),
-          )
+            child: SvgPicture.asset(
+              "assets/svg/attach_icon.svg",
+              height: iconSize20px,
+              width: iconSize20px,
+              colorFilter: ColorFilter.mode(
+                colorPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+          Expanded(
+            child: CustomTextFormField(
+              backgroundColor: colorWhite,
+              formFieldHeight: deviceHeight * 0.04,
+              hintText: languages.writeHere,
+              suffixPadding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
+              contentPadding: EdgeInsetsDirectional.symmetric(
+                  horizontal: commonPadding10px, vertical: commonPadding10px * 0),
+            ),
+          ),
+          Container(
+            padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
+            margin: EdgeInsetsDirectional.only(start: deviceWidth * 0.015),
+            decoration: BoxDecoration(
+              color: colorWhite,
+              borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
+            ),
+            child: SvgPicture.asset(
+              "assets/svg/microphone.svg",
+              height: iconSize20px,
+              width: iconSize20px,
+              colorFilter: ColorFilter.mode(
+                colorPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.01),
+            margin: EdgeInsetsDirectional.only(start: deviceWidth * 0.015),
+            decoration: BoxDecoration(
+              color: colorWhite,
+              borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
+            ),
+            child: SvgPicture.asset(
+              "assets/svg/share.svg",
+              colorFilter: ColorFilter.mode(
+                colorPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
         ],
       ),
     );

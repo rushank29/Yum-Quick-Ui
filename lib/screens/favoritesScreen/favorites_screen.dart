@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/constant.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/no_record_found.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/screens/favoritesScreen/favorites_bloc.dart';
-import 'package:food_ui/screens/favoritesScreen/favorites_dl.dart';
-import 'package:food_ui/screens/favoritesScreen/favorites_shimmer.dart';
-import 'package:food_ui/utils/response_util.dart';
 
+import '../../constant/constant.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/no_record_found.dart';
+import '../../main.dart';
+import '../../utils/response_util.dart';
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_image.dart';
 import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
+import 'favorites_bloc.dart';
+import 'favorites_dl.dart';
+import 'favorites_shimmer.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -79,70 +79,74 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       itemCount: favorites.length,
       itemBuilder: (context, index) {
         ItemFavoriteList itemFavorites = favorites[index];
-        return Column(
-          mainAxisSize: MainAxisSize.min,
+        return _itemFavoritesGrid(itemFavorites);
+      },
+    );
+  }
+
+  Widget _itemFavoritesGrid(ItemFavoriteList itemFavorites) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Stack(
           children: [
-            Stack(
-              children: [
-                CustomImage(
-                  imagePath: itemFavorites.productImage,
-                  width: deviceWidth,
-                  height: deviceHeight * 0.2,
-                  borderRadius: BorderRadius.circular(borderRadius20px),
-                  fit: BoxFit.cover,
-                ),
-                Container(
-                  margin: EdgeInsetsDirectional.only(top: commonPadding10px, start: commonPadding10px),
-                  padding: EdgeInsetsDirectional.all(commonSize10px * 0.5),
-                  decoration: BoxDecoration(
-                    color: colorWhite,
-                    borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
-                  ),
-                  child: getFoodCategoryTypeIcon(itemFavorites.foodCategoryType),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: Container(
-                    margin: EdgeInsetsDirectional.only(top: commonPadding10px, end: commonPadding10px),
-                    padding: EdgeInsetsDirectional.all(commonSize10px * 0.5),
-                    decoration: BoxDecoration(
-                      color: colorWhite,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: colorPrimary,
-                      size: iconSize15px,
-                    ),
-                  ),
-                ),
-              ],
+            CustomImage(
+              imagePath: itemFavorites.productImage,
+              width: deviceWidth,
+              height: deviceHeight * 0.2,
+              borderRadius: BorderRadius.circular(borderRadius20px),
+              fit: BoxFit.cover,
             ),
-            SizedBox(height: commonPadding10px),
-            Text(
-              itemFavorites.productName,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: bodyText(
-                fontSize: textSize16px,
-                textColor: colorPrimary,
-                fontWeight: FontWeight.w500,
+            Container(
+              margin: EdgeInsetsDirectional.only(top: commonPadding10px, start: commonPadding10px),
+              padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
+              decoration: BoxDecoration(
+                color: colorWhite,
+                borderRadius: BorderRadiusDirectional.circular(borderRadius10px),
               ),
+              child: getFoodCategoryTypeIcon(itemFavorites.foodCategoryType),
             ),
-            Text(
-              itemFavorites.productDescription,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: bodyText(
-                fontSize: textSize12px,
-                textColor: colorCommonBrown,
-                fontWeight: FontWeight.w300,
+            Align(
+              alignment: AlignmentDirectional.topEnd,
+              child: Container(
+                margin: EdgeInsetsDirectional.only(top: commonPadding10px, end: commonPadding10px),
+                padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
+                decoration: BoxDecoration(
+                  color: colorWhite,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.favorite,
+                  color: colorPrimary,
+                  size: iconSize15px,
+                ),
               ),
             ),
           ],
-        );
-      },
+        ),
+        SizedBox(height: commonPadding10px),
+        Text(
+          itemFavorites.productName,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: bodyText(
+            fontSize: textSize16px,
+            textColor: colorPrimary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          itemFavorites.productDescription,
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: bodyText(
+            fontSize: textSize12px,
+            textColor: colorCommonBrown,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+      ],
     );
   }
 }

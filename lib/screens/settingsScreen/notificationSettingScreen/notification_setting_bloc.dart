@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'notification_setting_list_dl.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../utils/response_util.dart';
 import '../../../utils/utils.dart';
 import 'notification_setting_json.dart';
+import 'notification_setting_list_dl.dart';
 
 class NotificationSettingBloc {
   final BuildContext context;

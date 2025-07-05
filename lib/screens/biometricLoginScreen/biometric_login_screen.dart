@@ -38,61 +38,62 @@ class _BiometricLoginScreenState extends State<BiometricLoginScreen> {
       body: CommonBackgroundWidget(
         pageTitle: languages.setYourFingerPrint,
         bodyWidget: StreamBuilder<bool>(
-            stream: _bloc?.changeColorSubject,
-            builder: (context, snapColorChange) {
-              bool isColorToBeChanged = snapColorChange.data ?? false;
-              return Column(
-                children: [
-                  Text(
-                    languages.loremIpsum,
-                    style: bodyText(
-                      fontWeight: FontWeight.w300,
-                      textColor: colorDarkGrey,
-                    ),
+          stream: _bloc?.changeColorSubject,
+          builder: (context, snapColorChange) {
+            bool isColorToBeChanged = snapColorChange.data ?? false;
+            return Column(
+              children: [
+                Text(
+                  languages.loremIpsum,
+                  style: bodyText(
+                    fontWeight: FontWeight.w300,
+                    textColor: colorDarkGrey,
                   ),
-                  SizedBox(height: commonPadding300px * 0.25),
-                  SvgPicture.asset(
-                    "assets/svg/big_biometric.svg",
-                    colorFilter: ColorFilter.mode(
-                      isColorToBeChanged ? colorPrimaryLight : colorPrimary,
-                      BlendMode.srcIn,
-                    ),
+                ),
+                SizedBox(height: deviceAvgScreenSize * 0.146725),
+                SvgPicture.asset(
+                  "assets/svg/big_biometric.svg",
+                  colorFilter: ColorFilter.mode(
+                    isColorToBeChanged ? colorPrimaryLight : colorPrimary,
+                    BlendMode.srcIn,
                   ),
-                  SizedBox(height: commonPadding32px),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomRoundedButton(
-                          buttonText: languages.skip,
-                          onPressed: () {},
-                          backgroundColor: colorPrimaryLight,
-                          borderColor: colorPrimaryLight,
-                          fontWeight: FontWeight.w400,
-                          fontSize: textSize17px,
-                          textColor: colorPrimary,
-                          margin: EdgeInsetsDirectional.only(end: commonPadding10px),
-                          minBtnHeight: 0.048,
-                          minBtnWidth: 0.4,
-                        ),
+                ),
+                SizedBox(height: commonPadding32px),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomRoundedButton(
+                        buttonText: languages.skip,
+                        onPressed: () {},
+                        backgroundColor: colorPrimaryLight,
+                        borderColor: colorPrimaryLight,
+                        fontWeight: FontWeight.w400,
+                        fontSize: textSize17px,
+                        textColor: colorPrimary,
+                        margin: EdgeInsetsDirectional.only(end: commonPadding10px),
+                        minBtnHeight: 0.048,
+                        minBtnWidth: 0.4,
                       ),
-                      Expanded(
-                        child: CustomRoundedButton(
-                          buttonText: languages.continueTxt,
-                          onPressed: () {
-                            _bloc?.changeColorSubject.sink.add(!isColorToBeChanged);
-                          },
-                          fontWeight: FontWeight.w400,
-                          fontSize: textSize17px,
-                          margin: EdgeInsetsDirectional.only(start: commonPadding10px),
-                          minBtnHeight: 0.048,
-                          minBtnWidth: 0.4,
-                        ),
+                    ),
+                    Expanded(
+                      child: CustomRoundedButton(
+                        buttonText: languages.continueTxt,
+                        onPressed: () {
+                          _bloc?.changeColorSubject.sink.add(!isColorToBeChanged);
+                        },
+                        fontWeight: FontWeight.w400,
+                        fontSize: textSize17px,
+                        margin: EdgeInsetsDirectional.only(start: commonPadding10px),
+                        minBtnHeight: 0.048,
+                        minBtnWidth: 0.4,
                       ),
-                    ],
-                  ),
-                ],
-              );
-            }),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

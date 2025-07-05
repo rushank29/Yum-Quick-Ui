@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../homeMainV1/home_main_v1.dart';
-import 'sign_up_dl.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
+import 'sign_up_dl.dart';
 
 class SignUpBloc {
   BuildContext context;
@@ -98,5 +98,11 @@ class SignUpBloc {
 
   void dispose() {
     subjectStatus.close();
+    selectedCountrySubject.close();
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    mobileNumberController.dispose();
+    birthDateController.dispose();
   }
 }

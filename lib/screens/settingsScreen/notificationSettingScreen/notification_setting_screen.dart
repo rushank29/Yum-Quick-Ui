@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/screens/settingsScreen/notificationSettingScreen/notification_setting_shimmer.dart';
+
+import '../../../constant/colors.dart';
+import '../../../main.dart';
 import '../../../constant/dimensions.dart';
 import '../../../customWidget/common_bg_screen.dart';
-import 'notification_setting_bloc.dart';
-import 'notification_setting_list_dl.dart';
 import '../../../utils/response_util.dart';
 import '../../../utils/text_style.dart';
-
 import '../../../constant/constant.dart';
+import 'notification_setting_list_dl.dart';
+import 'notification_setting_bloc.dart';
+import 'notification_setting_shimmer.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   const NotificationSettingScreen({super.key});
@@ -54,51 +54,53 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       itemCount: notificationSettingList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsetsDirectional.only(top: commonPadding10px * 0.5),
+      padding: EdgeInsetsDirectional.only(top: deviceAvgScreenSize * 0.008945),
       itemBuilder: (context, index) {
-        return Row(
-          children: [
-            Expanded(
-              child: Text(
-                notificationSettingList[index].notificationSettingName,
-                style: bodyText(
-                    fontSize: textSize20px, fontWeight: FontWeight.w500, textColor: colorCommonBrown),
-              ),
-            ),
-            Transform.scale(
-              // scale: 0.75,
-              scaleX: 0.9,
-              scaleY: 0.725,
-              alignment: AlignmentDirectional.center,
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  switchTheme: SwitchThemeData(
-                    thumbColor: MaterialStateProperty.resolveWith((states) {
-                      if (states.contains(MaterialState.disabled)) return colorWhite;
-                      return colorWhite;
-                    }),
-                    trackColor: MaterialStateProperty.resolveWith((states) {
-                      if (states.contains(MaterialState.disabled)) return colorPrimaryLight.withOpacity(0.6);
-                      if (states.contains(MaterialState.selected)) return colorPrimary;
-                      return colorOffGrey;
-                    }),
-                  ),
-                ),
-                child: Switch(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  value: notificationSettingList[index].isSettingEnabled == 1,
-                  onChanged: notificationSettingList[index].isSettingChangeable == 1
-                      ? (value) {
-                    _bloc?.toggleSetting(index, value);
-                  }
-                      : null,
-                ),
-              ),
-            ),
-
-          ],
-        );
+        return _itemNotificationWidget(notificationSettingList, index);
       },
+    );
+  }
+
+  Widget _itemNotificationWidget(List<ItemNotificationSettingList> notificationSettingList, int index) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            notificationSettingList[index].notificationSettingName,
+            style: bodyText(fontSize: textSize20px, fontWeight: FontWeight.w500, textColor: colorCommonBrown),
+          ),
+        ),
+        Transform.scale(
+          // scale: 0.75,
+          scaleX: 0.9,
+          scaleY: 0.725,
+          alignment: AlignmentDirectional.center,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              switchTheme: SwitchThemeData(
+                thumbColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.disabled)) return colorWhite;
+                  return colorWhite;
+                }),
+                trackColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.disabled)) return colorPrimaryLight.withOpacity(0.6);
+                  if (states.contains(MaterialState.selected)) return colorPrimary;
+                  return colorOffGrey;
+                }),
+              ),
+            ),
+            child: Switch(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              value: notificationSettingList[index].isSettingEnabled == 1,
+              onChanged: notificationSettingList[index].isSettingChangeable == 1
+                  ? (value) {
+                      _bloc?.toggleSetting(index, value);
+                    }
+                  : null,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

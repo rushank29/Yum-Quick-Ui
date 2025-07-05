@@ -168,5 +168,7 @@
   "orderPending": "الطلب معلق",
   "general": "عام",
   "account": "حسابات",
-  "services": "خدمات"
+  "services": "خدمات",
+  "faq": "التعليمات",
+  "filter": "فلتر"
 }

@@ -131,9 +131,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "estimatedDelivery":
             MessageLookupByLibrary.simpleMessage("Estimated Delivery"),
         "expiryDate": MessageLookupByLibrary.simpleMessage("Expiry Date"),
+        "faq": MessageLookupByLibrary.simpleMessage("faq"),
         "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "fillUpFullForm": MessageLookupByLibrary.simpleMessage(
             "Please fill up the full form."),
+        "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "five": MessageLookupByLibrary.simpleMessage("5"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password"),

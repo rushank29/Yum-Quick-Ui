@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
@@ -21,13 +22,22 @@ class CommonBackgroundWidget extends StatelessWidget {
     this.bodyPadding,
     required this.bodyWidget,
     this.bodyBgColor,
-    this.onBackPressed, this.pageTitleWidget, this.showBackButton = true,
+    this.onBackPressed,
+    this.pageTitleWidget,
+    this.showBackButton = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorCommonBackground,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -41,8 +51,8 @@ class CommonBackgroundWidget extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsetsDirectional.only(
-                      top: commonPadding300px * 0.25,
-                      bottom: pageSubtitle != null ? 0 : commonPadding300px * 0.175,
+                      top: deviceHeight * 0.095,
+                      bottom: pageSubtitle != null ? 0 : deviceHeight * 0.078,
                       start: commonPadding24px,
                       end: commonPadding24px,
                     ),

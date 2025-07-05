@@ -1,19 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../main.dart';
+import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
 
 class SetPasswordBloc {
   BuildContext context;
+
+  SetPasswordBloc(this.context);
+
   final subjectStatus = BehaviorSubject<ResponseUtil>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  SetPasswordBloc(this.context);
 
   void setNewPassword() async {
     final email = emailController.text.trim();
@@ -39,6 +40,8 @@ class SetPasswordBloc {
   }
 
   void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
     subjectStatus.close();
   }
 }

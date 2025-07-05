@@ -24,5 +24,7 @@ class OrderHistoryBloc {
     }
   }
 
-  void dispose() {}
+  void dispose() {
+    subject.close();
+  }
 }

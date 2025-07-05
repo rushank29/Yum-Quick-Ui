@@ -61,159 +61,170 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             padding: EdgeInsetsDirectional.only(top: commonPadding10px, bottom: commonPadding10px),
             child: Divider(color: colorPrimaryLight),
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            padding: EdgeInsetsDirectional.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.item.orderItems.length,
-            itemBuilder: (context, index) {
-              OrderItems orderItem = widget.item.orderItems[index];
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        CustomImage(
-                          imagePath: orderItem.productImage,
-                          height: commonSize80px,
-                          width: commonSize80px,
-                          fit: BoxFit.cover,
-                          borderRadius: BorderRadius.circular(borderRadius20px),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.only(start: commonPadding10px),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    orderItem.productName,
-                                    style: bodyText(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: textSize15px,
-                                      textColor: colorCommonBrown,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  getAmountWithCurrency(orderItem.productPrice),
-                                  style: bodyText(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: textSize14px,
-                                    textColor: colorCommonBrown,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.only(start: commonPadding10px),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          getFormattedDateTime(
-                            inputDateTime: orderItem.productAddedTime,
-                            format: "dd-MM-yyyy hh:mm",
-                            returnFormat: "dd/MM/yyyy",
-                          ),
-                          style: bodyText(
-                            fontWeight: FontWeight.w500,
-                            fontSize: textSize13px,
-                            textColor: colorCommonBrown,
-                          ),
-                        ),
-                        Text(
-                          getFormattedDateTime(
-                            inputDateTime: orderItem.productAddedTime,
-                            format: "dd-MM-yyyy hh:mm",
-                            returnFormat: "HH:mm",
-                          ),
-                          style: bodyText(
-                            fontWeight: FontWeight.w500,
-                            fontSize: textSize13px,
-                            textColor: colorCommonBrown,
-                          ),
-                        ),
-                        Text(
-                          "${orderItem.productQuantity} ${languages.items}",
-                          style: bodyText(
-                            fontWeight: FontWeight.w400,
-                            fontSize: textSize13px,
-                            textColor: colorCommonBrown,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
-                child: Divider(color: colorPrimaryLight),
-              );
-            },
-          ),
+          _orderItemList(),
           Padding(
             padding: EdgeInsetsDirectional.only(top: commonPadding10px, bottom: commonPadding28px),
             child: Divider(color: colorPrimaryLight),
           ),
-          StreamBuilder<List<ItemKeyValuePair>>(
-            stream: _bloc?.subjectKeyValueList,
-            builder: (context, snapKeyValueList) {
-              List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: keyValueList.length,
-                padding: EdgeInsetsDirectional.zero,
-                itemBuilder: (context, index) {
-                  ItemKeyValuePair itemKeyValue = keyValueList[index];
-                  return ItemKeyValueList(
-                    itemKeyValue: itemKeyValue,
-                    fontStyle: bodyText(
-                      fontSize: textSize20px,
-                      fontWeight: FontWeight.w500,
-                      textColor: colorCommonBrown,
+          _invoiceDetails(),
+          if (widget.item.orderStatus == 3 || widget.item.orderStatus == 1) _actionButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _orderItemList() {
+    return ListView.separated(
+      shrinkWrap: true,
+      padding: EdgeInsetsDirectional.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.item.orderItems.length,
+      itemBuilder: (context, index) {
+        OrderItems orderItem = widget.item.orderItems[index];
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  CustomImage(
+                    imagePath: orderItem.productImage,
+                    height: commonSize80px,
+                    width: commonSize80px,
+                    fit: BoxFit.cover,
+                    borderRadius: BorderRadius.circular(borderRadius20px),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(start: commonPadding10px),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              orderItem.productName,
+                              style: bodyText(
+                                fontWeight: FontWeight.w500,
+                                fontSize: textSize15px,
+                                textColor: colorCommonBrown,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            getAmountWithCurrency(orderItem.productPrice),
+                            style: bodyText(
+                              fontWeight: FontWeight.w300,
+                              fontSize: textSize14px,
+                              textColor: colorCommonBrown,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    dividerColor: colorPrimaryLight,
-                  );
-                },
-              );
-            },
-          ),
-          if (widget.item.orderStatus == 3 || widget.item.orderStatus == 1)
-            Center(
-              child: CustomRoundedButton(
-                buttonText: (widget.item.orderStatus == 3) ? languages.orderAgain : languages.cancelOrder,
-                onPressed: () {
-                  if (widget.item.orderStatus == 3) {
-                    selectedDrawerIndexSubject.sink.add(3);
-                  } else {
-                    openScreen(context: context, screen: const CancelOrderScreen());
-                  }
-                },
-                fontSize: textSize20px,
-                fontWeight: FontWeight.w400,
-                backgroundColor: colorPrimaryLight,
-                textColor: colorPrimary,
-                borderColor: colorPrimaryLight,
-                margin: EdgeInsetsDirectional.only(top: commonPadding50px),
-                minBtnHeight: 0.048,
-                minBtnWidth: 0.4,
+                  ),
+                ],
               ),
             ),
-        ],
+            Padding(
+              padding: EdgeInsetsDirectional.only(start: commonPadding10px),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    getFormattedDateTime(
+                      inputDateTime: orderItem.productAddedTime,
+                      format: "dd-MM-yyyy hh:mm",
+                      returnFormat: "dd/MM/yyyy",
+                    ),
+                    style: bodyText(
+                      fontWeight: FontWeight.w500,
+                      fontSize: textSize13px,
+                      textColor: colorCommonBrown,
+                    ),
+                  ),
+                  Text(
+                    getFormattedDateTime(
+                      inputDateTime: orderItem.productAddedTime,
+                      format: "dd-MM-yyyy hh:mm",
+                      returnFormat: "HH:mm",
+                    ),
+                    style: bodyText(
+                      fontWeight: FontWeight.w500,
+                      fontSize: textSize13px,
+                      textColor: colorCommonBrown,
+                    ),
+                  ),
+                  Text(
+                    "${orderItem.productQuantity} ${languages.items}",
+                    style: bodyText(
+                      fontWeight: FontWeight.w400,
+                      fontSize: textSize13px,
+                      textColor: colorCommonBrown,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
+          child: Divider(color: colorPrimaryLight),
+        );
+      },
+    );
+  }
+
+  Widget _invoiceDetails() {
+    return StreamBuilder<List<ItemKeyValuePair>>(
+      stream: _bloc?.subjectKeyValueList,
+      builder: (context, snapKeyValueList) {
+        List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: keyValueList.length,
+          padding: EdgeInsetsDirectional.zero,
+          itemBuilder: (context, index) {
+            ItemKeyValuePair itemKeyValue = keyValueList[index];
+            return ItemKeyValueList(
+              itemKeyValue: itemKeyValue,
+              fontStyle: bodyText(
+                fontSize: textSize20px,
+                fontWeight: FontWeight.w500,
+                textColor: colorCommonBrown,
+              ),
+              dividerColor: colorPrimaryLight,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _actionButton() {
+    return Center(
+      child: CustomRoundedButton(
+        buttonText: (widget.item.orderStatus == 3) ? languages.orderAgain : languages.cancelOrder,
+        onPressed: () {
+          if (widget.item.orderStatus == 3) {
+            selectedDrawerIndexSubject.sink.add(3);
+          } else {
+            openScreen(context: context, screen: const CancelOrderScreen());
+          }
+        },
+        fontSize: textSize20px,
+        fontWeight: FontWeight.w400,
+        backgroundColor: colorPrimaryLight,
+        textColor: colorPrimary,
+        borderColor: colorPrimaryLight,
+        margin: EdgeInsetsDirectional.only(top: commonPadding50px),
+        minBtnHeight: 0.048,
+        minBtnWidth: 0.4,
       ),
     );
   }

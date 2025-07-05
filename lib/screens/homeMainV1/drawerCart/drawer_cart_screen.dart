@@ -99,142 +99,154 @@ class _DrawerCartScreenState extends State<DrawerCartScreen> {
           itemCount: cartList.length,
           itemBuilder: (context, index) {
             ItemCartList cartItem = cartList[index];
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsetsDirectional.only(end: commonPadding10px),
-                      child: CustomImage(
-                        imagePath: cartItem.cartItemImage,
-                        height: commonSize80px,
-                        width: commonSize80px,
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Container(
-                              margin: EdgeInsetsDirectional.only(end: commonPadding10px * 0.75),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    cartItem.cartItemName,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize15px),
-                                  ),
-                                  Text(
-                                    getAmountWithCurrency(cartItem.itemPrice * cartItem.itemQuantity),
-                                    style: bodyText(fontWeight: FontWeight.w300),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                getFormattedDateTime(
-                                  inputDateTime: cartItem.itemAddingDate,
-                                  format: "dd-MM-yyyy",
-                                  returnFormat: "dd/MM/yy",
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize13px),
-                              ),
-                              Text(
-                                cartItem.itemAddingTime,
-                                style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize13px),
-                              ),
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _bloc!.updateCartItemQuantity(cartItem, false);
-                                    },
-                                    child: Icon(
-                                      CupertinoIcons.minus_circle_fill,
-                                      color: colorTextCommon,
-                                      size: iconSize15px,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsetsDirectional.symmetric(
-                                      horizontal: commonPadding10px * 0.5,
-                                    ),
-                                    child: Text(
-                                      "${cartItem.itemQuantity}",
-                                      style: bodyText(fontSize: textSize13px),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _bloc!.updateCartItemQuantity(cartItem, true);
-                                    },
-                                    child: Icon(
-                                      CupertinoIcons.add_circled_solid,
-                                      color: colorTextCommon,
-                                      size: iconSize15px,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
-                  child: Divider(color: colorTextCommon),
-                ),
-              ],
-            );
+            return _cartListItem(cartItem);
           },
         ),
         SizedBox(height: commonPadding32px),
-        StreamBuilder<List<ItemKeyValuePair>>(
-          stream: _bloc?.subjectKeyValueList,
-          builder: (context, snapKeyValueList) {
-            List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: keyValueList.length,
-              padding: EdgeInsetsDirectional.zero,
-              itemBuilder: (context, index) {
-                ItemKeyValuePair itemKeyValue = keyValueList[index];
-                return ItemKeyValueList(itemKeyValue: itemKeyValue);
-              },
-            );
+        _invoiceDetails(),
+        _checkOutButton(),
+      ],
+    );
+  }
+  
+  Widget _invoiceDetails() {
+    return StreamBuilder<List<ItemKeyValuePair>>(
+      stream: _bloc?.subjectKeyValueList,
+      builder: (context, snapKeyValueList) {
+        List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: keyValueList.length,
+          padding: EdgeInsetsDirectional.zero,
+          itemBuilder: (context, index) {
+            ItemKeyValuePair itemKeyValue = keyValueList[index];
+            return ItemKeyValueList(itemKeyValue: itemKeyValue);
           },
-        ),
-        CustomRoundedButton(
-          buttonText: languages.checkOut,
-          onPressed: () {
-            openScreen(
-              context: context,
-              screen: ConfirmOrderScreen(
-                subjectCartData: _bloc?.subjectCartData,
-                subjectKeyValueList: _bloc?.subjectKeyValueList,
+        );
+      },
+    );
+  }
+  
+  Widget _checkOutButton() {
+    return CustomRoundedButton(
+      buttonText: languages.checkOut,
+      onPressed: () {
+        openScreen(
+          context: context,
+          screen: ConfirmOrderScreen(
+            subjectCartData: _bloc?.subjectCartData,
+            subjectKeyValueList: _bloc?.subjectKeyValueList,
+          ),
+        );
+      },
+      fontSize: textSize24px,
+      backgroundColor: colorPeach,
+      textColor: colorPrimary,
+      margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding35px),
+      minBtnHeight: 0.048,
+      minBtnWidth: 0.4,
+    );
+  }
+  
+  Widget _cartListItem(ItemCartList cartItem) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Container(
+              margin: EdgeInsetsDirectional.only(end: commonPadding10px),
+              child: CustomImage(
+                imagePath: cartItem.cartItemImage,
+                height: commonSize80px,
+                width: commonSize80px,
               ),
-            );
-          },
-          fontSize: textSize24px,
-          backgroundColor: colorPeach,
-          textColor: colorPrimary,
-          margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding35px),
-          minBtnHeight: 0.048,
-          minBtnWidth: 0.4,
-        )
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(end: commonPadding10px * 0.75),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            cartItem.cartItemName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize15px),
+                          ),
+                          Text(
+                            getAmountWithCurrency(cartItem.itemPrice * cartItem.itemQuantity),
+                            style: bodyText(fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        getFormattedDateTime(
+                          inputDateTime: cartItem.itemAddingDate,
+                          format: "dd-MM-yyyy",
+                          returnFormat: "dd/MM/yy",
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize13px),
+                      ),
+                      Text(
+                        cartItem.itemAddingTime,
+                        style: bodyText(fontWeight: FontWeight.w500, fontSize: textSize13px),
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _bloc!.updateCartItemQuantity(cartItem, false);
+                            },
+                            child: Icon(
+                              CupertinoIcons.minus_circle_fill,
+                              color: colorTextCommon,
+                              size: iconSize15px,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsetsDirectional.symmetric(
+                              horizontal: deviceAvgScreenSize * 0.008945,
+                            ),
+                            child: Text(
+                              "${cartItem.itemQuantity}",
+                              style: bodyText(fontSize: textSize13px),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _bloc!.updateCartItemQuantity(cartItem, true);
+                            },
+                            child: Icon(
+                              CupertinoIcons.add_circled_solid,
+                              color: colorTextCommon,
+                              size: iconSize15px,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        Container(
+          margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
+          child: Divider(color: colorTextCommon),
+        ),
       ],
     );
   }

@@ -51,7 +51,7 @@ class HomeShimmer extends StatelessWidget {
                             Container(
                               margin: EdgeInsetsDirectional.only(
                                 top: commonPadding16px,
-                                end: commonPadding10px * 0.5,
+                                end: deviceAvgScreenSize * 0.008945,
                               ),
                               height: commonSize45px * 0.4,
                               width: commonSize62px * 1.12,

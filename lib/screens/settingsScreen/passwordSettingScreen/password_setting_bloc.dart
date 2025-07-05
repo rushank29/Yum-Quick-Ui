@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
-import 'package:food_ui/shared_pref_util/shared_pref_util.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../main.dart';
+import '../../../shared_pref_util/shared_pref_constants.dart';
+import '../../../shared_pref_util/shared_pref_util.dart';
 import '../../../utils/response_util.dart';
 import '../../../utils/utils.dart';
 import '../../signUpScreen/sign_up_dl.dart';

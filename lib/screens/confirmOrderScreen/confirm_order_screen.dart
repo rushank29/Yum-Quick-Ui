@@ -45,46 +45,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
       bodyWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                languages.shippingAddress,
-                style: bodyText(
-                  fontWeight: FontWeight.w700,
-                  fontSize: textSize24px,
-                  textColor: colorCommonBrown,
-                ),
-              ),
-              SizedBox(width: commonPadding10px),
-              GestureDetector(
-                onTap: () {
-                  _bloc?.changeDeliveryAddress();
-                },
-                child: SvgPicture.asset(
-                  "assets/svg/edit_pen_icon.svg",
-                  height: iconSize15px,
-                  width: iconSize15px,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: double.maxFinite,
-            padding: EdgeInsetsDirectional.all(commonPadding10px),
-            decoration: BoxDecoration(
-              color: colorPeach,
-              borderRadius: BorderRadiusDirectional.circular(borderRadius20px),
-            ),
-            child: StreamBuilder<ItemDeliveryAddressList?>(
-              stream: _bloc?.savedAddressSubject,
-              builder: (context, snapSavedAddress) {
-                return Text(
-                  snapSavedAddress.data?.addressDescription ?? "",
-                  style: bodyText(fontSize: textSize16px, textColor: colorCommonBrown),
-                );
-              },
-            ),
-          ),
+          _addressSection(),
           SizedBox(height: commonPadding50px),
           Text(
             languages.orderSummary,
@@ -96,187 +57,245 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
           ),
           SizedBox(height: commonPadding16px),
           Divider(color: colorDividerOrange),
-          StreamBuilder<ResponseUtil<CartDataPojo>>(
-            stream: widget.subjectCartData,
-            builder: (context, snapCartData) {
-              List<ItemCartList> cartList = snapCartData.data?.data?.cartList ?? [];
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsetsDirectional.only(top: commonPadding10px),
-                itemCount: cartList.length,
-                itemBuilder: (context, index) {
-                  ItemCartList cartItem = cartList[index];
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+          _cartList(),
+          _invoiceDetails(),
+          _placeOrderButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _addressSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              languages.shippingAddress,
+              style: bodyText(
+                fontWeight: FontWeight.w700,
+                fontSize: textSize24px,
+                textColor: colorCommonBrown,
+              ),
+            ),
+            SizedBox(width: commonPadding10px),
+            GestureDetector(
+              onTap: () {
+                _bloc?.changeDeliveryAddress();
+              },
+              child: SvgPicture.asset(
+                "assets/svg/edit_pen_icon.svg",
+                height: iconSize15px,
+                width: iconSize15px,
+              ),
+            ),
+          ],
+        ),
+        Container(
+          width: double.maxFinite,
+          padding: EdgeInsetsDirectional.all(commonPadding10px),
+          decoration: BoxDecoration(
+            color: colorPeach,
+            borderRadius: BorderRadiusDirectional.circular(borderRadius20px),
+          ),
+          child: StreamBuilder<ItemDeliveryAddressList?>(
+            stream: _bloc?.savedAddressSubject,
+            builder: (context, snapSavedAddress) {
+              return Text(
+                snapSavedAddress.data?.addressDescription ?? "",
+                style: bodyText(fontSize: textSize16px, textColor: colorCommonBrown),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _cartList() {
+    return StreamBuilder<ResponseUtil<CartDataPojo>>(
+      stream: widget.subjectCartData,
+      builder: (context, snapCartData) {
+        List<ItemCartList> cartList = snapCartData.data?.data?.cartList ?? [];
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsetsDirectional.only(top: commonPadding10px),
+          itemCount: cartList.length,
+          itemBuilder: (context, index) {
+            ItemCartList cartItem = cartList[index];
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsetsDirectional.only(end: commonPadding10px),
+                      child: CustomImage(
+                        imagePath: cartItem.cartItemImage,
+                        height: deviceAvgScreenSize * 0.1932,
+                        width: deviceAvgScreenSize * 0.1288,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            margin: EdgeInsetsDirectional.only(end: commonPadding10px),
-                            child: CustomImage(
-                              imagePath: cartItem.cartItemImage,
-                              height: deviceAvgScreenSize * 0.1932,
-                              width: deviceAvgScreenSize * 0.1288,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
                           Expanded(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsetsDirectional.only(end: commonPadding10px * 0.75),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          cartItem.cartItemName,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: bodyText(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: textSize20px,
-                                            textColor: colorCommonBrown,
-                                          ),
-                                        ),
-                                        Text(
-                                          getFormattedDateTime(
-                                            inputDateTime:
-                                                "${cartItem.itemAddingDate} ${cartItem.itemAddingTime}",
-                                            format: "dd-MM-yyyy hh:mm",
-                                            returnFormat: "dd MMM, hh:mm a",
-                                          ),
-                                          style: bodyText(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: textSize14px,
-                                            textColor: colorCommonBrown,
-                                          ),
-                                        ),
-                                      ],
+                            child: Container(
+                              margin: EdgeInsetsDirectional.only(end: commonPadding10px * 0.75),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cartItem.cartItemName,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: bodyText(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: textSize20px,
+                                      textColor: colorCommonBrown,
                                     ),
                                   ),
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      getAmountWithCurrency(cartItem.itemPrice * cartItem.itemQuantity),
-                                      style: bodyText(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: textSize20px,
-                                        textColor: colorPrimary,
-                                      ),
+                                  Text(
+                                    getFormattedDateTime(
+                                      inputDateTime: "${cartItem.itemAddingDate} ${cartItem.itemAddingTime}",
+                                      format: "dd-MM-yyyy hh:mm",
+                                      returnFormat: "dd MMM, hh:mm a",
                                     ),
-                                    Text(
-                                      "${cartItem.itemQuantity} ${languages.items}",
+                                    style: bodyText(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: textSize14px,
+                                      textColor: colorCommonBrown,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                getAmountWithCurrency(cartItem.itemPrice * cartItem.itemQuantity),
+                                style: bodyText(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: textSize20px,
+                                  textColor: colorPrimary,
+                                ),
+                              ),
+                              Text(
+                                "${cartItem.itemQuantity} ${languages.items}",
+                                style: bodyText(
+                                  fontWeight: FontWeight.w300,
+                                  textColor: colorCommonBrown,
+                                ),
+                              ),
+                              SizedBox(height: deviceAvgScreenSize * 0.010737), // optional spacing
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => _bloc!.updateCartItemQuantity(cartItem, false),
+                                    child: Icon(
+                                      CupertinoIcons.minus_circle_fill,
+                                      color: cartItem.itemQuantity == 1 ? colorPrimaryLight : colorPrimary,
+                                      size: iconSize20px,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: deviceAvgScreenSize * 0.008945),
+                                    child: Text(
+                                      "${cartItem.itemQuantity}",
                                       style: bodyText(
-                                        fontWeight: FontWeight.w300,
+                                        fontSize: textSize18px,
                                         textColor: colorCommonBrown,
                                       ),
                                     ),
-                                    SizedBox(height: deviceAvgScreenSize * 0.010737), // optional spacing
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () => _bloc!.updateCartItemQuantity(cartItem, false),
-                                          child: Icon(
-                                            CupertinoIcons.minus_circle_fill,
-                                            color:
-                                                cartItem.itemQuantity == 1 ? colorPrimaryLight : colorPrimary,
-                                            size: iconSize20px,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: commonPadding10px * 0.5),
-                                          child: Text(
-                                            "${cartItem.itemQuantity}",
-                                            style: bodyText(
-                                              fontSize: textSize18px,
-                                              textColor: colorCommonBrown,
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () => _bloc!.updateCartItemQuantity(cartItem, true),
-                                          child: Icon(
-                                            CupertinoIcons.add_circled_solid,
-                                            color: colorPrimary,
-                                            size: iconSize20px,
-                                          ),
-                                        ),
-                                      ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => _bloc!.updateCartItemQuantity(cartItem, true),
+                                    child: Icon(
+                                      CupertinoIcons.add_circled_solid,
+                                      color: colorPrimary,
+                                      size: iconSize20px,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Container(
-                        margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
-                        child: Divider(color: colorPrimaryLight),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-          StreamBuilder<List<ItemKeyValuePair>>(
-            stream: _bloc?.subjectKeyValueList,
-            builder: (context, snapKeyValueList) {
-              List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: keyValueList.length,
-                padding: EdgeInsetsDirectional.zero,
-                itemBuilder: (context, index) {
-                  ItemKeyValuePair itemKeyValue = keyValueList[index];
-                  return ItemKeyValueList(
-                    itemKeyValue: itemKeyValue,
-                    fontStyle: bodyText(
-                      fontSize: textSize20px,
-                      fontWeight: FontWeight.w500,
-                      textColor: colorCommonBrown,
                     ),
-                    dividerColor: colorPrimaryLight,
-                  );
-                },
-              );
-            },
-          ),
-          Center(
-            child: CustomRoundedButton(
-              buttonText: languages.placeOrder,
-              onPressed: () {
-                openScreen(
-                  context: context,
-                  screen: PaymentConfirmationScreen(
-                    savedDeliveryAddress: _bloc?.savedAddressSubject.valueOrNull?.addressDescription ?? "",
-                    subjectCartData: widget.subjectCartData,
-                    subjectKeyValueList: widget.subjectKeyValueList,
-                  ),
-                );
-              },
-              fontSize: textSize20px,
-              fontWeight: FontWeight.w400,
-              backgroundColor: colorPrimaryLight,
-              textColor: colorPrimary,
-              borderColor: colorPrimaryLight,
-              margin: EdgeInsetsDirectional.only(top: commonPadding32px),
-              minBtnHeight: 0.048,
-              minBtnWidth: 0.4,
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsetsDirectional.symmetric(vertical: commonPadding10px),
+                  child: Divider(color: colorPrimaryLight),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _invoiceDetails() {
+    return StreamBuilder<List<ItemKeyValuePair>>(
+      stream: _bloc?.subjectKeyValueList,
+      builder: (context, snapKeyValueList) {
+        List<ItemKeyValuePair> keyValueList = snapKeyValueList.data ?? [];
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: keyValueList.length,
+          padding: EdgeInsetsDirectional.zero,
+          itemBuilder: (context, index) {
+            ItemKeyValuePair itemKeyValue = keyValueList[index];
+            return ItemKeyValueList(
+              itemKeyValue: itemKeyValue,
+              fontStyle: bodyText(
+                fontSize: textSize20px,
+                fontWeight: FontWeight.w500,
+                textColor: colorCommonBrown,
+              ),
+              dividerColor: colorPrimaryLight,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _placeOrderButton() {
+    return Center(
+      child: CustomRoundedButton(
+        buttonText: languages.placeOrder,
+        onPressed: () {
+          openScreen(
+            context: context,
+            screen: PaymentConfirmationScreen(
+              savedDeliveryAddress: _bloc?.savedAddressSubject.valueOrNull?.addressDescription ?? "",
+              subjectCartData: widget.subjectCartData,
+              subjectKeyValueList: widget.subjectKeyValueList,
             ),
-          )
-        ],
+          );
+        },
+        fontSize: textSize20px,
+        fontWeight: FontWeight.w400,
+        backgroundColor: colorPrimaryLight,
+        textColor: colorPrimary,
+        borderColor: colorPrimaryLight,
+        margin: EdgeInsetsDirectional.only(top: commonPadding32px),
+        minBtnHeight: 0.048,
+        minBtnWidth: 0.4,
       ),
     );
   }

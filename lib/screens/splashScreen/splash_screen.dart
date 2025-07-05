@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/screens/splashScreen/splash_dl.dart';
-import 'package:food_ui/screens/splashScreen/splash_bloc.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/constant/dimensions.dart';
+
+import '../../constant/colors.dart';
+import '../../customWidget/custom_image.dart';
+import '../../constant/dimensions.dart';
+import 'splash_dl.dart';
+import 'splash_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

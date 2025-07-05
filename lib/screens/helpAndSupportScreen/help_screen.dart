@@ -43,45 +43,7 @@ class _HelpScreenState extends State<HelpScreen> {
             padding: EdgeInsetsDirectional.zero,
             itemCount: helpAndSupportList.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  openScreen(context: context, screen: const SupportScreen());
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            helpAndSupportList[index].title,
-                            style: bodyText(
-                              fontSize: textSize20px,
-                              fontWeight: FontWeight.w500,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                          Text(
-                            helpAndSupportList[index].subTitle,
-                            style: bodyText(
-                              fontSize: textSize14px,
-                              fontWeight: FontWeight.w300,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.chevron_right_rounded,
-                        color: colorPrimary,
-                        size: iconSize24px,
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return _itemHelpSupportList(helpAndSupportList, index);
             },
             separatorBuilder: (context, index) {
               return Padding(
@@ -95,6 +57,48 @@ class _HelpScreenState extends State<HelpScreen> {
             child: Divider(color: colorPrimaryLight),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _itemHelpSupportList(List<ItemHelpList> helpAndSupportList, int index) {
+    return GestureDetector(
+      onTap: () {
+        openScreen(context: context, screen: const SupportScreen());
+      },
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  helpAndSupportList[index].title,
+                  style: bodyText(
+                    fontSize: textSize20px,
+                    fontWeight: FontWeight.w500,
+                    textColor: colorCommonBrown,
+                  ),
+                ),
+                Text(
+                  helpAndSupportList[index].subTitle,
+                  style: bodyText(
+                    fontSize: textSize14px,
+                    fontWeight: FontWeight.w300,
+                    textColor: colorCommonBrown,
+                  ),
+                ),
+              ],
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colorPrimary,
+              size: iconSize24px,
+            ),
+          ],
+        ),
       ),
     );
   }

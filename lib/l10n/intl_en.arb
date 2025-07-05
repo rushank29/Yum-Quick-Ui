@@ -169,6 +169,8 @@
   "general": "General",
   "account": "Account",
   "services": "Services",
+  "faq": "faq",
+  "filter": "Filter",
   "@userUpdatedSuccess": {
     "placeholders": {
       "userName": {

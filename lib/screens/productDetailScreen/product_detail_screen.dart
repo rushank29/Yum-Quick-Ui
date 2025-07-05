@@ -2,8 +2,8 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/main.dart';
 
+import '../../main.dart';
 import '../../constant/colors.dart';
 import '../../customWidget/common_bg_screen.dart';
 import '../../customWidget/custom_rounded_button.dart';
@@ -68,7 +68,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             ],
           ),
           Container(
-            padding: EdgeInsetsDirectional.all(commonSize10px * 0.5),
+            padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
             decoration: BoxDecoration(
               color: colorPrimary,
               shape: BoxShape.circle,
@@ -121,35 +121,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                     ],
                   ],
                 ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        CupertinoIcons.minus_circle_fill,
-                        color: colorPrimary,
-                        size: iconSize24px,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsetsDirectional.symmetric(
-                        horizontal: commonPadding10px * 0.5,
-                      ),
-                      child: Text(
-                        languages.one,
-                        style: bodyText(fontSize: textSize24px, textColor: colorCommonBrown),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        CupertinoIcons.add_circled_solid,
-                        color: colorPrimary,
-                        size: iconSize24px,
-                      ),
-                    ),
-                  ],
-                ),
+                _addToCartSection(),
               ],
             ),
             Divider(color: colorPrimaryLight),
@@ -167,108 +139,154 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
               ),
             ),
             SizedBox(height: commonPadding28px),
-            Text(
-              languages.addOnIngredients,
-              style: bodyText(
-                fontSize: textSize20px,
-                textColor: colorCommonBrown,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            ListView.builder(
-              itemCount: item.toppingList.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsetsDirectional.zero,
-              itemBuilder: (context, index) {
-                ItemToppingList itemToppingList = item.toppingList[index];
-                return StreamBuilder<ItemToppingList?>(
-                  stream: _bloc?.selectedToppingSubject,
-                  builder: (context, snapSelectedTopping) {
-                    return InkWell(
-                      onTap: () {
-                        _bloc?.selectedToppingSubject.sink.add(itemToppingList);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            itemToppingList.name,
-                            style: bodyText(
-                              fontSize: textSize14px,
-                              fontWeight: FontWeight.w300,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsetsDirectional.symmetric(horizontal: deviceWidth * 0.0175),
-                              child: DottedLine(
-                                direction: Axis.horizontal,
-                                alignment: WrapAlignment.center,
-                                lineLength: double.infinity,
-                                lineThickness: 1.0,
-                                dashLength: deviceWidth * 0.015,
-                                dashColor: colorPrimaryLight,
-                                dashRadius: 0.0,
-                                dashGapLength: deviceWidth * 0.01,
-                                dashGapColor: Colors.transparent,
-                                dashGapRadius: 0.0,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                getAmountWithCurrency(itemToppingList.price),
-                                style: bodyText(
-                                  fontSize: textSize12px,
-                                  fontWeight: FontWeight.w300,
-                                  textColor: colorCommonBrown,
-                                ),
-                              ),
-                              Radio<ItemToppingList?>(
-                                value: itemToppingList,
-                                groupValue: snapSelectedTopping.data,
-                                visualDensity: VisualDensity.compact,
-                                onChanged: (value) {
-                                  _bloc?.selectedToppingSubject.sink.add(value);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+            _toppingSection(),
             Align(
               alignment: AlignmentDirectional.center,
-              child: CustomRoundedButton(
-                buttonText: languages.addToCart,
-                widget: Padding(
-                  padding: EdgeInsetsDirectional.only(end: commonPadding10px),
-                  child: SvgPicture.asset(
-                    "assets/svg/bag.svg",
-                    width: iconSize20px,
-                    height: iconSize20px,
-                    colorFilter: ColorFilter.mode(
-                      colorWhite,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                minBtnHeight: 0.05,
-                minBtnWidth: 0.4,
-              ),
+              child: _actionButton(),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _toppingSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          languages.addOnIngredients,
+          style: bodyText(
+            fontSize: textSize20px,
+            textColor: colorCommonBrown,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        ListView.builder(
+          itemCount: item.toppingList.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsetsDirectional.zero,
+          itemBuilder: (context, index) {
+            ItemToppingList itemToppingList = item.toppingList[index];
+            return StreamBuilder<ItemToppingList?>(
+              stream: _bloc?.selectedToppingSubject,
+              builder: (context, snapSelectedTopping) {
+                return InkWell(
+                  onTap: () {
+                    _bloc?.selectedToppingSubject.sink.add(itemToppingList);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        itemToppingList.name,
+                        style: bodyText(
+                          fontSize: textSize14px,
+                          fontWeight: FontWeight.w300,
+                          textColor: colorCommonBrown,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsetsDirectional.symmetric(horizontal: deviceWidth * 0.0175),
+                          child: DottedLine(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            lineLength: double.infinity,
+                            lineThickness: 1.0,
+                            dashLength: deviceWidth * 0.015,
+                            dashColor: colorPrimaryLight,
+                            dashRadius: 0.0,
+                            dashGapLength: deviceWidth * 0.01,
+                            dashGapColor: Colors.transparent,
+                            dashGapRadius: 0.0,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            getAmountWithCurrency(itemToppingList.price),
+                            style: bodyText(
+                              fontSize: textSize12px,
+                              fontWeight: FontWeight.w300,
+                              textColor: colorCommonBrown,
+                            ),
+                          ),
+                          Radio<ItemToppingList?>(
+                            value: itemToppingList,
+                            groupValue: snapSelectedTopping.data,
+                            visualDensity: VisualDensity.compact,
+                            onChanged: (value) {
+                              _bloc?.selectedToppingSubject.sink.add(value);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _actionButton() {
+    return CustomRoundedButton(
+      buttonText: languages.addToCart,
+      widget: Padding(
+        padding: EdgeInsetsDirectional.only(end: commonPadding10px),
+        child: SvgPicture.asset(
+          "assets/svg/bag.svg",
+          width: iconSize20px,
+          height: iconSize20px,
+          colorFilter: ColorFilter.mode(
+            colorWhite,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+      onPressed: () {},
+      minBtnHeight: 0.05,
+      minBtnWidth: 0.4,
+    );
+  }
+
+  Widget _addToCartSection() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {},
+          child: Icon(
+            CupertinoIcons.minus_circle_fill,
+            color: colorPrimary,
+            size: iconSize24px,
+          ),
+        ),
+        Container(
+          margin: EdgeInsetsDirectional.symmetric(
+            horizontal: deviceAvgScreenSize * 0.008945,
+          ),
+          child: Text(
+            languages.one,
+            style: bodyText(fontSize: textSize24px, textColor: colorCommonBrown),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {},
+          child: Icon(
+            CupertinoIcons.add_circled_solid,
+            color: colorPrimary,
+            size: iconSize24px,
+          ),
+        ),
+      ],
     );
   }
 }

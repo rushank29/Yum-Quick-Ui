@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/customWidget/no_record_found.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_bloc.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_dl.dart';
-import 'package:food_ui/screens/myOrdersScreen/my_orders_shimmer.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
 
+import '../../constant/dimensions.dart';
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_image.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import '../../customWidget/no_record_found.dart';
+import 'my_orders_bloc.dart';
+import 'my_orders_dl.dart';
+import 'my_orders_shimmer.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import '../../constant/colors.dart';
 import '../../constant/constant.dart';
 import '../../main.dart';
@@ -120,143 +120,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         return Divider(color: colorDividerOrange);
       },
       itemBuilder: (context, index) {
-        ItemOrderHistory? itemOrderHistory = data?.itemOrderHistory[index];
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (index == 0) Divider(color: colorDividerOrange),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CustomImage(
-                  imagePath: itemOrderHistory?.itemImage ?? "",
-                  height: deviceHeight * 0.15,
-                  width: deviceWidth * 0.2,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(width: commonPadding10px),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              itemOrderHistory?.itemName ?? "",
-                              style: bodyText(
-                                fontWeight: FontWeight.w500,
-                                fontSize: textSize20px,
-                                textColor: colorCommonBrown,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                          Text(
-                            getAmountWithCurrency(itemOrderHistory?.orderAmount ?? 0),
-                            style: bodyText(
-                              fontWeight: FontWeight.w500,
-                              fontSize: textSize20px,
-                              textColor: colorPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getFormattedDateTime(inputDateTime: itemOrderHistory?.orderDateTime ?? ""),
-                            style: bodyText(
-                              fontWeight: FontWeight.w300,
-                              fontSize: textSize14px,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                          Text(
-                            "${itemOrderHistory?.orderItemCount ?? 0} ${languages.items}",
-                            style: bodyText(
-                              fontWeight: FontWeight.w300,
-                              fontSize: textSize14px,
-                              textColor: colorCommonBrown,
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (selectedTab != 0)
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              (selectedTab == 1)
-                                  ? "assets/svg/order_delivered_tick.svg"
-                                  : "assets/svg/order_cancelled_cross.svg",
-                              height: iconSize24px * 0.5,
-                              width: iconSize24px * 0.5,
-                            ),
-                            SizedBox(width: commonPadding10px * 0.5),
-                            Text(
-                              (selectedTab == 1) ? languages.orderDelivered : languages.orderCancelledTxt,
-                              style: bodyText(
-                                fontSize: textSize14px,
-                                fontWeight: FontWeight.w300,
-                                textColor: colorPrimary,
-                              ),
-                            )
-                          ],
-                        ),
-                      if (selectedTab != 2)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: CustomRoundedButton(
-                                buttonText: selectedTab == 0 ? languages.cancelOrder : languages.leaveAReview,
-                                onPressed: () {
-                                  if (selectedTab == 0) {
-                                    openScreen(context: context, screen: const CancelOrderScreen());
-                                  } else if (selectedTab == 1) {
-                                    openScreen(
-                                      context: context,
-                                      screen: LeaveReviewScreen(
-                                        orderItemImage: itemOrderHistory?.itemImage ?? "",
-                                        orderItemName: itemOrderHistory?.itemName ?? "",
-                                      ),
-                                    );
-                                  }
-                                },
-                                fontSize: textSize15px,
-                                minBtnHeight: 0.042,
-                                minBtnWidth: 0.4,
-                              ),
-                            ),
-                            SizedBox(width: deviceAvgScreenSize * 0.0268425),
-                            Expanded(
-                              child: CustomRoundedButton(
-                                buttonText: selectedTab == 0 ? languages.trackMyOrder : languages.orderAgain,
-                                onPressed: () {},
-                                fontSize: textSize15px,
-                                fontWeight: FontWeight.w400,
-                                backgroundColor: colorPrimaryLight,
-                                textColor: colorPrimary,
-                                borderColor: colorPrimaryLight,
-                                minBtnHeight: 0.042,
-                                minBtnWidth: 0.4,
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (index == (data?.itemOrderHistory.length ?? 0) - 1) Divider(color: colorDividerOrange),
-          ],
-        );
+        return _itemMyOrdersList(data, index, selectedTab);
       },
     );
   }
@@ -278,6 +142,146 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   Widget _emptyOrderHistory({String? message}) {
     return NoRecordFound(
       message: message ?? languages.noActiveOrdersThisTime,
+    );
+  }
+
+  Widget _itemMyOrdersList(MyOrdersPojo? data, int index, int selectedTab) {
+    ItemOrderHistory? itemOrderHistory = data?.itemOrderHistory[index];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (index == 0) Divider(color: colorDividerOrange),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomImage(
+              imagePath: itemOrderHistory?.itemImage ?? "",
+              height: deviceHeight * 0.15,
+              width: deviceWidth * 0.2,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(width: commonPadding10px),
+            Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          itemOrderHistory?.itemName ?? "",
+                          style: bodyText(
+                            fontWeight: FontWeight.w500,
+                            fontSize: textSize20px,
+                            textColor: colorCommonBrown,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      Text(
+                        getAmountWithCurrency(itemOrderHistory?.orderAmount ?? 0),
+                        style: bodyText(
+                          fontWeight: FontWeight.w500,
+                          fontSize: textSize20px,
+                          textColor: colorPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        getFormattedDateTime(inputDateTime: itemOrderHistory?.orderDateTime ?? ""),
+                        style: bodyText(
+                          fontWeight: FontWeight.w300,
+                          fontSize: textSize14px,
+                          textColor: colorCommonBrown,
+                        ),
+                      ),
+                      Text(
+                        "${itemOrderHistory?.orderItemCount ?? 0} ${languages.items}",
+                        style: bodyText(
+                          fontWeight: FontWeight.w300,
+                          fontSize: textSize14px,
+                          textColor: colorCommonBrown,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (selectedTab != 0)
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          (selectedTab == 1)
+                              ? "assets/svg/order_delivered_tick.svg"
+                              : "assets/svg/order_cancelled_cross.svg",
+                          height: iconSize24px * 0.5,
+                          width: iconSize24px * 0.5,
+                        ),
+                        SizedBox(width: deviceAvgScreenSize * 0.008945),
+                        Text(
+                          (selectedTab == 1) ? languages.orderDelivered : languages.orderCancelledTxt,
+                          style: bodyText(
+                            fontSize: textSize14px,
+                            fontWeight: FontWeight.w300,
+                            textColor: colorPrimary,
+                          ),
+                        )
+                      ],
+                    ),
+                  if (selectedTab != 2)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: CustomRoundedButton(
+                            buttonText: selectedTab == 0 ? languages.cancelOrder : languages.leaveAReview,
+                            onPressed: () {
+                              if (selectedTab == 0) {
+                                openScreen(context: context, screen: const CancelOrderScreen());
+                              } else if (selectedTab == 1) {
+                                openScreen(
+                                  context: context,
+                                  screen: LeaveReviewScreen(
+                                    orderItemImage: itemOrderHistory?.itemImage ?? "",
+                                    orderItemName: itemOrderHistory?.itemName ?? "",
+                                  ),
+                                );
+                              }
+                            },
+                            fontSize: textSize15px,
+                            minBtnHeight: 0.042,
+                            minBtnWidth: 0.4,
+                          ),
+                        ),
+                        SizedBox(width: deviceAvgScreenSize * 0.0268425),
+                        Expanded(
+                          child: CustomRoundedButton(
+                            buttonText: selectedTab == 0 ? languages.trackMyOrder : languages.orderAgain,
+                            onPressed: () {},
+                            fontSize: textSize15px,
+                            fontWeight: FontWeight.w400,
+                            backgroundColor: colorPrimaryLight,
+                            textColor: colorPrimary,
+                            borderColor: colorPrimaryLight,
+                            minBtnHeight: 0.042,
+                            minBtnWidth: 0.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        if (index == (data?.itemOrderHistory.length ?? 0) - 1) Divider(color: colorDividerOrange),
+      ],
     );
   }
 }

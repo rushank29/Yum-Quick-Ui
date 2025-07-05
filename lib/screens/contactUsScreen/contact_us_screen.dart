@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/main.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/dimensions.dart';
@@ -55,7 +56,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderSt
       bodyWidget: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(commonPadding10px * 0.4),
+            padding: EdgeInsets.all(deviceAvgScreenSize * 0.007156),
             decoration: BoxDecoration(
               color: colorHomeBackground,
               borderRadius: BorderRadius.circular(borderRadius30px),
@@ -69,7 +70,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderSt
                     Expanded(
                       child: commonTabWidget(
                         selectedTabIndex == 0,
-                        "FAQ",
+                        languages.faq.toUpperCase(),
                         onPressed: () {
                           _bloc.selectedMainTabSubject.sink.add(0);
                           _tabController.animateTo(0);
@@ -80,7 +81,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderSt
                     Expanded(
                       child: commonTabWidget(
                         selectedTabIndex == 1,
-                        "Contact Us",
+                        languages.contactUs,
                         onPressed: () {
                           _bloc.selectedMainTabSubject.sink.add(1);
                           _tabController.animateTo(1);

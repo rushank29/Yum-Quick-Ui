@@ -134,9 +134,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("التسليم المتوقع"),
         "expiryDate":
             MessageLookupByLibrary.simpleMessage("تاريخ انتهاء الصلاحية"),
+        "faq": MessageLookupByLibrary.simpleMessage("التعليمات"),
         "favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "fillUpFullForm":
             MessageLookupByLibrary.simpleMessage("يرجى ملء النموذج كاملا."),
+        "filter": MessageLookupByLibrary.simpleMessage("فلتر"),
         "five": MessageLookupByLibrary.simpleMessage("5"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر"),

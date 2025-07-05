@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/screens/settingsScreen/passwordSettingScreen/password_setting_bloc.dart';
-import 'package:food_ui/utils/validator_util.dart';
 
+import '../../../constant/dimensions.dart';
+import '../../../customWidget/custom_rounded_button.dart';
+import '../../../customWidget/custom_text_form_field.dart';
+import '../../../main.dart';
+import '../../../utils/validator_util.dart';
 import '../../../customWidget/common_bg_screen.dart';
+import 'password_setting_bloc.dart';
 
 class PasswordSettingScreen extends StatefulWidget {
   const PasswordSettingScreen({super.key});

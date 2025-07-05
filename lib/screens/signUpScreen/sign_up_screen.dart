@@ -49,115 +49,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomTextFormField(
-                formFieldLabel: languages.fullName,
-                controller: _bloc?.fullNameController,
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  return validateEmptyField(value, languages.enterYourName);
-                },
-              ),
+              _fullNameField(),
               SizedBox(height: deviceAvgScreenSize * 0.0268425),
-              CustomTextFormField(
-                formFieldLabel: languages.password,
-                controller: _bloc?.passwordController,
-                setPassword: true,
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  return validatePassword(value);
-                },
-              ),
+              _passwordField(),
               SizedBox(height: deviceAvgScreenSize * 0.0268425),
-              CustomTextFormField(
-                formFieldLabel: languages.email,
-                controller: _bloc?.emailController,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  return validateEmail(value);
-                },
-              ),
+              _emailField(),
               SizedBox(height: deviceAvgScreenSize * 0.0268425),
-              CustomTextFormField(
-                formFieldLabel: languages.mobileNumber,
-                controller: _bloc?.mobileNumberController,
-                keyboardType: TextInputType.phone,
-                prefix: CountryCodePicker(
-                  showFlagMain: false,
-                  initialSelection: "+91",
-                  onInit: (value) {
-                    _bloc?.selectedCountrySubject.sink.add(value);
-                  },
-                  onChanged: (value) {
-                    _bloc?.selectedCountrySubject.sink.add(value);
-                  },
-                ),
-                validator: (value) {
-                  return validateEmptyField(value, languages.enterMobileNumber);
-                },
-              ),
+              _mobileField(),
               SizedBox(height: deviceAvgScreenSize * 0.0268425),
-              CustomTextFormField(
-                formFieldLabel: languages.dateOfBirth,
-                controller: _bloc?.birthDateController,
-                readOnly: true,
-                onTap: () {
-                  showDateSelector(context: context, controller: _bloc!.birthDateController);
-                },
-                keyboardType: TextInputType.datetime,
-                validator: (value) {
-                  return validateEmptyField(value, languages.selectDateOfBirth);
-                },
-              ),
+              _birthDateField(),
               SizedBox(height: commonPadding20px),
               Align(
                 alignment: AlignmentDirectional.center,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: languages.byContinuing,
-                    style: bodyText(
-                      fontWeight: FontWeight.w300,
-                      fontSize: textSize12px,
-                      textColor: colorDarkGrey,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: "${languages.termsOfUse} ",
-                        style: TextStyle(
-                          color: colorPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      TextSpan(text: "${languages.and} "),
-                      TextSpan(
-                        text: "${languages.privacyPolicy}.",
-                        style: TextStyle(
-                          color: colorPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: _termsAndConditionsSection(),
               ),
-              SizedBox(height: commonPadding10px * 0.5),
+              SizedBox(height: deviceAvgScreenSize * 0.008945),
               Align(
                 alignment: AlignmentDirectional.center,
-                child: StreamBuilder<ResponseUtil>(
-                  stream: _bloc?.subjectStatus,
-                  builder: (context, snapStatus) {
-                    return CustomRoundedButton(
-                      buttonText: languages.signUp,
-                      fontSize: textSize24px,
-                      setProgress: snapStatus.data?.status == Status.loading,
-                      minBtnHeight: 0.052,
-                      minBtnWidth: 0.45,
-                      onPressed: () {
-                        _bloc?.userSignUp();
-                      },
-                    );
-                  },
-                ),
+                child: _signUpButton(),
               ),
               SizedBox(height: commonPadding32px),
               const Align(
@@ -193,6 +102,125 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _fullNameField() {
+    return CustomTextFormField(
+      formFieldLabel: languages.fullName,
+      controller: _bloc?.fullNameController,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        return validateEmptyField(value, languages.enterYourName);
+      },
+    );
+  }
+
+  Widget _passwordField() {
+    return CustomTextFormField(
+      formFieldLabel: languages.password,
+      controller: _bloc?.passwordController,
+      setPassword: true,
+      keyboardType: TextInputType.text,
+      validator: (value) {
+        return validatePassword(value);
+      },
+    );
+  }
+
+  Widget _emailField() {
+    return CustomTextFormField(
+      formFieldLabel: languages.email,
+      controller: _bloc?.emailController,
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        return validateEmail(value);
+      },
+    );
+  }
+
+  Widget _mobileField() {
+    return CustomTextFormField(
+      formFieldLabel: languages.mobileNumber,
+      controller: _bloc?.mobileNumberController,
+      keyboardType: TextInputType.phone,
+      prefix: CountryCodePicker(
+        showFlagMain: false,
+        initialSelection: "+91",
+        onInit: (value) {
+          _bloc?.selectedCountrySubject.sink.add(value);
+        },
+        onChanged: (value) {
+          _bloc?.selectedCountrySubject.sink.add(value);
+        },
+      ),
+      validator: (value) {
+        return validateEmptyField(value, languages.enterMobileNumber);
+      },
+    );
+  }
+
+  Widget _birthDateField() {
+    return CustomTextFormField(
+      formFieldLabel: languages.dateOfBirth,
+      controller: _bloc?.birthDateController,
+      readOnly: true,
+      onTap: () {
+        showDateSelector(context: context, controller: _bloc!.birthDateController);
+      },
+      keyboardType: TextInputType.datetime,
+      validator: (value) {
+        return validateEmptyField(value, languages.selectDateOfBirth);
+      },
+    );
+  }
+
+  Widget _termsAndConditionsSection() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: languages.byContinuing,
+        style: bodyText(
+          fontWeight: FontWeight.w300,
+          fontSize: textSize12px,
+          textColor: colorDarkGrey,
+        ),
+        children: [
+          TextSpan(
+            text: "${languages.termsOfUse} ",
+            style: TextStyle(
+              color: colorPrimary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextSpan(text: "${languages.and} "),
+          TextSpan(
+            text: "${languages.privacyPolicy}.",
+            style: TextStyle(
+              color: colorPrimary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _signUpButton() {
+    return StreamBuilder<ResponseUtil>(
+      stream: _bloc?.subjectStatus,
+      builder: (context, snapStatus) {
+        return CustomRoundedButton(
+          buttonText: languages.signUp,
+          fontSize: textSize24px,
+          setProgress: snapStatus.data?.status == Status.loading,
+          minBtnHeight: 0.052,
+          minBtnWidth: 0.45,
+          onPressed: () {
+            _bloc?.userSignUp();
+          },
+        );
+      },
     );
   }
 }

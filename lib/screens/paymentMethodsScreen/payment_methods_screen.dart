@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/main.dart';
 
+import '../../main.dart';
 import '../../customWidget/common_bg_screen.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
@@ -11,10 +11,10 @@ import '../../customWidget/custom_rounded_button.dart';
 import '../../customWidget/no_record_found.dart';
 import '../../utils/response_util.dart';
 import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import 'payment_methods_bloc.dart';
 import 'payment_methods_dl.dart';
 import 'payment_screen_shimmer.dart';
-import 'package:food_ui/utils/utils.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({super.key});
@@ -78,69 +78,77 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (index == 0) Divider(color: colorDividerOrange),
-                StreamBuilder<ItemPaymentMethodsList?>(
-                  stream: _bloc?.selectedPaymentMethodSubject,
-                  builder: (context, snapSelectedPaymentType) {
-                    return InkWell(
-                      onTap: () {
-                        _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
-                        setJsonString(prefSavedPaymentType, itemPaymentMethods);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: commonSize45px,
-                            alignment: AlignmentDirectional.center,
-                            child: getPaymentMethodIcon(itemPaymentMethods.paymentType),
-                          ),
-                          SizedBox(width: commonPadding10px),
-                          Expanded(
-                            child: Text(
-                              getPaymentMethodName(
-                                itemPaymentMethods.paymentType,
-                                cardNumber: itemPaymentMethods.cardNumber,
-                              ),
-                              style: bodyText(
-                                fontSize: textSize15px,
-                                fontWeight: FontWeight.w400,
-                                textColor: colorCommonBrown,
-                              ),
-                            ),
-                          ),
-                          Radio<ItemPaymentMethodsList>(
-                            value: itemPaymentMethods,
-                            groupValue: snapSelectedPaymentType.data,
-                            onChanged: (value) {
-                              _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
-                              setJsonString(prefSavedPaymentType, itemPaymentMethods);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                _itemPaymentMethodList(itemPaymentMethods),
                 if (index == paymentMethodsList.length - 1) Divider(color: colorDividerOrange),
               ],
             );
           },
         ),
-        CustomRoundedButton(
-          buttonText: languages.addNewCard,
-          onPressed: () {
-            _bloc?.addNewCardScreen();
-          },
-          fontSize: textSize20px,
-          fontWeight: FontWeight.w400,
-          backgroundColor: colorPrimaryLight,
-          minBtnHeight: 0.048,
-          minBtnWidth: 0.4,
-          textColor: colorPrimary,
-          borderColor: colorPrimaryLight,
-          margin: EdgeInsetsDirectional.only(top: commonPadding35px),
-        )
+        _addCardButton(),
       ],
+    );
+  }
+
+  Widget _itemPaymentMethodList(ItemPaymentMethodsList itemPaymentMethods) {
+    return StreamBuilder<ItemPaymentMethodsList?>(
+      stream: _bloc?.selectedPaymentMethodSubject,
+      builder: (context, snapSelectedPaymentType) {
+        return InkWell(
+          onTap: () {
+            _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
+            setJsonString(prefSavedPaymentType, itemPaymentMethods);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: commonSize45px,
+                alignment: AlignmentDirectional.center,
+                child: getPaymentMethodIcon(itemPaymentMethods.paymentType),
+              ),
+              SizedBox(width: commonPadding10px),
+              Expanded(
+                child: Text(
+                  getPaymentMethodName(
+                    itemPaymentMethods.paymentType,
+                    cardNumber: itemPaymentMethods.cardNumber,
+                  ),
+                  style: bodyText(
+                    fontSize: textSize15px,
+                    fontWeight: FontWeight.w400,
+                    textColor: colorCommonBrown,
+                  ),
+                ),
+              ),
+              Radio<ItemPaymentMethodsList>(
+                value: itemPaymentMethods,
+                groupValue: snapSelectedPaymentType.data,
+                onChanged: (value) {
+                  _bloc?.selectedPaymentMethodSubject.sink.add(itemPaymentMethods);
+                  setJsonString(prefSavedPaymentType, itemPaymentMethods);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _addCardButton() {
+    return CustomRoundedButton(
+      buttonText: languages.addNewCard,
+      onPressed: () {
+        _bloc?.addNewCardScreen();
+      },
+      fontSize: textSize20px,
+      fontWeight: FontWeight.w400,
+      backgroundColor: colorPrimaryLight,
+      minBtnHeight: 0.048,
+      minBtnWidth: 0.4,
+      textColor: colorPrimary,
+      borderColor: colorPrimaryLight,
+      margin: EdgeInsetsDirectional.only(top: commonPadding35px),
     );
   }
 }

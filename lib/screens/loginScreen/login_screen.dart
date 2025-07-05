@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_rounded_button.dart';
-import 'package:food_ui/customWidget/custom_text_form_field.dart';
-import 'package:food_ui/screens/loginScreen/login_bloc.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/screens/setPasswordScreen/set_password_screen.dart';
-import 'package:food_ui/screens/signUpScreen/sign_up_screen.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/text_style.dart';
-import 'package:food_ui/utils/utils.dart';
-import 'package:food_ui/utils/validator_util.dart';
 
+import '../../customWidget/common_bg_screen.dart';
+import '../../customWidget/custom_rounded_button.dart';
+import '../../customWidget/custom_text_form_field.dart';
+import 'login_bloc.dart';
+import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
+import '../setPasswordScreen/set_password_screen.dart';
+import '../signUpScreen/sign_up_screen.dart';
+import '../../utils/response_util.dart';
+import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
+import '../../utils/validator_util.dart';
 import '../../constant/constant.dart';
 import '../../main.dart';
 import '../../utils/social_login_util.dart';
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: CommonBackgroundWidget(
-        pageTitle: "Log In",
+        pageTitle: languages.logIn,
         bodyWidget: Form(
           key: _bloc?.formKey,
           child: Column(

@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
-import 'package:food_ui/utils/response_util.dart';
-import 'package:food_ui/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../main.dart';
+import '../homeMainV1/home_main_v1.dart';
+import '../../utils/response_util.dart';
+import '../../utils/utils.dart';
 import '../signUpScreen/sign_up_dl.dart';
 
 class LoginBloc {
@@ -69,5 +69,7 @@ class LoginBloc {
 
   void dispose() {
     subjectStatus.close();
+    emailController.dispose();
+    passwordController.dispose();
   }
 }

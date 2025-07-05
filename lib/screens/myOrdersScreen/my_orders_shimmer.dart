@@ -56,7 +56,7 @@ class MyOrdersShimmer extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: commonPadding10px * 0.4),
+                        SizedBox(height: deviceAvgScreenSize * 0.007156),
                         Row(
                           children: [
                             Expanded(
@@ -70,7 +70,7 @@ class MyOrdersShimmer extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: commonPadding10px * 0.4),
+                        SizedBox(height: deviceAvgScreenSize * 0.007156),
                         Container(
                           height: commonPadding10px * 1.4,
                           color: colorBlack,

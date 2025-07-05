@@ -25,7 +25,6 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
   final reviewCommentController = TextEditingController();
   double userReview = 0;
 
-
   @override
   void dispose() {
     reviewCommentController.dispose();
@@ -38,14 +37,18 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
       pageTitle: languages.leaveAReview,
       bodyWidget: Column(
         children: [
-          SizedBox(height: commonPadding10px * 1.6),
-          CustomImage(
-            imagePath: widget.orderItemImage,
-            height: deviceAvgScreenSize * 0.280859,
-            width: deviceAvgScreenSize * 0.280859,
-            fit: BoxFit.cover,
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+              top: deviceAvgScreenSize * 0.028624,
+              bottom: commonPadding20px * 1.2,
+            ),
+            child: CustomImage(
+              imagePath: widget.orderItemImage,
+              height: deviceAvgScreenSize * 0.280859,
+              width: deviceAvgScreenSize * 0.280859,
+              fit: BoxFit.cover,
+            ),
           ),
-          SizedBox(height: commonPadding20px * 1.2),
           Text(
             widget.orderItemName,
             style: bodyText(
@@ -88,7 +91,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
               textColor: colorCommonBrown,
             ),
           ),
-          SizedBox(height: commonPadding10px * 0.5),
+          SizedBox(height: deviceAvgScreenSize * 0.008945),
           CustomTextFormField(
             controller: reviewCommentController,
             maxLines: 3,

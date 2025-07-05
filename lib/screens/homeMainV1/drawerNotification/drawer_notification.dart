@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ui/screens/homeMainV1/drawerNotification/drawer_notification_dl.dart';
 
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../utils/text_style.dart';
+import 'drawer_notification_dl.dart';
 
 class DrawerNotification extends StatelessWidget {
   final List<ItemDrawerNotificationList> drawerNotificationList;
@@ -43,7 +43,7 @@ class DrawerNotification extends StatelessWidget {
                   SizedBox(width: commonPadding16px),
                   Flexible(
                     child: Container(
-                      margin: EdgeInsetsDirectional.only(end: commonPadding300px * 0.25),
+                      margin: EdgeInsetsDirectional.only(end: deviceAvgScreenSize * 0.146725),
                       child: Text(
                         item.notificationMessage,
                         maxLines: 3,

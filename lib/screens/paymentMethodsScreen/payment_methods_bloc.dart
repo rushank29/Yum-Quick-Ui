@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'payment_methods_dl.dart';
-import 'payment_methods_json.dart';
-import 'addNewCardScreen/add_new_card_screen.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/utils.dart';
+import 'payment_methods_dl.dart';
+import 'payment_methods_json.dart';
+import 'addNewCardScreen/add_new_card_screen.dart';
 
 class PaymentMethodsBloc {
   final BuildContext context;
-  final subject = BehaviorSubject<ResponseUtil<PaymentMethodsPojo>>();
-  final selectedPaymentMethodSubject = BehaviorSubject<ItemPaymentMethodsList?>();
 
   PaymentMethodsBloc(this.context) {
     getPaymentMethods();
   }
+
+  final subject = BehaviorSubject<ResponseUtil<PaymentMethodsPojo>>();
+  final selectedPaymentMethodSubject = BehaviorSubject<ItemPaymentMethodsList?>();
 
   void getPaymentMethods({ItemPaymentMethodsList? newPaymentMethod, bool isMethodToBeAdded = false}) async {
     try {

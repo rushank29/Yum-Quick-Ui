@@ -21,12 +21,8 @@ class OrderDetailsBloc {
     dynamic deliveryFees = item.deliveryFees ?? 0;
     dynamic total = subtotal + taxAndFees + deliveryFees;
     keyValueList.add(ItemKeyValuePair(title: languages.subTotal, value: getAmountWithCurrency(subtotal)));
-    keyValueList.add(
-      ItemKeyValuePair(title: languages.taxAndFees, value: getAmountWithCurrency(taxAndFees)),
-    );
-    keyValueList.add(
-      ItemKeyValuePair(title: languages.delivery, value: getAmountWithCurrency(deliveryFees)),
-    );
+    keyValueList.add(ItemKeyValuePair(title: languages.taxAndFees, value: getAmountWithCurrency(taxAndFees)));
+    keyValueList.add(ItemKeyValuePair(title: languages.delivery, value: getAmountWithCurrency(deliveryFees)));
     keyValueList.add(
         ItemKeyValuePair(title: languages.total, value: getAmountWithCurrency(total), showDivider: true));
     subjectKeyValueList.sink.add(keyValueList);

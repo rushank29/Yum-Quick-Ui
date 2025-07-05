@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,12 @@ import '../../customWidget/custom_image.dart';
 import '../../customWidget/custom_text_form_field.dart';
 import '../filterScreen/filter_screen.dart';
 import '../recommendedScreen/recommended_screen.dart';
-import 'home_bloc.dart';
-import 'home_dl.dart';
-import 'home_shimmer.dart';
 import '../../utils/response_util.dart';
 import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
+import 'home_bloc.dart';
+import 'home_dl.dart';
+import 'home_shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,6 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorCommonBackground,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
+      ),
       body: StreamBuilder<ResponseUtil<HomePojo>>(
         stream: _bloc?.subject,
         builder: (context, snapHomeData) {
@@ -63,8 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Container(
-              padding:
-                  EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceAvgScreenSize * 0.11738),
+              padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceHeight * 0.0325),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,11 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: colorWhite,
                           formFieldHeight: commonSize45px * 0.9,
                           hintText: languages.search,
-                          suffixPadding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+                          suffixPadding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
                           contentPadding: EdgeInsetsDirectional.symmetric(
-                              horizontal: commonPadding10px, vertical: commonPadding10px * 0),
+                              horizontal: commonPadding10px, vertical: 0),
                           suffix: Container(
-                            margin: EdgeInsetsDirectional.only(start: commonPadding10px * 0.7),
+                            margin: EdgeInsetsDirectional.only(start: deviceAvgScreenSize * 0.012523),
                             decoration: BoxDecoration(
                                 color: colorWhite,
                                 borderRadius: BorderRadiusDirectional.all(Radius.circular(borderRadius10px))),
@@ -99,14 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: commonHomeHeaderIcon("assets/svg/cart.svg"),
                       ),
-                      SizedBox(width: commonPadding10px * 0.7),
+                      SizedBox(width: deviceAvgScreenSize * 0.012523),
                       GestureDetector(
                         onTap: () {
                           selectedDrawerIndexSubject.sink.add(2);
                         },
                         child: commonHomeHeaderIcon("assets/svg/bell.svg"),
                       ),
-                      SizedBox(width: commonPadding10px * 0.7),
+                      SizedBox(width: deviceAvgScreenSize * 0.012523),
                       GestureDetector(
                           onTap: () {
                             selectedDrawerIndexSubject.sink.add(1);
@@ -209,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: EdgeInsetsDirectional.only(
         top: commonPadding32px,
-        bottom: commonPadding10px * 1.4,
+        bottom: deviceAvgScreenSize * 0.0025046,
       ),
       height: commonSize75px,
       child: ListView.builder(
@@ -265,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _bestSellerSection(HomePojo? data) {
     return Container(
-      margin: EdgeInsetsDirectional.only(top: commonPadding10px * 1.4),
+      margin: EdgeInsetsDirectional.only(top: deviceAvgScreenSize * 0.0025046),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -307,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             margin: EdgeInsetsDirectional.only(
-              top: commonPadding10px * 1.4,
+              top: deviceAvgScreenSize * 0.0025046,
               bottom: commonPadding20px,
             ),
             height: commonSize120px,
@@ -326,10 +333,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         fit: BoxFit.cover,
                       ),
                       Positioned(
-                        bottom: commonPadding10px * 1.2,
+                        bottom: deviceAvgScreenSize * 0.021468,
                         right: -commonPadding10px * 0.132,
                         child: Container(
-                          padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+                          padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
                           decoration: BoxDecoration(
                             color: colorPrimary,
                             borderRadius: BorderRadiusDirectional.only(
@@ -478,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: commonPadding10px * 0.8,
-              mainAxisSpacing: commonPadding10px * 1.6,
+              mainAxisSpacing: deviceAvgScreenSize * 0.028624,
             ),
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
@@ -491,10 +498,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: commonPadding10px * 1.2,
+                    bottom: deviceAvgScreenSize * 0.021468,
                     right: -commonPadding10px * 0.132,
                     child: Container(
-                      padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+                      padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
                       decoration: BoxDecoration(
                         color: colorPrimary,
                         borderRadius: BorderRadiusDirectional.only(
@@ -512,7 +519,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: commonPadding10px,
                     left: commonPadding10px * 1.1,
                     child: Container(
-                      padding: EdgeInsetsDirectional.all(commonPadding10px * 0.5),
+                      padding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
                       decoration: BoxDecoration(
                         color: colorWhite,
                         borderRadius: BorderRadiusDirectional.all(
@@ -531,7 +538,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Container(
                             margin: EdgeInsetsDirectional.only(
-                              start: commonPadding10px * 0.4,
+                              start: deviceAvgScreenSize * 0.007156,
                               bottom: commonPadding10px * 0.2,
                             ),
                             child: SvgPicture.asset(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../onBoardingScreen/on_boarding_screen.dart';
-import 'welcome_dl.dart';
-import 'welcome_json.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/utils.dart';
-import '../loginScreen/login_screen.dart';
+import '../onBoardingScreen/on_boarding_screen.dart';
 import '../signUpScreen/sign_up_screen.dart';
+import '../loginScreen/login_screen.dart';
+import 'welcome_json.dart';
+import 'welcome_dl.dart';
 
 class WelcomeBloc {
   BuildContext context;

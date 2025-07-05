@@ -109,6 +109,8 @@ class MyAppState extends State<MyApp> {
         textTheme: GoogleFonts.leagueSpartanTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: colorPrimary),
         useMaterial3: true,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
       ),
       locale: selectedLocale,
       home: const SplashScreen(),
