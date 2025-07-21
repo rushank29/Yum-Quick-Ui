@@ -93,24 +93,26 @@ Widget customCarouselIndicator(int currentIndex, int total) {
 }
 
 void openSimpleSnackBar(String message) {
-  ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(SnackBar(
-    content: Text(
-      message,
-      style: bodyText(),
+  scaffoldMessengerKey.currentState?.showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: bodyText(),
+      ),
     ),
-  ));
+  );
 }
 
 void setUserDataInPref(int loginType, User currentUser, {SignUpPojo? signUpPojo}) {
-  prefs?.setBool(prefIsUserLoggedIn, true);
-  prefs?.setString(prefCurrentUserId, currentUser.uid);
-  prefs?.setString(prefUserEmail, currentUser.email ?? signUpPojo?.userEmail ?? "dummy@gmail.com");
-  prefs?.setString(prefUserName, signUpPojo?.userName ?? currentUser.displayName ?? "");
-  prefs?.setString(prefUserProfilePic, signUpPojo?.userProfilePic ?? currentUser.photoURL ?? "");
-  prefs?.setString(prefUserMobileNo, signUpPojo?.userMobile ?? "");
-  prefs?.setString(prefUserMobileNo, signUpPojo?.userBirthDate ?? "");
-  prefs?.setString(prefUserCountryCode, signUpPojo?.userCountryCode ?? "");
-  prefs?.setInt(prefUserLoginType, loginType);
+  setBool(prefIsUserLoggedIn, true);
+  setString(prefCurrentUserId, currentUser.uid);
+  setString(prefUserEmail, currentUser.email ?? signUpPojo?.userEmail ?? "dummy@gmail.com");
+  setString(prefUserName, signUpPojo?.userName ?? currentUser.displayName ?? "");
+  setString(prefUserProfilePic, signUpPojo?.userProfilePic ?? currentUser.photoURL ?? "");
+  setString(prefUserMobileNo, signUpPojo?.userMobile ?? "");
+  setString(prefUserMobileNo, signUpPojo?.userBirthDate ?? "");
+  setString(prefUserCountryCode, signUpPojo?.userCountryCode ?? "");
+  setInt(prefUserLoginType, loginType);
 }
 
 String getAmountWithCurrency(dynamic amount) {

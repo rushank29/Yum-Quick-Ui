@@ -152,7 +152,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return CustomRoundedButton(
       onPressed: () {
         if (isLastPage) {
-          prefs?.setBool(prefIsOnBoardingVisited, true);
+          setBool(prefIsOnBoardingVisited, true);
           if (widget.isRedirectedToLogin) {
             openScreenWithReplacePrevious(
                 context: context, screen: const LoginScreen());

@@ -29,7 +29,7 @@ class SplashBloc {
   void splashAction() {
     final currentUser = FirebaseAuth.instance.currentUser;
     Timer(const Duration(seconds: 3), () {
-      if (prefs?.getBool(prefIsUserLoggedIn) == true && currentUser != null) {
+      if (getBool(prefIsUserLoggedIn) == true && currentUser != null) {
         openScreenWithReplacePrevious(context: context, screen: const HomeMainV1());
       } else {
         openScreenWithReplacePrevious(

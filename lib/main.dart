@@ -37,11 +37,14 @@ Future<void> main() async {
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   static void setLocale(BuildContext context, Locale newLocale) {
+    /// Flutter doesn't give you direct access to a widget's state unless:
+    /// You pass it down manually (inconvenient for deep trees)
     var state = context.findAncestorStateOfType<MyAppState>();
     state?.setLocale(newLocale);
   }
@@ -78,6 +81,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
       builder: (context, child) {
         if (AppLocalizations.of(context) != null) {
           languages = AppLocalizations.of(context)!;
@@ -87,6 +91,7 @@ class MyAppState extends State<MyApp> {
         deviceAvgScreenSize = (deviceHeight + deviceWidth) / 2;
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.9)),
+          // child: child ?? Container(),
           child: ScrollConfiguration(behavior: MyBehavior(), child: child ?? Container()),
         );
       },

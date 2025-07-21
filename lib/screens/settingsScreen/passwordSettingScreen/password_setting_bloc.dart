@@ -52,7 +52,7 @@ class PasswordSettingBloc {
               Map<String, dynamic> userMap = mapUserData(currentUser);
               await dbRef.update(userMap).then((value) async {
                 setUserDataInPref(
-                  prefs?.getInt(prefUserLoginType) ?? 0,
+                  getInt(prefUserLoginType),
                   currentUser,
                   signUpPojo: SignUpPojo.fromJson(userMap),
                 );
@@ -62,8 +62,8 @@ class PasswordSettingBloc {
               Navigator.pop(context);
             } else {
               subjectStatus.sink
-                  .add(ResponseUtil.error("No user found for the ${prefs?.getString(prefUserEmail)}."));
-              openSimpleSnackBar('No user found for the ${prefs?.getString(prefUserEmail)}.');
+                  .add(ResponseUtil.error("No user found for the ${getString(prefUserEmail)}."));
+              openSimpleSnackBar('No user found for the ${getString(prefUserEmail)}.');
             }
           } else {
             userChangePassword();
@@ -73,7 +73,7 @@ class PasswordSettingBloc {
         subjectStatus.sink.add(ResponseUtil.error(error.toString()));
         if (context.mounted) {
           if (error.code == 'user-not-found') {
-            openSimpleSnackBar('No user found for ${prefs?.getString(prefUserEmail)}.');
+            openSimpleSnackBar('No user found for ${getString(prefUserEmail)}.');
           } else if (error.code == 'wrong-password') {
             openSimpleSnackBar("Wrong password provided by the user.");
           } else {

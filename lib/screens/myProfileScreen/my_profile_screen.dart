@@ -182,8 +182,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       keyboardType: TextInputType.phone,
       prefix: CountryCodePicker(
         showFlagMain: false,
-        initialSelection: (prefs?.getString(prefUserCountryCode) ?? "").isNotEmpty
-            ? prefs?.getString(prefUserCountryCode)
+        initialSelection: (getString(prefUserCountryCode)).isNotEmpty
+            ? getString(prefUserCountryCode)
             : "+91",
         onInit: (value) {
           _bloc?.selectedCountrySubject.sink.add(value);

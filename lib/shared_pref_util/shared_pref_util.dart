@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import '../constant/constant.dart';
-import 'shared_pref_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'shared_pref_constants.dart';
 
 SharedPreferences? prefs;
 
@@ -41,12 +40,12 @@ Future<void> remove(String key) async {
 
 Future<void> clearPrefWithSomeRemainingData() async {
   await prefs?.clear();
-  prefs?.setBool(prefIsOnBoardingVisited, true);
+  setBool(prefIsOnBoardingVisited, true);
 }
 
 Future<void> setJsonString(String key, dynamic data) async {
   String jsonString = jsonEncode(data.toJson());
-  await prefs?.setString(key, jsonString);
+  await setString(key, jsonString);
 }
 
 Future<T?> getObjectFromPrefs<T>(
@@ -69,11 +68,11 @@ Locale _locale(String languageCode) {
 }
 
 Future<Locale> setLocale(String languageCode) async {
-  await prefs?.setString(prefSelectedLanguageCode, languageCode);
+  await setString(prefSelectedLanguageCode, languageCode);
   return _locale(languageCode);
 }
 
 Locale getLocale() {
-  String languageCode = prefs?.getString(prefSelectedLanguageCode) ?? defaultLanguage;
+  String languageCode = getString(prefSelectedLanguageCode);
   return _locale(languageCode);
 }

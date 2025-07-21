@@ -91,7 +91,7 @@ class MyProfileBloc {
           Map<String, dynamic> userMap = mapUserData(currentUser!, image: downloadUrl);
           await dbRef.update(userMap).then((value) async {
               setUserDataInPref(
-                prefs?.getInt(prefUserLoginType) ?? 0,
+                getInt(prefUserLoginType),
                 currentUser!,
                 signUpPojo: SignUpPojo.fromJson(userMap),
               );
@@ -119,7 +119,7 @@ class MyProfileBloc {
       userCountryCode: selectedCountrySubject.valueOrNull?.dialCode,
       userMobile: mobileNumberController.text.trim(),
       userProfilePic: image ?? currentUser.photoURL,
-      userLoginType: prefs?.getInt(prefUserLoginType) ?? 0,
+      userLoginType: getInt(prefUserLoginType),
     );
     return userData.toJson();
   }

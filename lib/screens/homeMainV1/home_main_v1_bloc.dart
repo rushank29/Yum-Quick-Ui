@@ -316,7 +316,7 @@ class HomeMainV1Bloc {
   }
 
   Widget languageSelection(String languageName, String languageCode, EdgeInsetsDirectional margin) {
-    bool isLanguageSelected = (prefs?.getString(prefSelectedLanguageCode) ?? defaultLanguage) == languageCode;
+    bool isLanguageSelected = (getString(prefSelectedLanguageCode)) == languageCode;
     return CustomRoundedButton(
       buttonText: languageName,
       onPressed: () {
