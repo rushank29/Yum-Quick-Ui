@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
@@ -20,24 +21,26 @@ class PaymentMethodsBloc {
   final selectedPaymentMethodSubject = BehaviorSubject<ItemPaymentMethodsList?>();
 
   void getPaymentMethods({ItemPaymentMethodsList? newPaymentMethod, bool isMethodToBeAdded = false}) async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 1));
+    subject.sink.add(ResponseUtil.loading());
+    InternetService().runWhenOnline(() async {
+      try {
+        await Future.delayed(const Duration(seconds: 1));
 
-      var response = PaymentMethodsPojo.fromJson(paymentMethodsJson);
-      subject.sink.add(ResponseUtil.completed(response));
-      await loadPaymentMethod();
-      if (newPaymentMethod != null && isMethodToBeAdded) {
-        if (!subject.value.data!.paymentMethodsList.contains(newPaymentMethod)) {
-          subject.valueOrNull?.data?.paymentMethodsList.add(newPaymentMethod);
-        }
-        subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        var response = PaymentMethodsPojo.fromJson(paymentMethodsJson);
+        subject.sink.add(ResponseUtil.completed(response));
         await loadPaymentMethod();
+        if (newPaymentMethod != null && isMethodToBeAdded) {
+          if (!subject.value.data!.paymentMethodsList.contains(newPaymentMethod)) {
+            subject.valueOrNull?.data?.paymentMethodsList.add(newPaymentMethod);
+          }
+          subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+          await loadPaymentMethod();
+        }
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
       }
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    });
   }
 
   void addNewCardScreen() {
@@ -57,23 +60,25 @@ class PaymentMethodsBloc {
   }
 
   Future<void> loadPaymentMethod() async {
-    final ItemPaymentMethodsList? savedMethod = await getObjectFromPrefs<ItemPaymentMethodsList>(
-      prefSavedPaymentType,
-      (json) => ItemPaymentMethodsList.fromJson(json),
-    );
+    InternetService().runWhenOnline(() async {
+      final ItemPaymentMethodsList? savedMethod = await getObjectFromPrefs<ItemPaymentMethodsList>(
+        prefSavedPaymentType,
+        (json) => ItemPaymentMethodsList.fromJson(json),
+      );
 
-    if (savedMethod != null) {
-      final currentList = subject.valueOrNull?.data?.paymentMethodsList ?? [];
+      if (savedMethod != null) {
+        final currentList = subject.valueOrNull?.data?.paymentMethodsList ?? [];
 
-      if (!currentList.contains(savedMethod)) {
-        currentList.add(savedMethod);
-        subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        if (!currentList.contains(savedMethod)) {
+          currentList.add(savedMethod);
+          subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        }
+
+        selectedPaymentMethodSubject.sink.add(savedMethod);
+      } else {
+        print("No saved payment method found.");
       }
-
-      selectedPaymentMethodSubject.sink.add(savedMethod);
-    } else {
-      print("No saved payment method found.");
-    }
+    });
   }
 
   void dispose() {

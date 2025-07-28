@@ -1769,6 +1769,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You're offline. Trying to reconnect...`
+  String get offlineTryingToReconnect {
+    return Intl.message(
+      'You\'re offline. Trying to reconnect...',
+      name: 'offlineTryingToReconnect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’re back online`
+  String get backOnline {
+    return Intl.message(
+      'You’re back online',
+      name: 'backOnline',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
 import 'package:rxdart/subjects.dart';
 
+import '../constant/colors.dart';
 import '../constant/dimensions.dart';
 
 class RotatingCircleAnimation extends StatefulWidget {

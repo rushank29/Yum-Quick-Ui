@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../../utils/response_util.dart';
 import '../../../utils/utils.dart';
 import 'notification_setting_json.dart';
@@ -16,15 +17,17 @@ class NotificationSettingBloc {
   final subject = BehaviorSubject<ResponseUtil<NotificationSettingListPojo>>();
 
   void getNotificationSettingList() async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 1));
-      var response = NotificationSettingListPojo.fromJson(notificationSettingJson);
-      subject.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() async {
+      try {
+        subject.sink.add(ResponseUtil.loading());
+        await Future.delayed(const Duration(seconds: 1));
+        var response = NotificationSettingListPojo.fromJson(notificationSettingJson);
+        subject.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void toggleSetting(int index, bool enabled) {

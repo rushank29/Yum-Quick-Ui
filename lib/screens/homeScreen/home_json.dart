@@ -11,7 +11,7 @@ TimeOfDay currentTime = TimeOfDay.fromDateTime(now);
 String greetingMessage1 = "";
 String greetingMessage2 = "";
 
-void setGettingMessage() {
+void setGreetingMessage() {
   if (currentTime.hour > morning5Time.hour && currentTime.hour < noon12Time.hour) {
     greetingMessage1 = "Good morning";
     greetingMessage2 = "Rise and shine! It's breakfast time.";

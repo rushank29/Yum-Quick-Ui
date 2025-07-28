@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
+import '../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../main.dart';
 import '../screens/signUpScreen/sign_up_dl.dart';
 import '../screens/splashScreen/splash_screen.dart';
@@ -120,18 +121,22 @@ String getAmountWithCurrency(dynamic amount) {
 }
 
 void logout(BuildContext context) {
-  FirebaseAuth.instance.signOut();
-  clearPrefWithSomeRemainingData();
-  openScreenWithClearPrevious(context: context, screen: const SplashScreen());
+  InternetService().runWhenOnline(() {
+    FirebaseAuth.instance.signOut();
+    clearPrefWithSomeRemainingData();
+    openScreenWithClearPrevious(context: context, screen: const SplashScreen());
+  });
 }
 
 Future<void> deleteAccount(BuildContext context) async {
-  DatabaseReference dbRef = FirebaseDatabase.instance.ref("${FirebaseAuth.instance.currentUser?.uid}");
-  await dbRef.remove();
-  FirebaseAuth.instance.currentUser?.delete();
-  clearPrefWithSomeRemainingData();
-  if (!context.mounted) return;
-  openScreenWithClearPrevious(context: context, screen: const SplashScreen());
+  InternetService().runWhenOnline(() async {
+    DatabaseReference dbRef = FirebaseDatabase.instance.ref("${FirebaseAuth.instance.currentUser?.uid}");
+    await dbRef.remove();
+    FirebaseAuth.instance.currentUser?.delete();
+    clearPrefWithSomeRemainingData();
+    if (!context.mounted) return;
+    openScreenWithClearPrevious(context: context, screen: const SplashScreen());
+  });
 }
 
 String getFormattedDateTime({
@@ -337,7 +342,7 @@ Widget chatMsgWidget(List<Widget> msgWidget, String msgTime, bool isSent) {
   return Align(
     alignment: isSent ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
     child: Column(
-          crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Column(
           crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,

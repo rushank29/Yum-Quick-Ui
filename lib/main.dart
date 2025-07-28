@@ -9,12 +9,14 @@ import 'constant/colors.dart';
 import 'constant/dimensions.dart';
 import 'firebase_options.dart';
 import 'screens/splashScreen/splash_screen.dart';
+import 'customWidget/networkConnectivityChecker/internet_service.dart';
 
 late AppLocalizations languages;
 Locale? selectedLocale;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  InternetService().startMonitoring();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initPreferences();
   SystemChrome.setSystemUIOverlayStyle(
@@ -53,7 +55,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => MyAppState();
 }
 
-class MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //For Multi Language
   void setLocale(Locale locale) {
     setState(() {
@@ -65,6 +67,28 @@ class MyAppState extends State<MyApp> {
   void didChangeDependencies() {
     selectedLocale = getLocale();
     super.didChangeDependencies();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        InternetService().startMonitoring();
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.paused:
+        InternetService().dispose();
+        break;
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    InternetService().dispose();
+    super.dispose();
   }
 
   // This widget is the root of your application.

@@ -14,6 +14,7 @@ import '../../shared_pref_util/shared_pref_util.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
 import '../../utils/image_picker.dart';
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 
 class MyProfileBloc {
   final BuildContext context;
@@ -38,27 +39,37 @@ class MyProfileBloc {
   final selectedCountrySubject = BehaviorSubject<CountryCode?>();
 
   void getProfileData() async {
+            print("getProfileData =============> ");
     subjectGetDataStatus.sink.add(ResponseUtil.loading());
     DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser?.uid}/user");
     final DataSnapshot snapshot = await dbRef.get();
-    if (snapshot.exists) {
-      print("snapshot =============> ${snapshot.value}");
-      SignUpPojo response = SignUpPojo.fromJson(snapshot.value as Map);
-      networkImageSubject.sink.add(response.userProfilePic);
-      isFileImageSubject.sink.add(false);
-      fullNameController.text = response.userName;
-      emailController.text = response.userEmail;
-      birthDateController.text = response.userBirthDate;
-      mobileNumberController.text = response.userMobile;
-      selectedCountrySubject.sink.add(
-        response.userCountryCode.isEmpty ? null : CountryCode.tryFromDialCode(response.userCountryCode),
-      );
-      subjectGetDataStatus.sink.add(ResponseUtil.completed());
-    } else {
-      subjectGetDataStatus.sink.add(ResponseUtil.error(languages.noDataAvailable));
-      debugPrint(languages.noDataAvailable);
-      openSimpleSnackBar(languages.noDataAvailable);
-    }
+
+    InternetService().runWhenOnline(
+      () {
+        try {
+          if (snapshot.exists) {
+            print("snapshot =============> ${snapshot.value}");
+            SignUpPojo response = SignUpPojo.fromJson(snapshot.value as Map);
+            networkImageSubject.sink.add(response.userProfilePic);
+            isFileImageSubject.sink.add(false);
+            fullNameController.text = response.userName;
+            emailController.text = response.userEmail;
+            birthDateController.text = response.userBirthDate;
+            mobileNumberController.text = response.userMobile;
+            selectedCountrySubject.sink.add(
+              response.userCountryCode.isEmpty ? null : CountryCode.tryFromDialCode(response.userCountryCode),
+            );
+            subjectGetDataStatus.sink.add(ResponseUtil.completed());
+          } else {
+            subjectGetDataStatus.sink.add(ResponseUtil.error(languages.noDataAvailable));
+            debugPrint(languages.noDataAvailable);
+            openSimpleSnackBar(languages.noDataAvailable);
+          }
+        } catch (e) {
+          subjectGetDataStatus.sink.add(ResponseUtil.error(languages.noDataAvailable));
+        }
+      },
+    );
   }
 
   void updateProfile() async {
@@ -75,38 +86,44 @@ class MyProfileBloc {
     if (formKey.currentState!.validate()) {
       subjectSetDataStatus.sink.add(ResponseUtil.loading());
 
-      if (currentUser != null) {
-        DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser!.uid}/user");
-        final snapshot = await dbRef.get();
-        if (snapshot.exists) {
-          if (imageFile != null) {
-            //  adding user profile pic to firebase storage
-            Reference storageReference = FirebaseStorage.instance
-                .ref()
-                .child('${currentUser!.uid}/user_profile_pic/${DateTime.now()}.png');
-            UploadTask uploadTask = storageReference.putFile(imageFile!);
-            TaskSnapshot storageTaskSnapshot = await uploadTask;
-            downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
-          }
-          Map<String, dynamic> userMap = mapUserData(currentUser!, image: downloadUrl);
-          await dbRef.update(userMap).then((value) async {
-              setUserDataInPref(
-                getInt(prefUserLoginType),
-                currentUser!,
-                signUpPojo: SignUpPojo.fromJson(userMap),
-              );
-              openSimpleSnackBar(languages.userUpdatedSuccess(fullNameController.text.trim()));
-              subjectSetDataStatus.sink.add(ResponseUtil.completed());
-              await Future.delayed(const Duration(seconds: 2));
-            if (context.mounted) {
-              Navigator.pop(context, true);
+      InternetService().runWhenOnline(() async {
+        try {
+          if (currentUser != null) {
+            DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser!.uid}/user");
+            final snapshot = await dbRef.get();
+            if (snapshot.exists) {
+              if (imageFile != null) {
+                //  adding user profile pic to firebase storage
+                Reference storageReference = FirebaseStorage.instance
+                    .ref()
+                    .child('${currentUser!.uid}/user_profile_pic/${DateTime.now()}.png');
+                UploadTask uploadTask = storageReference.putFile(imageFile!);
+                TaskSnapshot storageTaskSnapshot = await uploadTask;
+                downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+              }
+              Map<String, dynamic> userMap = mapUserData(currentUser!, image: downloadUrl);
+              await dbRef.update(userMap).then((value) async {
+                setUserDataInPref(
+                  getInt(prefUserLoginType),
+                  currentUser!,
+                  signUpPojo: SignUpPojo.fromJson(userMap),
+                );
+                openSimpleSnackBar(languages.userUpdatedSuccess(fullNameController.text.trim()));
+                subjectSetDataStatus.sink.add(ResponseUtil.completed());
+                await Future.delayed(const Duration(seconds: 2));
+                if (context.mounted) {
+                  Navigator.pop(context, true);
+                }
+              });
             }
-          });
+          } else {
+            subjectSetDataStatus.sink.add(ResponseUtil.error(languages.errorOccurredWhileUpdatingProfile));
+            openSimpleSnackBar(languages.errorOccurredWhileUpdatingProfile);
+          }
+        } catch (e) {
+          subjectSetDataStatus.sink.add(ResponseUtil.error(languages.errorOccurredWhileUpdatingProfile));
         }
-      } else {
-        subjectSetDataStatus.sink.add(ResponseUtil.error(languages.errorOccurredWhileUpdatingProfile));
-        openSimpleSnackBar(languages.errorOccurredWhileUpdatingProfile);
-      }
+      });
     }
   }
 
@@ -125,7 +142,7 @@ class MyProfileBloc {
   }
 
   void selectImage() {
-    handlePermission(
+    ImageSelector().handlePermission(
       context,
       onGalleryImageSelected: (selectedImage) {
         imageFile = selectedImage;

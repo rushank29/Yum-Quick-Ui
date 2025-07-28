@@ -8,22 +8,28 @@ import '../../shared_pref_util/shared_pref_util.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../utils/utils.dart';
 import '../homeMainV1/home_main_v1.dart';
+import '../../utils/response_util.dart';
 import '../welcomeScreen/welcome_screen.dart';
 import 'splash_json.dart';
 import 'splash_dl.dart';
 
 class SplashBloc {
   BuildContext context;
-  final subject = BehaviorSubject<SplashPojo>();
+  final subject = BehaviorSubject<ResponseUtil<SplashPojo>>();
 
   SplashBloc(this.context) {
     getSplashData();
   }
 
   void getSplashData() {
-    var response = SplashPojo.fromJson(splashJson);
-    subject.sink.add(response);
-    splashAction();
+    subject.sink.add(ResponseUtil.loading());
+    try {
+      var response = SplashPojo.fromJson(splashJson);
+      subject.sink.add(ResponseUtil.completed(response));
+      splashAction();
+    } catch (error) {
+      subject.sink.add(ResponseUtil.error(error.toString()));
+    }
   }
 
   void splashAction() {

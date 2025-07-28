@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ui/main.dart';
+import 'package:food_ui/customWidget/networkConnectivityChecker/internet_service.dart';
 
 import 'cancellation_reason_list_dl.dart';
 import 'cancellation_reason_json.dart';
@@ -7,6 +7,7 @@ import 'cancelled_confirmed_order_screen.dart';
 import '../../utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../utils/utils.dart';
+import '../../main.dart';
 
 class CancelOrderBloc {
   final BuildContext context;
@@ -19,15 +20,17 @@ class CancelOrderBloc {
   }
 
   void getOrderCancellationList() async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 1));
-      var response = CancellationReasonListPojo.fromJson(cancellationReasonJson);
-      subject.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() async {
+      try {
+        subject.sink.add(ResponseUtil.loading());
+        await Future.delayed(const Duration(seconds: 1));
+        var response = CancellationReasonListPojo.fromJson(cancellationReasonJson);
+        subject.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void onSubmitCancelledReason() {

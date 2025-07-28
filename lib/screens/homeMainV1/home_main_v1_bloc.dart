@@ -4,6 +4,7 @@ import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../constant/colors.dart';
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../main.dart';
 import '../../constant/dimensions.dart';
 import '../../customWidget/custom_rounded_button.dart';
@@ -261,7 +262,7 @@ class HomeMainV1Bloc {
                   end: deviceAvgScreenSize * 0.146725,
                 ),
                 child: Text(
-                  "Select Language",
+                  languages.selectLanguage,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -300,23 +301,22 @@ class HomeMainV1Bloc {
   }
 
   void getDrawerNotificationList() async {
-    try {
-      subjectDrawerNotification.sink.add(ResponseUtil.loading());
-      var response = DrawerNotificationPojo.fromJson(drawerNotificationJson);
-      subjectDrawerNotification.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subjectDrawerNotification.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
-  }
-
-  void dispose() {
-    currentNavBarIndexSubject.close();
-    subjectDrawerNotification.close();
+    InternetService().runWhenOnline(() {
+      try {
+        subjectDrawerNotification.sink.add(ResponseUtil.loading());
+        var response = DrawerNotificationPojo.fromJson(drawerNotificationJson);
+        subjectDrawerNotification.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subjectDrawerNotification.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   Widget languageSelection(String languageName, String languageCode, EdgeInsetsDirectional margin) {
-    bool isLanguageSelected = (getString(prefSelectedLanguageCode)) == languageCode;
+    bool isLanguageSelected =
+        (getString(prefSelectedLanguageCode).isNotEmpty ? getString(prefSelectedLanguageCode) : "en") ==
+            languageCode;
     return CustomRoundedButton(
       buttonText: languageName,
       onPressed: () {
@@ -337,5 +337,10 @@ class HomeMainV1Bloc {
       minBtnHeight: 0.048,
       minBtnWidth: 0.4,
     );
+  }
+
+  void dispose() {
+    currentNavBarIndexSubject.close();
+    subjectDrawerNotification.close();
   }
 }

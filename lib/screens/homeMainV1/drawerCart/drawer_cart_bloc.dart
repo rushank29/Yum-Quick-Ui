@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../customWidget/keyValuePair/item_key_value_pair_dl.dart';
+import '../../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../../utils/response_util.dart';
 import '../../../utils/utils.dart';
 import '../../../main.dart';
@@ -19,15 +20,17 @@ class DrawerCartBloc {
   final subjectKeyValueList = BehaviorSubject<List<ItemKeyValuePair>>();
 
   void getCartData() async {
-    try {
-      subjectCartData.sink.add(ResponseUtil.loading());
-      var response = CartDataPojo.fromJson(drawerCartJson);
-      subjectCartData.sink.add(ResponseUtil.completed(response));
-      setKeyValueData();
-    } catch (error) {
-      subjectCartData.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() {
+      try {
+        subjectCartData.sink.add(ResponseUtil.loading());
+        var response = CartDataPojo.fromJson(drawerCartJson);
+        subjectCartData.sink.add(ResponseUtil.completed(response));
+        setKeyValueData();
+      } catch (error) {
+        subjectCartData.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void updateCartItemQuantity(ItemCartList updatedItem, bool isIncrement) {

@@ -171,6 +171,8 @@
   "services": "Services",
   "faq": "faq",
   "filter": "Filter",
+  "offlineTryingToReconnect": "You're offline. Trying to reconnect...",
+  "backOnline": "You’re back online",
   "@userUpdatedSuccess": {
     "placeholders": {
       "userName": {

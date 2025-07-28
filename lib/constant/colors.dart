@@ -16,6 +16,7 @@ Color colorHintGrey = const Color(0xff676767);
 Color colorOffGrey = const Color(0xffcbcbcb);
 Color colorFormFieldBg = const Color(0xffF3E9B5);
 Color colorRed = const Color(0xfff50411);
+Color colorGreen = const Color(0xff2ac21f);
 Color colorLightOrange = const Color(0xffFFDECF);
 Color colorDividerOrange = const Color(0xffFFD8C7);
 Color colorRatingStar = const Color(0xffF4BA1B);

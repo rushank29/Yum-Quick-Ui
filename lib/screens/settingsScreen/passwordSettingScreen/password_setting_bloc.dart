@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../../main.dart';
 import '../../../shared_pref_util/shared_pref_constants.dart';
 import '../../../shared_pref_util/shared_pref_util.dart';
@@ -39,48 +40,50 @@ class PasswordSettingBloc {
     }
     if (formKey.currentState!.validate()) {
       subjectStatus.sink.add(ResponseUtil.loading());
-      try {
-        await FirebaseAuth.instance
-            .confirmPasswordReset(
-                code: codeController.text.trim(), newPassword: newPasswordController.text.trim())
-            .then((value) async {
-          if (currentUser != null) {
-            //  If successfully logged in (credentials are correct)
-            final snapshot = await dbRef.get();
-            if (!context.mounted) return;
-            if (snapshot.exists) {
-              Map<String, dynamic> userMap = mapUserData(currentUser);
-              await dbRef.update(userMap).then((value) async {
-                setUserDataInPref(
-                  getInt(prefUserLoginType),
-                  currentUser,
-                  signUpPojo: SignUpPojo.fromJson(userMap),
-                );
-              });
-              subjectStatus.sink.add(ResponseUtil.completed());
+      InternetService().runWhenOnline(() async {
+        try {
+          await FirebaseAuth.instance
+              .confirmPasswordReset(
+                  code: codeController.text.trim(), newPassword: newPasswordController.text.trim())
+              .then((value) async {
+            if (currentUser != null) {
+              //  If successfully logged in (credentials are correct)
+              final snapshot = await dbRef.get();
               if (!context.mounted) return;
-              Navigator.pop(context);
+              if (snapshot.exists) {
+                Map<String, dynamic> userMap = mapUserData(currentUser);
+                await dbRef.update(userMap).then((value) async {
+                  setUserDataInPref(
+                    getInt(prefUserLoginType),
+                    currentUser,
+                    signUpPojo: SignUpPojo.fromJson(userMap),
+                  );
+                });
+                subjectStatus.sink.add(ResponseUtil.completed());
+                if (!context.mounted) return;
+                Navigator.pop(context);
+              } else {
+                subjectStatus.sink
+                    .add(ResponseUtil.error("No user found for the ${getString(prefUserEmail)}."));
+                openSimpleSnackBar('No user found for the ${getString(prefUserEmail)}.');
+              }
             } else {
-              subjectStatus.sink
-                  .add(ResponseUtil.error("No user found for the ${getString(prefUserEmail)}."));
-              openSimpleSnackBar('No user found for the ${getString(prefUserEmail)}.');
+              userChangePassword();
             }
-          } else {
-            userChangePassword();
-          }
-        });
-      } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
-        if (context.mounted) {
-          if (error.code == 'user-not-found') {
-            openSimpleSnackBar('No user found for ${getString(prefUserEmail)}.');
-          } else if (error.code == 'wrong-password') {
-            openSimpleSnackBar("Wrong password provided by the user.");
-          } else {
-            debugPrint("errorCode =====> ${error.code}");
+          });
+        } on FirebaseAuthException catch (error) {
+          subjectStatus.sink.add(ResponseUtil.error(error.toString()));
+          if (context.mounted) {
+            if (error.code == 'user-not-found') {
+              openSimpleSnackBar('No user found for ${getString(prefUserEmail)}.');
+            } else if (error.code == 'wrong-password') {
+              openSimpleSnackBar("Wrong password provided by the user.");
+            } else {
+              debugPrint("errorCode =====> ${error.code}");
+            }
           }
         }
-      }
+      });
     }
   }
 

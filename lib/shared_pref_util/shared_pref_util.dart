@@ -52,8 +52,7 @@ Future<T?> getObjectFromPrefs<T>(
   String key,
   T Function(Map<String, dynamic>) fromJson,
 ) async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonString = prefs.getString(key);
+  final jsonString = prefs?.getString(key);
 
   if (jsonString != null) {
     final Map<String, dynamic> jsonMap = jsonDecode(jsonString);

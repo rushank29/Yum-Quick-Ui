@@ -1,3 +1,4 @@
+import 'package:food_ui/customWidget/networkConnectivityChecker/internet_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../utils/response_util.dart';
@@ -13,15 +14,17 @@ class BestSellerBloc {
   final subject = BehaviorSubject<ResponseUtil<BestSellerPojo>>();
 
   void getBestSellerData() async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 2));
-      var response = BestSellerPojo.fromJson(bestSellerJson);
-      subject.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() async {
+      try {
+        subject.sink.add(ResponseUtil.loading());
+        await Future.delayed(const Duration(seconds: 2));
+        var response = BestSellerPojo.fromJson(bestSellerJson);
+        subject.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void dispose() {

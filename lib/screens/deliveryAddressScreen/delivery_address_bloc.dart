@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_ui/main.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../shared_pref_util/shared_pref_constants.dart';
 import '../../utils/response_util.dart';
 import '../../shared_pref_util/shared_pref_util.dart';
@@ -16,34 +17,42 @@ class DeliveryAddressBloc {
   final selectedDeliveryAddressSubject = BehaviorSubject<ItemDeliveryAddressList?>();
 
   DeliveryAddressBloc(this.context) {
-    getDeliveryAddressList().then((_) => loadAddress());
+    initialize();
   }
 
-  Future<void> getDeliveryAddressList({ItemDeliveryAddressList? newAddress, bool isAddressToBeAdded = false}) async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 1));
+  Future<void> initialize() async {
+    await getDeliveryAddressList();
+    await loadAddress();
+  }
 
-      var response = DeliveryAddressPojo.fromJson(deliveryAddressJson);
-      subject.sink.add(ResponseUtil.completed(response));
+  Future<void> getDeliveryAddressList(
+      {ItemDeliveryAddressList? newAddress, bool isAddressToBeAdded = false}) async {
+    subject.sink.add(ResponseUtil.loading());
+    InternetService().runWhenOnline(() async {
+      try {
+        await Future.delayed(const Duration(seconds: 1));
 
-      if (newAddress != null && isAddressToBeAdded) {
-        final list = subject.valueOrNull?.data?.deliveryAddressList;
-        final exists = list?.any((addr) => addr.addressId == newAddress.addressId) ?? false;
+        var response = DeliveryAddressPojo.fromJson(deliveryAddressJson);
+        subject.sink.add(ResponseUtil.completed(response));
 
-        if (!exists) {
-          list?.add(newAddress);
-          subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        if (newAddress != null && isAddressToBeAdded) {
+          final list = subject.valueOrNull?.data?.deliveryAddressList;
+          final exists = list?.any((addr) => addr.addressId == newAddress.addressId) ?? false;
+
+          if (!exists) {
+            list?.add(newAddress);
+            subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+          }
+
+          // Save and set the new address as selected
+          await setJsonString(prefSavedAddress, newAddress);
+          selectedDeliveryAddressSubject.sink.add(newAddress);
         }
-
-        // Save and set the new address as selected
-        await setJsonString(prefSavedAddress, newAddress);
-        selectedDeliveryAddressSubject.sink.add(newAddress);
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
       }
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    });
   }
 
   void openAddAddressScreen() {
@@ -64,28 +73,31 @@ class DeliveryAddressBloc {
   }
 
   Future<void> loadAddress() async {
-    final savedAddress = await getObjectFromPrefs<ItemDeliveryAddressList>(
-      prefSavedAddress,
-          (json) => ItemDeliveryAddressList.fromJson(json),
-    );
-
-    final deliveryList = subject.valueOrNull?.data?.deliveryAddressList;
-
-    if (savedAddress != null && deliveryList != null) {
-      final existingIndex = deliveryList.indexWhere(
-            (item) => item.addressId == savedAddress.addressId,
+    InternetService().runWhenOnline(() async {
+      await Future.delayed(const Duration(seconds: 1));
+      final savedAddress = await getObjectFromPrefs<ItemDeliveryAddressList>(
+        prefSavedAddress,
+        (json) => ItemDeliveryAddressList.fromJson(json),
       );
 
-      if (existingIndex == -1) {
-        deliveryList.add(savedAddress);
-        subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
-      }
+      final deliveryList = subject.valueOrNull?.data?.deliveryAddressList;
 
-      selectedDeliveryAddressSubject.sink.add(savedAddress);
-    } else {
-      print(languages.noAddressFoundInPref);
-      openSimpleSnackBar(languages.noAddressFoundInPref);
-    }
+      if (savedAddress != null && deliveryList != null) {
+        final existingIndex = deliveryList.indexWhere(
+          (item) => item.addressId == savedAddress.addressId,
+        );
+
+        if (existingIndex == -1) {
+          deliveryList.add(savedAddress);
+          subject.sink.add(ResponseUtil.completed(subject.valueOrNull?.data));
+        }
+
+        selectedDeliveryAddressSubject.sink.add(savedAddress);
+      } else {
+        print(languages.noAddressFoundInPref);
+        openSimpleSnackBar(languages.noAddressFoundInPref);
+      }
+    });
   }
 
   void dispose() {

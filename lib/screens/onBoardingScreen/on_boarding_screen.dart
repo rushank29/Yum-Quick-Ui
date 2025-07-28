@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ui/customWidget/custom_image.dart';
+import 'package:food_ui/utils/response_util.dart';
 import '../../customWidget/custom_rounded_button.dart';
 import '../../main.dart';
 import '../loginScreen/login_screen.dart';
@@ -45,10 +46,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
       child: Scaffold(
-        body: StreamBuilder<OnBoardingPojo>(
+        body: StreamBuilder<ResponseUtil<OnBoardingPojo>>(
           stream: _bloc?.subject,
           builder: (context, snapshot) {
-            List<OnBoardingPages> onBoardingList = snapshot.data?.onBoardingPages ?? [];
+            List<OnBoardingPages> onBoardingList = snapshot.data?.data?.onBoardingPages ?? [];
             return onBoardingList.isNotEmpty
                 ? StreamBuilder<int>(
                     stream: _bloc?.selectedIndexSubject,

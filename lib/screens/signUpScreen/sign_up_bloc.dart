@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../main.dart';
 import '../homeMainV1/home_main_v1.dart';
 import '../../utils/response_util.dart';
@@ -37,47 +38,49 @@ class SignUpBloc {
     }
     if (formKey.currentState!.validate()) {
       subjectStatus.sink.add(ResponseUtil.loading());
-      try {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text.trim(), password: passwordController.text.trim())
-            .then((value) async {
-          User? currentUser = FirebaseAuth.instance.currentUser;
-          if (currentUser != null) {
-            //  If successfully logged in (credentials are correct)
-            DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
-            final snapshot = await dbRef.get();
-            Map<String, dynamic> userMap = mapUserData(currentUser);
-            if (context.mounted) {
-              if (snapshot.exists) {
-                dbRef.set(userMap);
-                setUserDataInPref(0, currentUser, signUpPojo: SignUpPojo.fromJson(userMap));
-                subjectStatus.sink.add(ResponseUtil.completed());
-              } else {
-                snapshot.ref.set(userMap);
-                setUserDataInPref(0, currentUser, signUpPojo: SignUpPojo.fromJson(userMap));
-                subjectStatus.sink.add(ResponseUtil.completed());
+      InternetService().runWhenOnline(() async {
+        try {
+          await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+                  email: emailController.text.trim(), password: passwordController.text.trim())
+              .then((value) async {
+            User? currentUser = FirebaseAuth.instance.currentUser;
+            if (currentUser != null) {
+              //  If successfully logged in (credentials are correct)
+              DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
+              final snapshot = await dbRef.get();
+              Map<String, dynamic> userMap = mapUserData(currentUser);
+              if (context.mounted) {
+                if (snapshot.exists) {
+                  dbRef.set(userMap);
+                  setUserDataInPref(0, currentUser, signUpPojo: SignUpPojo.fromJson(userMap));
+                  subjectStatus.sink.add(ResponseUtil.completed());
+                } else {
+                  snapshot.ref.set(userMap);
+                  setUserDataInPref(0, currentUser, signUpPojo: SignUpPojo.fromJson(userMap));
+                  subjectStatus.sink.add(ResponseUtil.completed());
+                }
+                openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
               }
-              openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
+            } else {
+              userSignUp();
             }
-          } else {
-            userSignUp();
-          }
-        });
-      } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
-        if (context.mounted) {
-          if (error.code == 'email-already-in-use') {
-            openSimpleSnackBar('${languages.userExistMsg} $email.');
-          } else if (error.code == 'invalid-email') {
-            openSimpleSnackBar(languages.checkEmailMsg);
-          } else if (error.code == 'weak-password') {
-            openSimpleSnackBar(languages.weakPasswordMsg);
-          } else {
-            debugPrint("errorCode =====> ${error.code}");
+          });
+        } on FirebaseAuthException catch (error) {
+          subjectStatus.sink.add(ResponseUtil.error(error.toString()));
+          if (context.mounted) {
+            if (error.code == 'email-already-in-use') {
+              openSimpleSnackBar('${languages.userExistMsg} $email.');
+            } else if (error.code == 'invalid-email') {
+              openSimpleSnackBar(languages.checkEmailMsg);
+            } else if (error.code == 'weak-password') {
+              openSimpleSnackBar(languages.weakPasswordMsg);
+            } else {
+              debugPrint("errorCode =====> ${error.code}");
+            }
           }
         }
-      }
+      });
     }
   }
 

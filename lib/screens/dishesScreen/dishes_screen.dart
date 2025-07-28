@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tab_container/tab_container.dart';
 
 import '../../customWidget/custom_image.dart';
+import '../../customWidget/networkConnectivityChecker/connectivity_banner.dart';
 import '../../customWidget/no_record_found.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
@@ -60,47 +61,57 @@ class _DishesScreenState extends State<DishesScreen> with TickerProviderStateMix
         backgroundColor: Colors.transparent,
         systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceHeight * 0.04),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _topSection(),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsetsDirectional.only(top: commonPadding20px),
-              width: deviceWidth,
-              decoration: BoxDecoration(
-                color: colorPrimary,
-                borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(borderRadius30px),
-                  topEnd: Radius.circular(borderRadius30px),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceHeight * 0.04),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _topSection(),
+                    ],
+                  ),
                 ),
-              ),
-              child: StreamBuilder<ResponseUtil<DishesPojo>>(
-                stream: _bloc?.subject,
-                builder: (context, snapDishes) {
-                  switch (snapDishes.data?.status ?? Status.loading) {
-                    case Status.loading:
-                      return const DishesShimmer();
-                    case Status.completed:
-                      DishesPojo? data = snapDishes.data?.data;
-                      List<FoodCategories> foodCategoryList = data?.foodCategories ?? [];
-                      _tabController ??= TabController(length: foodCategoryList.length, vsync: this);
-                      return _dishesBody(_tabController!, data, foodCategoryList);
-                    case Status.error:
-                      return const NoRecordFound();
-                  }
-                },
-              ),
-            )
-          ],
-        ),
+                Container(
+                  margin: EdgeInsetsDirectional.only(top: commonPadding20px),
+                  width: deviceWidth,
+                  decoration: BoxDecoration(
+                    color: colorPrimary,
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(borderRadius30px),
+                      topEnd: Radius.circular(borderRadius30px),
+                    ),
+                  ),
+                  child: StreamBuilder<ResponseUtil<DishesPojo>>(
+                    stream: _bloc?.subject,
+                    builder: (context, snapDishes) {
+                      switch (snapDishes.data?.status ?? Status.loading) {
+                        case Status.loading:
+                          return const DishesShimmer();
+                        case Status.completed:
+                          DishesPojo? data = snapDishes.data?.data;
+                          List<FoodCategories> foodCategoryList = data?.foodCategories ?? [];
+                          _tabController ??= TabController(length: foodCategoryList.length, vsync: this);
+                          return _dishesBody(_tabController!, data, foodCategoryList);
+                        case Status.error:
+                          return const NoRecordFound();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ConnectivityBanner(),
+          ),
+        ],
       ),
     );
   }

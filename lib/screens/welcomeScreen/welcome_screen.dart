@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/utils/response_util.dart';
 
 import '../../customWidget/custom_rounded_button.dart';
 import '../../main.dart';
@@ -33,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<WelcomePojo>(
+    return StreamBuilder<ResponseUtil<WelcomePojo>>(
       stream: _bloc?.subject,
       builder: (context, snapshot) {
         return Container(
@@ -44,13 +45,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomImage(
-                imagePath: snapshot.data?.welcomeImage ?? "",
+                imagePath: snapshot.data?.data?.welcomeImage ?? "",
                 width: deviceWidth * 0.57,
                 height: deviceHeight * 0.34,
               ),
               SizedBox(height: deviceHeight * 0.045),
               Text(
-                snapshot.data?.welcomeText ?? "",
+                snapshot.data?.data?.welcomeText ?? "",
                 textAlign: TextAlign.center,
                 style: bodyText(fontWeight: FontWeight.w500),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/utils/response_util.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../shared_pref_util/shared_pref_constants.dart';
@@ -12,15 +13,20 @@ import 'welcome_dl.dart';
 
 class WelcomeBloc {
   BuildContext context;
-  final subject = BehaviorSubject<WelcomePojo>();
+  final subject = BehaviorSubject<ResponseUtil<WelcomePojo>>();
 
   WelcomeBloc(this.context) {
     getWelcomeData();
   }
 
   void getWelcomeData() {
-    var response = WelcomePojo.fromJson(welcomeJson);
-    subject.sink.add(response);
+    subject.sink.add(ResponseUtil.loading());
+    try {
+      var response = WelcomePojo.fromJson(welcomeJson);
+      subject.sink.add(ResponseUtil.completed(response));
+    } catch (error) {
+      subject.sink.add(ResponseUtil.error(error.toString()));
+    }
   }
 
   void onButtonClickedEvent(bool isLoginClicked) {
@@ -31,7 +37,7 @@ class WelcomeBloc {
           isRedirectedToLogin: isLoginClicked,
         ),
       );
-    } else if(isLoginClicked) {
+    } else if (isLoginClicked) {
       openScreen(
         context: context,
         screen: const LoginScreen(),

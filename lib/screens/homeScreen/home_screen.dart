@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../customWidget/networkConnectivityChecker/connectivity_banner.dart';
 import '../../main.dart';
 import '../bestSeller/best_seller_screen.dart';
 import '../productDetailScreen/product_detail_screen.dart';
@@ -65,150 +66,162 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _homeBody(HomePojo? data) {
-    return SingleChildScrollView(
-      child: Container(
-        constraints: BoxConstraints(minHeight: deviceHeight),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceHeight * 0.0325),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Container(
+            constraints: BoxConstraints(minHeight: deviceHeight),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsetsDirectional.only(start: commonPadding32px, top: deviceHeight * 0.0325),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: CustomTextFormField(
-                          backgroundColor: colorWhite,
-                          formFieldHeight: commonSize45px * 0.9,
-                          hintText: languages.search,
-                          suffixPadding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
-                          contentPadding: EdgeInsetsDirectional.symmetric(
-                              horizontal: commonPadding10px, vertical: 0),
-                          suffix: Container(
-                            margin: EdgeInsetsDirectional.only(start: deviceAvgScreenSize * 0.012523),
-                            decoration: BoxDecoration(
-                                color: colorWhite,
-                                borderRadius: BorderRadiusDirectional.all(Radius.circular(borderRadius10px))),
-                            child: SvgPicture.asset(
-                              "assets/svg/shuffle.svg",
-                              height: iconSize20px,
-                              width: iconSize20px,
-                              colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: commonPadding32px),
-                      GestureDetector(
-                        onTap: () {
-                          selectedDrawerIndexSubject.sink.add(3);
-                        },
-                        child: commonHomeHeaderIcon("assets/svg/cart.svg"),
-                      ),
-                      SizedBox(width: deviceAvgScreenSize * 0.012523),
-                      GestureDetector(
-                        onTap: () {
-                          selectedDrawerIndexSubject.sink.add(2);
-                        },
-                        child: commonHomeHeaderIcon("assets/svg/bell.svg"),
-                      ),
-                      SizedBox(width: deviceAvgScreenSize * 0.012523),
-                      GestureDetector(
-                          onTap: () {
-                            selectedDrawerIndexSubject.sink.add(1);
-                          },
-                          child: commonHomeHeaderIcon("assets/svg/person.svg")),
-                      SizedBox(width: commonPadding32px),
-                    ],
-                  ),
-                  StreamBuilder<ResponseUtil<HomePojo>>(
-                    stream: _bloc?.subject,
-                    builder: (context, snapStatus) {
-                      if (snapStatus.data?.status == Status.loading) {
-                        return Shimmer.fromColors(
-                          baseColor: colorShimmerBase,
-                          highlightColor: colorShimmerHighlight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsetsDirectional.only(top: commonPadding16px),
-                                width: deviceWidth * 0.5,
-                                height: deviceAvgScreenSize * 0.04,
-                                color: colorBlack,
-                              ),
-                              SizedBox(height: deviceAvgScreenSize * 0.01),
-                              Container(
-                                margin: EdgeInsetsDirectional.only(bottom: commonPadding16px),
-                                width: deviceWidth * 0.35,
-                                height: deviceAvgScreenSize * 0.025,
-                                color: colorBlack,
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Container(
-                          alignment: AlignmentDirectional.topStart,
-                          margin:
-                              EdgeInsetsDirectional.only(top: commonPadding16px, bottom: commonPadding16px),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data?.greetingMessageMain ?? "",
-                                style: bodyText(fontWeight: FontWeight.w700, fontSize: textSize30px),
-                              ),
-                              Text(
-                                data?.greetingMessageSub ?? "",
-                                style: bodyText(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: textSize13px,
-                                  textColor: colorPrimary,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextFormField(
+                              backgroundColor: colorWhite,
+                              formFieldHeight: commonSize45px * 0.9,
+                              hintText: languages.search,
+                              suffixPadding: EdgeInsetsDirectional.all(deviceAvgScreenSize * 0.008945),
+                              contentPadding:
+                                  EdgeInsetsDirectional.symmetric(horizontal: commonPadding10px, vertical: 0),
+                              suffix: Container(
+                                margin: EdgeInsetsDirectional.only(start: deviceAvgScreenSize * 0.012523),
+                                decoration: BoxDecoration(
+                                    color: colorWhite,
+                                    borderRadius:
+                                        BorderRadiusDirectional.all(Radius.circular(borderRadius10px))),
+                                child: SvgPicture.asset(
+                                  "assets/svg/shuffle.svg",
+                                  height: iconSize20px,
+                                  width: iconSize20px,
+                                  colorFilter: ColorFilter.mode(colorPrimary, BlendMode.srcIn),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-            StreamBuilder<ResponseUtil<HomePojo>>(
-                stream: _bloc?.subject,
-                builder: (context, snapStatus) {
-                  if ((snapStatus.data?.status ?? Status.loading) == Status.loading) {
-                    return const HomeShimmer();
-                  } else {
-                    return Container(
-                      constraints: BoxConstraints(minHeight: deviceHeight),
-                      padding: EdgeInsetsDirectional.symmetric(horizontal: commonPadding35px),
-                      decoration: BoxDecoration(
-                        color: colorHomeBackground,
-                        borderRadius: BorderRadiusDirectional.only(
-                          topStart: Radius.circular(borderRadius30px),
-                          topEnd: Radius.circular(borderRadius30px),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          _foodCategorySection(data),
-                          Divider(color: colorDividerOrange),
-                          _bestSellerSection(data),
-                          _sliderSection(data),
-                          _recommendedSection(data),
+                          SizedBox(width: commonPadding32px),
+                          GestureDetector(
+                            onTap: () {
+                              selectedDrawerIndexSubject.sink.add(3);
+                            },
+                            child: commonHomeHeaderIcon("assets/svg/cart.svg"),
+                          ),
+                          SizedBox(width: deviceAvgScreenSize * 0.012523),
+                          GestureDetector(
+                            onTap: () {
+                              selectedDrawerIndexSubject.sink.add(2);
+                            },
+                            child: commonHomeHeaderIcon("assets/svg/bell.svg"),
+                          ),
+                          SizedBox(width: deviceAvgScreenSize * 0.012523),
+                          GestureDetector(
+                              onTap: () {
+                                selectedDrawerIndexSubject.sink.add(1);
+                              },
+                              child: commonHomeHeaderIcon("assets/svg/person.svg")),
+                          SizedBox(width: commonPadding32px),
                         ],
                       ),
-                    );
-                  }
-                }),
-          ],
+                      StreamBuilder<ResponseUtil<HomePojo>>(
+                        stream: _bloc?.subject,
+                        builder: (context, snapStatus) {
+                          if (snapStatus.data?.status == Status.loading) {
+                            return Shimmer.fromColors(
+                              baseColor: colorShimmerBase,
+                              highlightColor: colorShimmerHighlight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsetsDirectional.only(top: commonPadding16px),
+                                    width: deviceWidth * 0.5,
+                                    height: deviceAvgScreenSize * 0.04,
+                                    color: colorBlack,
+                                  ),
+                                  SizedBox(height: deviceAvgScreenSize * 0.01),
+                                  Container(
+                                    margin: EdgeInsetsDirectional.only(bottom: commonPadding16px),
+                                    width: deviceWidth * 0.35,
+                                    height: deviceAvgScreenSize * 0.025,
+                                    color: colorBlack,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              alignment: AlignmentDirectional.topStart,
+                              margin: EdgeInsetsDirectional.only(
+                                  top: commonPadding16px, bottom: commonPadding16px),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data?.greetingMessageMain ?? "",
+                                    style: bodyText(fontWeight: FontWeight.w700, fontSize: textSize30px),
+                                  ),
+                                  Text(
+                                    data?.greetingMessageSub ?? "",
+                                    style: bodyText(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: textSize13px,
+                                      textColor: colorPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                StreamBuilder<ResponseUtil<HomePojo>>(
+                  stream: _bloc?.subject,
+                  builder: (context, snapStatus) {
+                    if ((snapStatus.data?.status ?? Status.loading) == Status.loading) {
+                      return const HomeShimmer();
+                    } else {
+                      return Container(
+                        constraints: BoxConstraints(minHeight: deviceHeight),
+                        padding: EdgeInsetsDirectional.symmetric(horizontal: commonPadding35px),
+                        decoration: BoxDecoration(
+                          color: colorHomeBackground,
+                          borderRadius: BorderRadiusDirectional.only(
+                            topStart: Radius.circular(borderRadius30px),
+                            topEnd: Radius.circular(borderRadius30px),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            _foodCategorySection(data),
+                            Divider(color: colorDividerOrange),
+                            _bestSellerSection(data),
+                            _sliderSection(data),
+                            _recommendedSection(data),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: ConnectivityBanner(),
+        ),
+      ],
     );
   }
 

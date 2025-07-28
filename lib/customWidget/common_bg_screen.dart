@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
 import '../utils/text_style.dart';
+import 'networkConnectivityChecker/connectivity_banner.dart';
 
 class CommonBackgroundWidget extends StatelessWidget {
   final String? pageTitle;
@@ -40,105 +41,115 @@ class CommonBackgroundWidget extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Header
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsetsDirectional.only(
-                      top: deviceHeight * 0.095,
-                      bottom: pageSubtitle != null ? 0 : deviceHeight * 0.078,
-                      start: commonPadding24px,
-                      end: commonPadding24px,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if (pageTitle != null) ...[
-                          if (showBackButton)
-                            GestureDetector(
-                              onTap: onBackPressed ??
-                                  () {
-                                    Navigator.pop(context);
-                                  },
-                              child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
-                            ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  pageTitle!,
-                                  textAlign: TextAlign.center,
-                                  style: bodyText(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: textSize28px,
-                                    textColor: colorWhite,
-                                  ),
-                                ),
-                                if (pageSubtitle != null) ...[
-                                  SizedBox(height: deviceAvgScreenSize * 0.010737),
-                                  Text(
-                                    pageSubtitle!,
-                                    textAlign: TextAlign.center,
-                                    style: bodyText(
-                                      fontSize: textSize16px,
-                                      textColor: colorPrimary,
-                                    ),
-                                  ),
-                                  SizedBox(height: deviceAvgScreenSize * 0.010737),
-                                ]
-                              ],
-                            ),
-                          ),
-                        ],
-                        if (pageTitleWidget != null) ...[
-                          if (showBackButton)
-                            GestureDetector(
-                              onTap: onBackPressed ??
-                                  () {
-                                    Navigator.pop(context);
-                                  },
-                              child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
-                            ),
-                          Expanded(
-                            child: pageTitleWidget!,
-                          )
-                        ],
-                      ],
-                    ),
-                  ),
-
-                  /// Scrollable Body with Rounded Corners
-                  Container(
-                    constraints: BoxConstraints(
-                        minHeight: pageSubtitle != null
-                            ? constraints.maxHeight * 0.8025
-                            : constraints.maxHeight * 0.775,
-                        minWidth: deviceWidth),
-                    padding: bodyPadding ??
-                        EdgeInsetsDirectional.symmetric(
-                          horizontal: commonPadding24px,
-                          vertical: commonPadding24px,
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Header
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsetsDirectional.only(
+                          top: deviceHeight * 0.095,
+                          bottom: pageSubtitle != null ? 0 : deviceHeight * 0.078,
+                          start: commonPadding24px,
+                          end: commonPadding24px,
                         ),
-                    decoration: BoxDecoration(
-                      color: bodyBgColor ?? colorHomeBackground,
-                      borderRadius: BorderRadiusDirectional.only(
-                        topStart: Radius.circular(borderRadius30px),
-                        topEnd: Radius.circular(borderRadius30px),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (pageTitle != null) ...[
+                              if (showBackButton)
+                                GestureDetector(
+                                  onTap: onBackPressed ??
+                                      () {
+                                        Navigator.pop(context);
+                                      },
+                                  child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
+                                ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      pageTitle!,
+                                      textAlign: TextAlign.center,
+                                      style: bodyText(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: textSize28px,
+                                        textColor: colorWhite,
+                                      ),
+                                    ),
+                                    if (pageSubtitle != null) ...[
+                                      SizedBox(height: deviceAvgScreenSize * 0.010737),
+                                      Text(
+                                        pageSubtitle!,
+                                        textAlign: TextAlign.center,
+                                        style: bodyText(
+                                          fontSize: textSize16px,
+                                          textColor: colorPrimary,
+                                        ),
+                                      ),
+                                      SizedBox(height: deviceAvgScreenSize * 0.010737),
+                                    ]
+                                  ],
+                                ),
+                              ),
+                            ],
+                            if (pageTitleWidget != null) ...[
+                              if (showBackButton)
+                                GestureDetector(
+                                  onTap: onBackPressed ??
+                                      () {
+                                        Navigator.pop(context);
+                                      },
+                                  child: Icon(Icons.chevron_left_rounded, color: colorPrimary),
+                                ),
+                              Expanded(
+                                child: pageTitleWidget!,
+                              )
+                            ],
+                          ],
+                        ),
                       ),
-                    ),
-                    child: bodyWidget,
+
+                      /// Scrollable Body with Rounded Corners
+                      Container(
+                        constraints: BoxConstraints(
+                            minHeight: pageSubtitle != null
+                                ? constraints.maxHeight * 0.8025
+                                : constraints.maxHeight * 0.775,
+                            minWidth: deviceWidth),
+                        padding: bodyPadding ??
+                            EdgeInsetsDirectional.symmetric(
+                              horizontal: commonPadding24px,
+                              vertical: commonPadding24px,
+                            ),
+                        decoration: BoxDecoration(
+                          color: bodyBgColor ?? colorHomeBackground,
+                          borderRadius: BorderRadiusDirectional.only(
+                            topStart: Radius.circular(borderRadius30px),
+                            topEnd: Radius.circular(borderRadius30px),
+                          ),
+                        ),
+                        child: bodyWidget,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              const Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: ConnectivityBanner(), // uses singleton
+              ),
+            ],
           );
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ui/utils/response_util.dart';
 
 import '../../constant/colors.dart';
 import '../../customWidget/custom_image.dart';
@@ -30,14 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<SplashPojo>(
+    return StreamBuilder<ResponseUtil<SplashPojo>>(
       stream: _bloc?.subject,
       builder: (context, snapshot) {
         return Container(
           color: colorCommonBackground,
           alignment: AlignmentDirectional.center,
           child: CustomImage(
-            imagePath: snapshot.data?.splashImage ?? "",
+            imagePath: snapshot.data?.data?.splashImage ?? "",
             width: deviceWidth * 0.57,
             height: deviceHeight * 0.34,
           ),

@@ -52,6 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apply": MessageLookupByLibrary.simpleMessage("يتقدم"),
         "areYouSureWantToLogout": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد تسجيل الخروج؟"),
+        "backOnline": MessageLookupByLibrary.simpleMessage(
+            "لقد عدت إلى الاتصال بالإنترنت"),
         "bestSeller": MessageLookupByLibrary.simpleMessage("الأكثر مبيعًا"),
         "bestseller2": MessageLookupByLibrary.simpleMessage("الأكثر مبيعًا"),
         "byContinuing": MessageLookupByLibrary.simpleMessage(
@@ -192,6 +194,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notificationSetting":
             MessageLookupByLibrary.simpleMessage("إعدادات الإشعارات"),
         "notifications": MessageLookupByLibrary.simpleMessage("إشعارات"),
+        "offlineTryingToReconnect": MessageLookupByLibrary.simpleMessage(
+            "أنت غير متصل بالإنترنت. أحاول إعادة الاتصال..."),
         "oldPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
         "one": MessageLookupByLibrary.simpleMessage("1"),

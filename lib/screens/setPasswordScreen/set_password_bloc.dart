@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../main.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
@@ -21,21 +22,23 @@ class SetPasswordBloc {
 
     if (formKey.currentState!.validate()) {
       subjectStatus.sink.add(ResponseUtil.loading());
-      try {
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) async {
-          subjectStatus.sink.add(ResponseUtil.completed());
-          Navigator.pop(context, true);
-        });
-      } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
-        if (context.mounted) {
-          if (error.code == 'auth/invalid-email') {
-            openSimpleSnackBar('${languages.noUserFoundForEmail(email)}.');
-          } else {
-            debugPrint("errorCode =====> ${error.code}");
+      InternetService().runWhenOnline(() async {
+        try {
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) async {
+            subjectStatus.sink.add(ResponseUtil.completed());
+            Navigator.pop(context, true);
+          });
+        } on FirebaseAuthException catch (error) {
+          subjectStatus.sink.add(ResponseUtil.error(error.toString()));
+          if (context.mounted) {
+            if (error.code == 'auth/invalid-email') {
+              openSimpleSnackBar('${languages.noUserFoundForEmail(email)}.');
+            } else {
+              debugPrint("errorCode =====> ${error.code}");
+            }
           }
         }
-      }
+      });
     }
   }
 

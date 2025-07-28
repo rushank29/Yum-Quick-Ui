@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:food_ui/customWidget/networkConnectivityChecker/internet_service.dart';
 import 'home_dl.dart';
 import '../../utils/response_util.dart';
 import '../../utils/utils.dart';
@@ -11,20 +12,22 @@ class HomeBloc {
   final BuildContext context;
 
   HomeBloc(this.context) {
-    setGettingMessage();
+    setGreetingMessage();
     getHomeData();
   }
 
   void getHomeData() async {
-    try {
-      subject.sink.add(ResponseUtil.loading());
-      await Future.delayed(const Duration(seconds: 2));
-      var response = HomePojo.fromJson(homeJson);
-      subject.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subject.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    subject.sink.add(ResponseUtil.loading());
+    InternetService().runWhenOnline(() async {
+      try {
+        await Future.delayed(const Duration(seconds: 2));
+        var response = HomePojo.fromJson(homeJson);
+        subject.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subject.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   final selectedIndexSubject = BehaviorSubject<int>();

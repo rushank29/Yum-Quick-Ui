@@ -56,6 +56,8 @@ dependencies:
   firebase_storage: any
   dotted_line: any
   tab_container: any
+  connectivity_plus: any
+  internet_connection_checker: any
 
 dev_dependencies:
   flutter_test:

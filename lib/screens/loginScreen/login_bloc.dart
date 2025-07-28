@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import '../../main.dart';
 import '../homeMainV1/home_main_v1.dart';
 import '../../utils/response_util.dart';
@@ -28,42 +29,44 @@ class LoginBloc {
     }
     if (formKey.currentState!.validate()) {
       subjectStatus.sink.add(ResponseUtil.loading());
-      try {
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: emailController.text.trim(), password: passwordController.text.trim())
-            .then((value) async {
-          User? currentUser = FirebaseAuth.instance.currentUser;
-          if (currentUser != null) {
-            //  If successfully logged in (credentials are correct)
-            DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
-            final snapshot = await dbRef.get();
-            if(!context.mounted) return;
-            if (snapshot.exists) {
-              SignUpPojo userMap = SignUpPojo.fromJson(snapshot.value as Map);
-              setUserDataInPref(0, currentUser, signUpPojo: userMap);
-              subjectStatus.sink.add(ResponseUtil.completed());
-              openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
+      InternetService().runWhenOnline(() async {
+        try {
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+              email: emailController.text.trim(), password: passwordController.text.trim())
+              .then((value) async {
+            User? currentUser = FirebaseAuth.instance.currentUser;
+            if (currentUser != null) {
+              //  If successfully logged in (credentials are correct)
+              DatabaseReference dbRef = FirebaseDatabase.instance.ref("${currentUser.uid}/user");
+              final snapshot = await dbRef.get();
+              if (!context.mounted) return;
+              if (snapshot.exists) {
+                SignUpPojo userMap = SignUpPojo.fromJson(snapshot.value as Map);
+                setUserDataInPref(0, currentUser, signUpPojo: userMap);
+                subjectStatus.sink.add(ResponseUtil.completed());
+                openScreenWithClearPrevious(context: context, screen: const HomeMainV1());
+              } else {
+                subjectStatus.sink.add(ResponseUtil.error("No user found for the $email."));
+                openSimpleSnackBar('No user found for the $email.');
+              }
             } else {
-              subjectStatus.sink.add(ResponseUtil.error("No user found for the $email."));
-              openSimpleSnackBar('No user found for the $email.');
+              userLogin();
             }
-          } else {
-            userLogin();
-          }
-        });
-      } on FirebaseAuthException catch (error) {
-        subjectStatus.sink.add(ResponseUtil.error(error.toString()));
-        if (context.mounted) {
-          if (error.code == 'user-not-found') {
-            openSimpleSnackBar(languages.noUserFoundForEmail(email));
-          } else if (error.code == 'wrong-password') {
-            openSimpleSnackBar(languages.wrongPasswordProvidedByTheUser);
-          } else {
-            debugPrint("errorCode =====> ${error.code}");
+          });
+        } on FirebaseAuthException catch (error) {
+          subjectStatus.sink.add(ResponseUtil.error(error.toString()));
+          if (context.mounted) {
+            if (error.code == 'user-not-found') {
+              openSimpleSnackBar(languages.noUserFoundForEmail(email));
+            } else if (error.code == 'wrong-password') {
+              openSimpleSnackBar(languages.wrongPasswordProvidedByTheUser);
+            } else {
+              debugPrint("errorCode =====> ${error.code}");
+            }
           }
         }
-      }
+      });
     }
   }
 

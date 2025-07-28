@@ -1,15 +1,15 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ui/constant/colors.dart';
-import 'package:food_ui/constant/dimensions.dart';
-import 'package:food_ui/customWidget/common_bg_screen.dart';
-import 'package:food_ui/customWidget/custom_image.dart';
-import 'package:food_ui/main.dart';
-import 'package:food_ui/utils/utils.dart';
 
+import '../../main.dart';
+import '../../utils/utils.dart';
+import '../../constant/colors.dart';
+import '../../utils/text_style.dart';
+import '../../constant/dimensions.dart';
+import '../../customWidget/custom_image.dart';
+import '../../customWidget/common_bg_screen.dart';
 import '../../customWidget/custom_rounded_button.dart';
 import '../../customWidget/custom_text_form_field.dart';
-import '../../utils/text_style.dart';
 
 class LeaveReviewScreen extends StatefulWidget {
   final String orderItemImage;

@@ -52,6 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apply": MessageLookupByLibrary.simpleMessage("Apply"),
         "areYouSureWantToLogout": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out?"),
+        "backOnline":
+            MessageLookupByLibrary.simpleMessage("You’re back online"),
         "bestSeller": MessageLookupByLibrary.simpleMessage("Best Seller"),
         "bestseller2": MessageLookupByLibrary.simpleMessage("Bestseller"),
         "byContinuing": MessageLookupByLibrary.simpleMessage(
@@ -186,6 +188,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notificationSetting":
             MessageLookupByLibrary.simpleMessage("Notification Setting"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "offlineTryingToReconnect": MessageLookupByLibrary.simpleMessage(
+            "You\'re offline. Trying to reconnect..."),
         "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "one": MessageLookupByLibrary.simpleMessage("1"),
         "or": MessageLookupByLibrary.simpleMessage("Or"),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../customWidget/networkConnectivityChecker/internet_service.dart';
 import 'faqTab/faq_data_dl.dart';
 import 'faqTab/faq_json.dart';
 import 'contactUsTab/contact_us_data_dl.dart';
@@ -25,25 +26,29 @@ class ContactUsBloc {
   final expandedTileSubject = BehaviorSubject<int?>();
 
   void getContactUsData() async {
-    try {
-      subjectContactUs.sink.add(ResponseUtil.loading());
-      var response = ContactUsDataPojo.fromJson(contactUsJson);
-      subjectContactUs.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subjectContactUs.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() {
+      try {
+        subjectContactUs.sink.add(ResponseUtil.loading());
+        var response = ContactUsDataPojo.fromJson(contactUsJson);
+        subjectContactUs.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subjectContactUs.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void getFAQData() async {
-    try {
-      subjectFAQ.sink.add(ResponseUtil.loading());
-      var response = FaqDataPojo.fromJson(faqJson);
-      subjectFAQ.sink.add(ResponseUtil.completed(response));
-    } catch (error) {
-      subjectFAQ.sink.add(ResponseUtil.error(error.toString()));
-      openSimpleSnackBar(error.toString());
-    }
+    InternetService().runWhenOnline(() {
+      try {
+        subjectFAQ.sink.add(ResponseUtil.loading());
+        var response = FaqDataPojo.fromJson(faqJson);
+        subjectFAQ.sink.add(ResponseUtil.completed(response));
+      } catch (error) {
+        subjectFAQ.sink.add(ResponseUtil.error(error.toString()));
+        openSimpleSnackBar(error.toString());
+      }
+    });
   }
 
   void dispose() {
