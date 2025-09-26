@@ -13,7 +13,8 @@ enum DrawerItem {
   selectLanguage,
   helpAndFAQs,
   settings,
-  logOut
+  logOut,
+  wavyCurve
 }
 
 enum SettingItem { notificationSetting, passwordSetting, deleteAccount }

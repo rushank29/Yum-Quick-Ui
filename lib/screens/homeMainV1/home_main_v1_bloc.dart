@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ui/screens/homeMainV1/home_main_v1.dart';
+import 'package:food_ui/screens/wavy_curve_screen.dart';
 import 'package:food_ui/shared_pref_util/shared_pref_constants.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -84,6 +85,7 @@ class HomeMainV1Bloc {
       itemDrawer(DrawerItem.helpAndFAQs),
       itemDrawer(DrawerItem.settings),
       itemDrawer(DrawerItem.logOut),
+      itemDrawer(DrawerItem.wavyCurve),
     ];
   }
 
@@ -159,6 +161,14 @@ class HomeMainV1Bloc {
           iconPath: "assets/svg/logout.svg",
           onTap: () {
             logoutBottomSheet();
+          },
+        );
+      case DrawerItem.wavyCurve:
+        return ItemDrawer(
+          title: "Wavy Curve",
+          iconPath: "assets/svg/logout.svg",
+          onTap: () {
+            openScreen(context: context, screen: const WavyCurveScreen());
           },
         );
     }
